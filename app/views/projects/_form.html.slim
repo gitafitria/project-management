@@ -1,0 +1,26 @@
+= simple_form_for(project) do |f|
+  - if project.errors.any?
+    #error_explanation
+
+    h2
+      = pluralize(project.errors.count, "error")
+      |  prohibited this project from being saved:
+    ul
+      - project.errors.full_messages.each do |message|
+        li
+          = message
+  .row
+    .col-md-10
+      .form-group
+        = f.input :project_name
+      .form-group
+        = f.input :description
+      .form-group
+        = f.input :user_id
+      .form-group
+        = f.input :is_valid
+      .form-group
+        = f.input :status
+
+  .actions
+    = f.submit

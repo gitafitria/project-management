@@ -1,0 +1,23 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres
+  password: postgres
+  host: localhost
+  port: 5433
+
+development:
+  <<: *default
+  database: pm_development
+
+test:
+  <<: *default
+  database: pm_test
+
+production:
+  <<: *default
+  database: pm_production
+  username: pm
+  password: <%= ENV['TOURLINK_API_DATABASE_PASSWORD'] %>
+  port: 5432
