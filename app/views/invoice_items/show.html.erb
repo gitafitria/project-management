@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @invoice_item.description %>
+</p>
+
+<p>
+  <strong>Quantity:</strong>
+  <%= @invoice_item.quantity %>
+</p>
+
+<p>
+  <strong>Unit price:</strong>
+  <%= @invoice_item.unit_price %>
+</p>
+
+<p>
+  <strong>Invoice:</strong>
+  <%= @invoice_item.invoice_id %>
+</p>
+
+<p>
+  <strong>Is valid:</strong>
+  <%= @invoice_item.is_valid %>
+</p>
+
+<%= link_to 'Edit', edit_invoice_item_path(@invoice_item) %> |
+<%= link_to 'Back', invoice_items_path %>

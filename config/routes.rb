@@ -1,4 +1,7 @@
 Rails.application.routes.draw do
+	root "projects#index"
+	
+  resources :invoice_items
   resources :invoices
   resources :quotes
   resources :milestones
