@@ -1,26 +1,49 @@
-= simple_form_for(project) do |f|
-  - if project.errors.any?
-    #error_explanation
+h2 Project Form
+hr
+.row
+  .col-md-10
+    = simple_form_for(project) do |f|
+      - if project.errors.any?
+        #error_explanation
 
-    h2
-      = pluralize(project.errors.count, "error")
-      |  prohibited this project from being saved:
-    ul
-      - project.errors.full_messages.each do |message|
-        li
-          = message
-  .row
-    .col-md-10
-      .form-group
-        = f.input :project_name
-      .form-group
-        = f.input :description
-      .form-group
-        = f.input :user_id
-      .form-group
-        = f.input :is_valid
-      .form-group
-        = f.input :status
+        h2
+          = pluralize(project.errors.count, "error")
+          |  prohibited this project from being saved:
+        ul
+          - project.errors.full_messages.each do |message|
+            li
+              = message
 
-  .actions
-    = f.submit
+      .row.form-group
+        .col-md-3
+          = f.label :project_name
+        .col-md-9
+          = f.input :project_name, label: false
+
+      .row.form-group
+        .col-md-3
+          = f.label :description
+        .col-md-9
+          = f.input :description, label: false
+
+      .row.form-group
+        .col-md-3
+          = f.label :user_id
+        .col-md-9
+          = f.input :user_id, label: false
+
+      .row.form-group
+        .col-md-3
+          = f.label :status
+        .col-md-9
+          = f.collection_radio_buttons :status, [[true, 'Yes'] ,[false, 'No']], :first, :last, label: false
+
+      .row.form-group
+        .col-md-offset-3.col-md-9
+          = link_to "Manage milestone(s)", "#", class: "btn btn-default"
+          = " "
+          = link_to "Manage client(s)", "#", class: "btn btn-default"
+
+      .row.form-group
+        .pull-right
+          = f.submit

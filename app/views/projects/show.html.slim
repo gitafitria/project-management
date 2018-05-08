@@ -1,5 +1,36 @@
 p#notice
   = notice
+
+.row.form-group
+  .col-md-3
+    = "project_name"
+  .col-md-5
+    = @project.project_name
+
+.row.form-group
+  .col-md-3
+    = "description"
+  .col-md-5
+    = @project.description
+
+.row.form-group
+  .col-md-3
+    = "user_id"
+  .col-md-5
+    = @project.user_id
+
+.row.form-group
+  .col-md-3
+    = "is_valid"
+  .col-md-5
+    = @project.is_valid
+
+.row.form-group
+  .col-md-3
+    = "status"
+  .col-md-5
+    = @project.status
+
 = link_to 'Edit', edit_project_path(@project)
 |  | 
 = link_to 'Back', projects_path

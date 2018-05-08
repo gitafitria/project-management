@@ -1,0 +1,21 @@
+= form_for @quotation do |f|
+  - if @quotation.errors.any?
+    #error_explanation
+      h2 = "#{pluralize(@quotation.errors.count, "error")} prohibited this quotation from being saved:"
+      ul
+        - @quotation.errors.full_messages.each do |message|
+          li = message
+
+  .field
+    = f.label :content
+    = f.text_field :content
+  .field
+    = f.label :user_id
+    = f.number_field :user_id
+  .field
+    = f.label :project_id
+    = f.number_field :project_id
+  .field
+    = f.label :is_valid
+    = f.check_box :is_valid
+  .actions = f.submit

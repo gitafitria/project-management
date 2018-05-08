@@ -1,0 +1,18 @@
+p#notice = notice
+
+p
+  strong Content:
+  = @quotation.content
+p
+  strong User:
+  = @quotation.user_id
+p
+  strong Project:
+  = @quotation.project_id
+p
+  strong Is valid:
+  = @quotation.is_valid
+
+=> link_to 'Edit', edit_quotation_path(@quotation)
+'|
+=< link_to 'Back', quotations_path

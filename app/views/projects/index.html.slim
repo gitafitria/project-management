@@ -1,21 +1,37 @@
 p#notice
   = notice
-h1
-  | Projects
-table
-  thead
-    tr
-      th[colspan="3"]
-  tbody
-    - @projects.each do |project|
-      tr
-        td
-          = project.project_name
-        td
-          = link_to 'Show', project
-        td
-          = link_to 'Edit', edit_project_path(project)
-        td
-          = link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
+.row
+  .col-md-2
+    h2
+      | Projects List
+  .col-md-3
+    br
+    = link_to 'New Project', new_project_path, class: "btn btn-default"
+
 br
-= link_to 'New Project', new_project_path
+
+#project_list
+  table.table
+    thead
+      tr
+        th Project name
+        th Created at
+        th Status
+        th Option
+    tbody
+      - @projects.each do |project|
+        tr
+          td
+            = project.project_name
+          td
+            = project.created_at.strftime("%d %b %Y")
+          td
+            = project.status
+
+          td [colspan="4"]
+            = link_to 'Show', project
+            = " | "
+            = link_to 'Edit', edit_project_path(project)
+            = " | "
+            = link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
+  br

@@ -1,0 +1,27 @@
+h1 Listing quotations
+
+table
+  thead
+    tr
+      th Content
+      th User
+      th Project
+      th Is valid
+      th
+      th
+      th
+
+  tbody
+    - @quotations.each do |quotation|
+      tr
+        td = quotation.content
+        td = quotation.user_id
+        td = quotation.project_id
+        td = quotation.is_valid
+        td = link_to 'Show', quotation
+        td = link_to 'Edit', edit_quotation_path(quotation)
+        td = link_to 'Destroy', quotation, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Quotation', new_quotation_path
