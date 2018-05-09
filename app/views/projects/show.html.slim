@@ -1,35 +1,70 @@
 p#notice
   = notice
 
-.row.form-group
-  .col-md-3
-    = "project_name"
-  .col-md-5
-    = @project.project_name
+.row
+  .col-md-8
+    .panel.panel-info
+      .panel-heading
+        | Project detail
+      .panel-body
+        .row.form-group
+          .col-md-3
+            = "project_name"
+          .col-md-5
+            = @project.project_name
 
-.row.form-group
-  .col-md-3
-    = "description"
-  .col-md-5
-    = @project.description
+        .row.form-group
+          .col-md-3
+            = "description"
+          .col-md-5
+            = @project.description
 
-.row.form-group
-  .col-md-3
-    = "user_id"
-  .col-md-5
-    = @project.user_id
+        .row.form-group
+          .col-md-3
+            = "user_id"
+          .col-md-5
+            = @project.user_id
 
-.row.form-group
-  .col-md-3
-    = "is_valid"
-  .col-md-5
-    = @project.is_valid
+        .row.form-group
+          .col-md-3
+            = "is_valid"
+          .col-md-5
+            = @project.is_valid
 
-.row.form-group
-  .col-md-3
-    = "status"
-  .col-md-5
-    = @project.status
+        .row.form-group
+          .col-md-3
+            = "status"
+          .col-md-5
+            = @project.status
+
+  .col-md-4
+    .panel.panel-brown
+      .panel-heading
+        | Milestone
+      .panel-body
+        | test
+
+.row
+  .col-md-4
+    .panel.panel-warning
+      .panel-heading
+        | Invoices
+      .panel-body
+        | test
+
+  .col-md-4
+    .panel.panel-default
+      .panel-heading
+        | Documents
+      .panel-body
+        | test
+
+  .col-md-4
+    .panel.panel-default
+      .panel-heading
+        | Quotations
+      .panel-body
+        | test
 
 = link_to 'Edit', edit_project_path(@project)
 |  | 

@@ -40,10 +40,12 @@ hr
 
       .row.form-group
         .col-md-offset-3.col-md-9
-          = link_to "Manage milestone(s)", "#", class: "btn btn-default"
+          = link_to "Manage milestone(s)", "#", class: "btn"
           = " "
-          = link_to "Manage client(s)", "#", class: "btn btn-default"
+          = link_to "Manage client(s)", "#", class: "btn"
 
       .row.form-group
         .pull-right
-          = f.submit
+          = link_to 'Cancel', projects_path, class: "btn btn-default"
+          = " "
+          = f.submit class: "btn btn-primary"
