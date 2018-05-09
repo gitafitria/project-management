@@ -1,13 +1,52 @@
-= form_with(model: milestone, local: true) do |form|
-  - if milestone.errors.any?
-    #error_explanation
+.panel.panel-info
+  .panel-heading
+    = milestone.new_record? ? "New" : "Edit"
+    = " Milestone"
+  .panel-body
+    = f.fields_for milestone, remote: true do |f|
+      - if milestone.errors.any?
+        #error_explanation
 
-    h2
-      = pluralize(milestone.errors.count, "error")
-      |  prohibited this milestone from being saved:
-    ul
-      - milestone.errors.full_messages.each do |message|
-        li
-          = message
-  .actions
-    = form.submit
+        h2
+          = pluralize(milestone.errors.count, "error")
+          |  prohibited this milestone from being saved:
+        ul
+          - milestone.errors.full_messages.each do |message|
+            li
+              = message
+
+      .row
+        .col-md-3
+          = f.label :label
+        .col-md-9
+          = f.input :label, label: false
+
+      .row
+        .col-md-3
+          = f.label :goal
+        .col-md-9
+          = f.input :goal, label: false
+
+      .row
+        .col-md-3
+          = f.label :project_id
+        .col-md-9
+          = f.input :project_id, label: false
+
+      .row
+        .col-md-3
+          = f.label :user_id
+        .col-md-9
+          = f.input :user_id, label: false
+
+      .row
+        .col-md-3
+          = f.label :is_valid
+        .col-md-9
+          = f.input :is_valid, label: false
+
+      .row
+        .col-md-offset-3.pull-right
+          = link_to 'Back', milestones_path, class: "btn btn-default"
+          = " "
+          = f.submit class: "btn btn-primary"

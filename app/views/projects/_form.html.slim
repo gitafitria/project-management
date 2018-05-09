@@ -14,6 +14,9 @@ hr
             li
               = message
 
+      #milestone_form.hidden
+        = render 'milestones/form', milestone: @project.milestones.new, f: f
+
       .row.form-group
         .col-md-3
           = f.label :project_name
@@ -38,10 +41,17 @@ hr
         .col-md-9
           = f.collection_radio_buttons :status, [[true, 'Yes'] ,[false, 'No']], :first, :last, label: false
 
+      hr
       .row.form-group
-        .col-md-offset-3.col-md-9
-          = link_to "Manage milestone(s)", "#", class: "btn"
-          = " "
+        .col-md-3
+          b Milestone(s)
+        .col-md-9
+          = link_to "Manage milestone(s)", new_milestone_path, remote: true, class: "btn"
+      hr
+      .row.form-group
+        .col-md-3
+          b Client(s)
+        .col-md-9
           = link_to "Manage client(s)", "#", class: "btn"
 
       .row.form-group
