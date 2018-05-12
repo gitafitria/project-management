@@ -1,13 +1,68 @@
-= form_with(model: invoice, local: true) do |form|
-  - if invoice.errors.any?
-    #error_explanation
+h2 Invoice Form
+hr
+.row
+  .col-md-10
+    = simple_form_for invoice do |f|
+      - if invoice.errors.any?
+        #error_explanation
 
-    h2
-      = pluralize(invoice.errors.count, "error")
-      |  prohibited this invoice from being saved:
-    ul
-      - invoice.errors.full_messages.each do |message|
-        li
-          = message
-  .actions
-    = form.submit
+        h2
+          = pluralize(invoice.errors.count, "error")
+          |  prohibited this invoice from being saved:
+        ul
+          - invoice.errors.full_messages.each do |message|
+            li
+              = message
+      .row
+        .col-md-4
+          = f.label :invoice_number
+        .col-md-8
+          = f.input :invoice_number, label: false
+
+      .row
+        .col-md-4
+          = f.label :user_id
+        .col-md-8
+          = f.input :user_id, label: false
+
+      .row
+        .col-md-4
+          = f.label :project_id
+        .col-md-8
+          = f.input :project_id, label: false
+
+      .row
+        .col-md-4
+          = f.label :issue_date
+        .col-md-8
+          = f.input :issue_date, label: false
+
+      .row
+        .col-md-4
+          = f.label :due_date
+        .col-md-8
+          = f.input :due_date, label: false
+
+      .row
+        .col-md-4
+          = f.label :subject
+        .col-md-8
+          = f.input :subject, label: false
+
+      .row
+        .col-md-4
+          = f.label :recipient
+        .col-md-8
+          = f.input :recipient, label: false
+
+      .row
+        .col-md-4
+          = f.label :tax
+        .col-md-8
+          = f.input :tax, label: false
+
+      hr
+      label Items
+      
+      .actions
+        = f.submit
