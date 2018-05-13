@@ -42,7 +42,11 @@ p#notice
       .panel-heading
         | Milestone
       .panel-body
-        | test
+        - if @project.milestones.any?
+          - @project.milestones.each do |ms|
+            .form-group
+              label = ms.label
+              p = ms.goal
 
 .row
   .col-md-4

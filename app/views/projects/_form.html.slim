@@ -1,6 +1,6 @@
 h2 Project Form
 hr
-.row
+.row#project_form
   .col-md-10
     = simple_form_for(project) do |f|
       - if project.errors.any?
@@ -14,8 +14,9 @@ hr
             li
               = message
 
-      #milestone_form.hidden
-        = render 'milestones/form', milestone: @project.milestones.new, f: f
+      #milestone_form
+        = render 'projects/form/add_milestone'
+        = render 'projects/form/add_client'
 
       .row.form-group
         .col-md-3
@@ -39,23 +40,34 @@ hr
         .col-md-3
           = f.label :status
         .col-md-9
-          = f.collection_radio_buttons :status, [[true, 'Yes'] ,[false, 'No']], :first, :last, label: false
+          = f.collection_radio_buttons :status, [[true, 'Approve'] ,[false, 'Wait']], :first, :last, input_html: {class: 'form-group'}
 
       hr
       .row.form-group
         .col-md-3
           b Milestone(s)
         .col-md-9
-          = link_to "Manage milestone(s)", new_milestone_path, remote: true, class: "btn"
+          #project_milestone_list
+            - if project.milestones.any?
+              - project.milestones.each do |milestone|
+                p.project-milestone-item = milestone.label
+          = link_to "Add milestone(s)", "#", class: "btn", data: {toggle: "modal", target: "#add_project_milestone"}
+
       hr
       .row.form-group
         .col-md-3
           b Client(s)
         .col-md-9
-          = link_to "Manage client(s)", "#", class: "btn"
+          / - if project.clients.any?
+          /   - project.clients.each do |milestone|
+          /     p = milestone.label
+          = link_to "Add client(s)", "#", class: "btn", data: {toggle: "modal", target: "#add_project_client"}
 
       .row.form-group
         .pull-right
           = link_to 'Cancel', projects_path, class: "btn btn-default"
           = " "
           = f.submit class: "btn btn-primary"
+
+  script type="text/html" id="add_milestone_template"
+    = render 'projects/form/add_milestone_template'

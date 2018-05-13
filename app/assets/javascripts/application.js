@@ -15,4 +15,5 @@
 //= require jquery
 //= require bootstrap-sprockets
 //= require turbolinks
+//= require mustache.min
 //= require_tree .

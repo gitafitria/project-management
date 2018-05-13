@@ -1,0 +1,29 @@
+.modal.modal-right.fade tabindex="-1" role="dialog" id="add_project_milestone"
+  .modal-dialog role="document" 
+    .modal-content 
+      .modal-header
+        button type="button" class="close" data-dismiss="modal" aria-label="Close"
+          span aria-hidden="true" &times;
+        h4 class="modal-title" Add Milestone
+      
+      .modal-body 
+        #milestone_item
+          .row
+            .col-md-12
+              .form-group.string
+                label class="form-control-label string optional" Milestone name
+                input class="form-control project_milestone_form" type="text" name="milestone_name" id="project_project_name"
+          .row
+            .col-md-12
+              .form-group.string
+                label class="form-control-label string optional" Goal description
+                textarea class="form-control project_milestone_form" name="goal" id="project_project_name"
+          .row
+            .col-md-12
+              .form-group.string
+                label class="form-control-label string optional" Created by
+                input class="form-control project_milestone_form" type="text" name="user_id" id="project_project_name"
+
+      .modal-footer
+        button type="button" class="btn btn-default" data-dismiss="modal" Close
+        button type="button" class="btn btn-primary" id="add_project_milestone_btn" Add milestone

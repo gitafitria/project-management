@@ -55,3 +55,130 @@
     border-color: #D7CCC8;
   }
 }
+
+// MODAL
+$modal-panel-large: 640px !default;
+$modal-panel-medium: 480px !default;
+$modal-panel-small: 320px !default;
+$modal-panel-content-padding-offset: 55px !default;
+
+.modal {
+  &.modal-left, &.modal-right {
+    .modal-dialog {
+      position: fixed;
+      margin: auto;
+      width: $modal-panel-medium;
+      height: 100%;
+
+      -webkit-transform: translate3d(0%, 0, 0);
+          -ms-transform: translate3d(0%, 0, 0);
+           -o-transform: translate3d(0%, 0, 0);
+              transform: translate3d(0%, 0, 0);
+
+      .modal-content {
+        height: 100%;
+        overflow-y: auto;
+        border-radius: 0;
+        border: none;
+        padding-top: $modal-panel-content-padding-offset;
+        padding-bottom: $modal-panel-content-padding-offset;
+      }
+
+      &.modal-lg {
+        width: 640px;
+      }
+
+      &.modal-sm {
+        width: 320px
+      }
+
+      .modal-footer {
+        background-color: #fff;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        // @include box-shadow(0 -2px 6px rgba(0,0,0,.1));
+      }
+
+      .modal-header {
+        background-color: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        // @include box-shadow(0 2px 6px rgba(0,0,0,.1));
+        z-index: 1051; // because modal content is in 1050 and comes later than modal header
+      }
+    }
+  }
+
+  // MODAL LEFT
+  &.modal-left.fade {
+    .modal-dialog {
+      left: -1 * $modal-panel-medium;
+
+      &.modal-lg {
+        left: -1 * $modal-panel-large;
+      }
+
+      &.modal-sm {
+        left: -1 * $modal-panel-small;
+      }
+
+      -webkit-transition: opacity 0.3s linear, left 0.3s ease-out;
+         -moz-transition: opacity 0.3s linear, left 0.3s ease-out;
+           -o-transition: opacity 0.3s linear, left 0.3s ease-out;
+              transition: opacity 0.3s linear, left 0.3s ease-out;
+    }
+  }
+
+  &.modal-left.in {
+    .modal-dialog {
+      left: 0;
+
+      &.modal-lg {
+        left: 0;
+      }
+
+      &.modal-sm {
+        left: 0;
+      }
+    }
+  }
+
+
+  // MODAL RIGHT
+  &.modal-right.fade {
+    .modal-dialog {
+      right: -1 * $modal-panel-medium;
+
+      &.modal-lg {
+        right: -1 * $modal-panel-large;
+      }
+
+      &.modal-sm {
+        right: -1 * $modal-panel-small;
+      }
+
+      -webkit-transition: opacity 0.3s linear, right 0.3s ease-out;
+         -moz-transition: opacity 0.3s linear, right 0.3s ease-out;
+           -o-transition: opacity 0.3s linear, right 0.3s ease-out;
+              transition: opacity 0.3s linear, right 0.3s ease-out;
+    }
+  }
+
+  &.modal-right.in {
+    .modal-dialog {
+      right: 0;
+
+      &.modal-lg {
+        right: 0;
+      }
+
+      &.modal-sm {
+        right: 0;
+      }
+    }
+  }
+}

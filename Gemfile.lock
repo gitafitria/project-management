@@ -111,7 +111,11 @@ GEM
     nio4r (2.3.0)
     nokogiri (1.8.2-x64-mingw32)
       mini_portile2 (~> 2.3.0)
+    pdf-core (0.7.0)
     pg (1.0.0-x64-mingw32)
+    prawn (2.2.2)
+      pdf-core (~> 0.7.0)
+      ttfunk (~> 1.5)
     public_suffix (3.0.2)
     puma (3.11.4)
     rack (2.0.4)
@@ -166,6 +170,10 @@ GEM
     slim (3.0.9)
       temple (>= 0.7.6, < 0.9)
       tilt (>= 1.3.3, < 2.1)
+    slim-rails (3.1.3)
+      actionpack (>= 3.1)
+      railties (>= 3.1)
+      slim (~> 3.0)
     sprockets (3.7.1)
       concurrent-ruby (~> 1.0)
       rack (> 1, < 3)
@@ -177,6 +185,7 @@ GEM
     thor (0.20.0)
     thread_safe (0.3.6)
     tilt (2.0.8)
+    ttfunk (1.5.1)
     turbolinks (5.1.1)
       turbolinks-source (~> 5.1)
     turbolinks-source (5.1.0)
@@ -211,12 +220,13 @@ DEPENDENCIES
   jbuilder (~> 2.5)
   jquery-rails
   pg
+  prawn
   puma (~> 3.11)
   rails (~> 5.2.0)
   sass-rails (~> 5.0)
   selenium-webdriver
   simple_form
-  slim
+  slim-rails
   turbolinks (~> 5)
   tzinfo-data
   uglifier (>= 1.3.0)

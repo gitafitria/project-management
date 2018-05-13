@@ -72,6 +72,20 @@ class ProjectsController < ApplicationController
       # params.fetch(:kitten, {}) is just an ActiveSupport way accessing a hash key and retrurning a default value if it is not set. In plain ruby it would read params[:kitten] || {}.
       # params.fetch(:project, {})
 
-      params.require(:project).permit(:project_name, :description, :user_id, :is_valid, :status)
+      params.require(:project).permit(
+        :project_name, 
+        :description, 
+        :user_id, 
+        :is_valid, 
+        :status,
+        milestones_attributes: [
+          :id,
+          :label,
+          :goal,
+          :project_id,
+          :user_id,
+          :is_valid
+        ]
+      )
     end
 end
