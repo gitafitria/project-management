@@ -1,14 +1,14 @@
-.modal.modal-right.fade tabindex="-1" role="dialog" id="add_project_milestone"
+.modal.modal-right.fade tabindex="-1" role="dialog" id="edit_project_milestone"
   .modal-dialog role="document" 
     .modal-content 
       .modal-header
         button type="button" class="close" data-dismiss="modal" aria-label="Close"
           span aria-hidden="true" &times;
-        h4 class="modal-title" Add Milestone
+        h4 class="modal-title" Edit Milestone
       
       .modal-body 
         = render 'projects/form/milestone_item_form'
 
       .modal-footer
         button type="button" class="btn btn-default" data-dismiss="modal" Close
-        button type="button" class="btn btn-primary" id="add_project_milestone_btn" Add milestone
+        button type="button" class="btn btn-primary" id="update_project_milestone_btn" Edit milestone

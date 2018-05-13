@@ -3,6 +3,6 @@ class Project < ApplicationRecord
 	has_many :quotes
   has_many :invoices
 
-  accepts_nested_attributes_for :milestones
+  accepts_nested_attributes_for :milestones, allow_destroy: true
 
 end

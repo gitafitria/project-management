@@ -16,6 +16,7 @@ hr
 
       #milestone_form
         = render 'projects/form/add_milestone'
+        = render 'projects/form/edit_milestone'
         = render 'projects/form/add_client'
 
       .row.form-group
@@ -49,8 +50,27 @@ hr
         .col-md-9
           #project_milestone_list
             - if project.milestones.any?
-              - project.milestones.each do |milestone|
-                p.project-milestone-item = milestone.label
+              .panel-group id="accordion" role="tablist" aria-multiselectable="true"
+                - project.milestones.order(:created_at).each do |milestone|
+                  .panel.panel-default
+                    .panel-heading role="tab" id="heading_milestone_#{milestone.id}"
+                      .row
+                        .col-md-10
+                          p class="panel-title"
+                            a role="button" data-toggle="collapse" data-parent="#accordion" href="#milestone_#{milestone.id}" aria-expanded="true" aria-controls="milestone_#{milestone.id}"
+                              = milestone.label
+                        .col-md-2.text-right
+                          = link_to "edit", "#", class: "btn btn-xs btn-primary edit-project-milestone-btn", data: {index: milestone.id, milestone: milestone.as_json}
+                          = " "
+                          = link_to "delete", "#", class: "btn btn-xs btn-danger delete-project-milestone-btn", data: {index: milestone.id, new_record: false}
+
+                    .panel-collapse.collapse id="milestone_#{milestone.id}" role="tabpanel" aria-labelledby="heading_milestone_#{milestone.id}"
+                      .panel-body
+                        = milestone.goal
+                        br
+                        .pull-right
+                          i = "Created by #{milestone.user_id}"
+
           = link_to "Add milestone(s)", "#", class: "btn", data: {toggle: "modal", target: "#add_project_milestone"}
 
       hr
@@ -71,3 +91,6 @@ hr
 
   script type="text/html" id="add_milestone_template"
     = render 'projects/form/add_milestone_template'
+
+  script type="text/html" id="delete_milestone_template"
+    = render 'projects/form/delete_milestone_template'

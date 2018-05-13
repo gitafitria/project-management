@@ -1,5 +1,24 @@
-p.project-milestone-item
-  = hidden_field_tag "project[milestones_attributes][{{index}}][label]", "{{milestone_name}}", id: "project_milestones_attributes_{{index}}_label"
-  = hidden_field_tag "project[milestones_attributes][{{index}}][goal]", "{{goal}}", id: "project_milestones_attributes_{{index}}_goal"
-  = hidden_field_tag "project[milestones_attributes][{{index}}][user_id]", "{{user_id}}", id: "project_milestone_attributes_{{index}}_user_id"
-  = "{{milestone_name}}"
+.panel.panel-default
+  .panel-heading role="tab" id="heading_milestone_{{index}}"
+    .row
+      .col-md-10
+        p class="panel-title"
+          a role="button" data-toggle="collapse" data-parent="#accordion" href="#milestone_{{index}}" aria-expanded="true" aria-controls="milestone_{{index}}"
+            = "{{label}}"
+      .col-md-2.text-right
+        = link_to "edit", "#", class: "btn btn-xs btn-primary edit-project-milestone-btn", data: {index: "{{index}}"}
+        = " "
+        = link_to "delete", "#", class: "btn btn-xs btn-danger delete-project-milestone-btn", data: {index: "{{index}}", new_record: "{{new_record}}"}
+
+  .panel-collapse.collapse id="milestone_{{index}}" role="tabpanel" aria-labelledby="heading_milestone_{{index}}"
+    .panel-body
+      = "{{label}}"
+      = hidden_field_tag "project[milestones_attributes][{{index}}][id]", "{{id}}", id: "project_milestones_attributes_{{index}}_id"
+      = hidden_field_tag "project[milestones_attributes][{{index}}][label]", "{{label}}", id: "project_milestones_attributes_{{index}}_label"
+      = hidden_field_tag "project[milestones_attributes][{{index}}][goal]", "{{goal}}", id: "project_milestones_attributes_{{index}}_goal"
+      = hidden_field_tag "project[milestones_attributes][{{index}}][user_id]", "{{user_id}}", id: "project_milestone_attributes_{{index}}_user_id"
+
+      br
+      .pull-right
+        i = "Created by {{user_id}}"
+

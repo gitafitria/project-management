@@ -84,7 +84,8 @@ class ProjectsController < ApplicationController
           :goal,
           :project_id,
           :user_id,
-          :is_valid
+          :is_valid,
+          :_destroy
         ]
       )
     end
