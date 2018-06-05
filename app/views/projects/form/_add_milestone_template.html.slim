@@ -6,7 +6,7 @@
           a role="button" data-toggle="collapse" data-parent="#accordion" href="#milestone_{{index}}" aria-expanded="true" aria-controls="milestone_{{index}}"
             = "{{label}}"
       .col-md-2.text-right
-        = link_to "edit", "#", class: "btn btn-xs btn-primary edit-project-milestone-btn", data: {index: "{{index}}"}
+        = link_to "edit", "#", class: "btn btn-xs btn-primary edit-project-milestone-btn", data: {index: "{{index}}", milestone: "{{milestone}}"}
         = " "
         = link_to "delete", "#", class: "btn btn-xs btn-danger delete-project-milestone-btn", data: {index: "{{index}}", new_record: "{{new_record}}"}
 
