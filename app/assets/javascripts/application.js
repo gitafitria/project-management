@@ -14,6 +14,32 @@
 //= require activestorage
 //= require jquery
 //= require bootstrap-sprockets
-//= require turbolinks
+//= require bootstrap-datepicker
 //= require mustache.min
+//= require turbolinks
 //= require_tree .
+
+function animateNotification(){
+  $("#notifications .notice").hide().fadeIn(200);
+  $("#notifications .notice").delay(5000).fadeOut(500);
+  $("#notifications .alert").delay(5500).fadeOut(500);
+}
+
+var ready;
+ready = function() {
+  animateNotification();
+
+  // Default date picker to all input with .datepicker class
+  $('body').on("click focus", ".datepicker", function(){
+    $(this).datepicker({
+      format: 'yyyy-mm-dd',
+      todayHighlight: true,
+      todayBtn: 'linked',
+      weekStart: 1,
+      autoclose: true
+    });
+  });
+}
+
+$(document).ready(ready);
+$(document).on('page:load', ready);

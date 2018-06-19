@@ -1,6 +1,6 @@
 h2 Invoice Form
 hr
-.row
+.row.form-group#invoice_form
   .col-md-10
     = simple_form_for invoice do |f|
       - if invoice.errors.any?
@@ -35,13 +35,13 @@ hr
         .col-md-4
           = f.label :issue_date
         .col-md-8
-          = f.input :issue_date, label: false
+          = f.input :issue_date, as: :string, input_html: {class: "datepicker"}, label: false
 
       .row
         .col-md-4
           = f.label :due_date
         .col-md-8
-          = f.input :due_date, label: false
+          = f.input :due_date, as: :string, input_html: {class: "datepicker"}, label: false
 
       .row
         .col-md-4
@@ -62,7 +62,65 @@ hr
           = f.input :tax, label: false
 
       hr
-      label Items
-      
-      .actions
-        = f.submit
+      .text-center 
+        h4 Invoice Details
+      br
+      #invoice_items_wrapper
+        #invoice_items
+          .row
+            .col-md-11
+              .row
+                .col-md-8
+                  label class="form-control-label string optional"
+                    | Description
+                .col-md-2
+                  label class="form-control-label string optional"
+                    | Quantity
+                .col-md-2
+                  label class="form-control-label string optional"
+                    | Unit Price
+            .col-md-1
+
+        #invoice_items_new
+          - if invoice.invoice_items.any?
+            = f.fields_for :invoice_items, @invoice.invoice_items do |z|
+              .row.invoice-item-form data-id="#{z.object.id}"
+                .col-md-7
+                  = z.input :id, label: false, as: :hidden
+                  = z.input :description, label: false
+                .col-md-2
+                  = z.input :quantity, label: false
+                .col-md-2
+                  = z.input :unit_price, label: false
+                .col-md-1
+                  .row
+                    .col-md-12
+                      = link_to "#", class: "btn btn-danger remove-invoice-item-btn" do
+                        | -
+
+          = f.fields_for :invoice_items, @invoice.invoice_items.build do |ff|
+            .row.invoice-item-form
+              .col-md-7
+                = ff.input :description, label: false
+              .col-md-2
+                = ff.input :quantity, label: false
+              .col-md-2
+                = ff.input :unit_price, label: false
+              .col-md-1
+                .row
+                  .col-md-6
+                    = link_to "#", class: "btn btn-primary add-invoice-item-btn" do
+                      | +
+                  .col-md-6.hidden
+                    = link_to "#", class: "btn btn-danger remove-invoice-item-btn" do
+                      | -
+      br
+      .form-group.text-right
+        = f.submit class: "btn btn-primary"
+      br
+
+  script type="text/html" id="add_invoice_item_template"
+    = render 'invoices/form/add_invoice_item_template'
+
+  script type="text/html" id="delete_invoice_item_template"
+    = render 'invoices/form/delete_invoice_item_template'

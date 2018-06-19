@@ -1,8 +1,9 @@
+# EVERYTHING IS NOT WORKING ON TURBOLINKS
 window.renderMilestoneItem = (modal_wrapper_name, index, new_record) ->
   form_wrapper = $("#project_form")
-  milestone_list_wrapper = form_wrapper.find("#project_milestone_list")
+  milestone_list_wrapper = form_wrapper.find("#project_milestone_list").find("#accordion")
   add_milestone_template = form_wrapper.find("#add_milestone_template").html()
-  modal_wrapper = form_wrapper.find("#{modal_wrapper_name}")
+  modal_wrapper = $("#project_form").find("#{modal_wrapper_name}")
 
   data = {}
   milestone = {}
@@ -14,10 +15,7 @@ window.renderMilestoneItem = (modal_wrapper_name, index, new_record) ->
   milestone = data
   milestone["index"] = index
 
-  console.log "milestone"
-  console.log milestone
-
-  if new_record == true
+  if new_record == true or new_record == "true"
     milestone["new_record"] = true
     milestone["milestone"] = JSON.stringify(data)
     milestone_list_wrapper.append(Mustache.render(add_milestone_template, milestone))
@@ -62,33 +60,32 @@ ready = ->
 
   $("body").on "click", ".edit-project-milestone-btn", (e) ->
     e.preventDefault()
-    console.log("blaa")
     index = $(this).data("index")
     milestone = $(this).data("milestone")
     form_wrapper = $("#project_form")
     edit_modal_wrapper = form_wrapper.find("#edit_project_milestone")
     milestone_item_wrapper = edit_modal_wrapper.find(".milestone-item")
 
-    console.log "test"
-    console.log milestone
-
     $.each milestone, (key, value) ->
       milestone_item_wrapper.find("#milestone_#{key}").val(value)
 
     milestone_id = milestone['id']
-    console.log(milestone_id)
+    new_record = milestone['new_record']
+
     if milestone_id == undefined
       milestone_id = milestone['index']
     edit_modal_wrapper.attr("data-milestone-id", milestone_id)
+    edit_modal_wrapper.attr("data-new-record", new_record)
     edit_modal_wrapper.modal('show')
 
   $("body").on "click", "#update_project_milestone_btn", (e) ->
     e.preventDefault()
     form_wrapper = $("#project_form")
-    edit_modal_wrapper = form_wrapper.find("#edit_project_milestone")
-    index = edit_modal_wrapper.data("milestone-id")
+    edit_modal_wrapper = $("#project_form").find("#edit_project_milestone")
+    index = edit_modal_wrapper.attr("data-milestone-id")
+    new_record = edit_modal_wrapper.attr("data-new-record")
 
-    renderMilestoneItem("#edit_project_milestone", index, false)
+    renderMilestoneItem("#edit_project_milestone", index, new_record)
 
 $(document).ready(ready);
 $(document).on('page:change', ready);

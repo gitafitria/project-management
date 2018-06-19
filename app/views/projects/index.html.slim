@@ -6,7 +6,7 @@ p#notice
       | Projects List
   .col-md-3
     br
-    = link_to 'New Project', new_project_path, class: "btn btn-primary"
+    = link_to 'New Project', new_project_path, class: "btn btn-primary", data: {turbolinks: false}
 
 br
 
@@ -31,7 +31,7 @@ br
           td
             = link_to 'Show', project
             = " | "
-            = link_to 'Edit', edit_project_path(project)
+            = link_to 'Edit', edit_project_path(project), data: {turbolinks: false}
             = " | "
             = link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
   br

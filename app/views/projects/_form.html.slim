@@ -49,8 +49,8 @@ hr
           b Milestone(s)
         .col-md-9
           #project_milestone_list
-            - if project.milestones.any?
-              .panel-group id="accordion" role="tablist" aria-multiselectable="true"
+            .panel-group id="accordion" role="tablist" aria-multiselectable="true"
+              - if project.milestones.any?
                 - project.milestones.order(:created_at).each do |milestone|
                   .panel.panel-default
                     .panel-heading role="tab" id="heading_milestone_#{milestone.id}"

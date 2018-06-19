@@ -80,7 +80,16 @@ class InvoicesController < ApplicationController
         :status,
         :tax,
         :total_payment,
-        :is_valid
+        :is_valid,
+        invoice_items_attributes: [
+          :id, 
+          :description, 
+          :quantity, 
+          :unit_price, 
+          :invoice_id, 
+          :is_valid,
+          :_destroy
+        ]
       )
     end
 end

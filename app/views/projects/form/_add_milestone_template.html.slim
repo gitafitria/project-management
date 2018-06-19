@@ -12,7 +12,7 @@
 
   .panel-collapse.collapse id="milestone_{{index}}" role="tabpanel" aria-labelledby="heading_milestone_{{index}}"
     .panel-body
-      = "{{label}}"
+      = "{{goal}}"
       = hidden_field_tag "project[milestones_attributes][{{index}}][id]", "{{id}}", id: "project_milestones_attributes_{{index}}_id"
       = hidden_field_tag "project[milestones_attributes][{{index}}][label]", "{{label}}", id: "project_milestones_attributes_{{index}}_label"
       = hidden_field_tag "project[milestones_attributes][{{index}}][goal]", "{{goal}}", id: "project_milestones_attributes_{{index}}_goal"
