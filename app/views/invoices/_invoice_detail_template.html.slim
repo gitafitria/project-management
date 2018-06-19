@@ -1,0 +1,102 @@
+.invoice-wrapper
+  #urremote_logo
+    = image_tag "logo1.png", :alt => "UrRemote Logo", class: "invoice-logo"
+    .logo-tag
+      | Developing software from the island of God
+
+  .title.text-right 
+    = "Invoice".upcase
+
+  .invoice-meta
+    .row
+      .col-md-8
+        #urremote_data
+          = "CV. URREMOTE"
+          br
+          = "Jalan Tukad Barito 21A (Lantai 2)"
+          br
+          = "Panjer 80225"
+          br
+          = link_to "ask@urremote.com", "#"
+          br
+          = link_to "www.urremote.com", "#"
+      .col-md-4
+        #invoice-data.text-right
+          div
+            .heading
+              = "invoice # ".upcase
+            = invoice.invoice_number
+          div
+            .heading
+              = "date ".upcase
+            = invoice.issue_date.strftime("%b %d, %Y")
+  
+  .invoice-address
+    .row
+      .col-md-8
+        .heading
+          = "to".upcase
+        br
+        = invoice.recipient
+
+      .col-md-4
+        .text-right
+          .heading
+            = "for ".upcase
+          = invoice.subject
+
+  .invoice-content
+    .row
+      .col-md-12
+        table.table
+          thead.heading-style
+            tr
+              th Description
+              th.text-center Quantity
+              th.text-right Amount (include tax)
+
+          tbody
+            - invoice.invoice_items.each do |item|
+              tr
+                td
+                  = item.description 
+                td.text-center
+                  = item.quantity 
+                td.text-right
+                  = item.unit_price 
+            tr
+              td colspan="2" class="heading-style"
+                = "Total"
+              td.text-right
+                = total_payment(invoice.id)
+
+  .invoice-payment-detail
+    p Pembayaran agar dilakukan ke rekening berikut.
+    .row.text-bold
+      .col-md-6
+        .row
+          .col-md-2
+            | Bank
+          .col-md-4
+            | : Mandiri KCP Legian
+
+        .row
+          .col-md-2
+            | Account
+          .col-md-4
+            | : 175-00-0013891-6
+
+        .row
+          .col-md-2
+            | Swift Code
+          .col-md-4
+            | : BMRIIDJA
+
+        .row
+          .col-md-2
+            | Name
+          .col-md-4
+            | : CV. URREMOTE
+
+    br
+    p Selambat-lambatnya X hari sejak tanggal invoice.

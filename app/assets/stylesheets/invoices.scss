@@ -1,3 +1,51 @@
 // Place all the styles related to the Invoices controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+$invoice-main-color: #057bb7;
+
+.invoice-wrapper {
+  font-family: sans-serif;
+
+  .invoice-logo {
+    width: 150px;  
+  }
+
+  .logo-tag {
+    margin-top: 10px;
+    color: grey;
+  }
+
+  .title {
+    font-weight: bolder;
+    font-size: 30px;
+    color: $invoice-main-color;
+    margin-bottom: 20px;
+    margin-top: -10px;
+  }
+
+  a {
+    color: $invoice-main-color;
+  }
+
+  .heading {
+    font-weight: bolder;
+    color: $invoice-main-color;
+    display: inline;
+  }
+
+  .invoice-meta, .invoice-address, .invoice-content {
+    margin-bottom: 20px;
+  }
+
+  table {
+    .heading-style {
+      font-weight: bolder;
+      color: $invoice-main-color;
+    }
+  }
+
+  .text-bold {
+    font-weight: bolder;
+  }
+}
