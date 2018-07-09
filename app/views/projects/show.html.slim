@@ -47,6 +47,8 @@ p#notice
             .form-group
               label = ms.label
               p = ms.goal
+        - else
+          | -
 
 .row
   .col-md-4
@@ -54,21 +56,63 @@ p#notice
       .panel-heading
         | Invoices
       .panel-body
-        | test
+        - if @project.invoices.any?
+          - @project.invoices.each do |ms|
+            .form-group
+              label = "Issue date: #{ms.issue_date}"
+              br
+              label
+                = "Subject: #{ms.subject}"
+                = " ( "
+                = link_to "preview", invoice_path(ms)
+                = " )"  
+              hr
+        - else
+          | -
 
   .col-md-4
     .panel.panel-default
       .panel-heading
         | Documents
       .panel-body
-        | test
+        - if @project.documents.any?
+          - @project.documents.each do |ms|
+            = ms.document_name
+            = " ( "
+            = link_to "preview", ms
+            = " )"
+            / .form-group
+            /   label = "Issue date: #{ms.issue_date}"
+            /   br
+            /   label
+            /     = "Subject: #{ms.subject}"
+            /     = " ( "
+            /     = link_to "preview", invoice_path(ms)
+            /     = " )"  
+            /   hr
+        - else
+          | -
 
   .col-md-4
     .panel.panel-default
       .panel-heading
         | Quotations
       .panel-body
-        | test
+        - if @project.quotations.any?
+          - @project.quotations.each do |ms|
+            = ms.inspect
+            / .form-group
+              label = "Issue date: #{ms.issue_date}"
+              br
+              label
+                = "Subject: #{ms.subject}"
+                = " ( "
+                = link_to "preview", invoice_path(ms)
+                = " )"  
+            hr
+        - else
+          | -
+
 
 = link_to 'Edit', edit_project_path(@project)
 |  | 

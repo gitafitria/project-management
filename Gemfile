@@ -66,3 +66,5 @@ gem 'jquery-rails'
 gem 'simple_form'
 
 gem 'prawn'
+
+gem 'carrierwave', '~> 1.0'

@@ -1,0 +1,27 @@
+h1 Listing documents
+
+table.table
+  thead
+    tr
+      th Document name
+      th Project
+      th User
+      th Is valid
+      th
+      th
+      th
+
+  tbody
+    - @documents.each do |document|
+      tr
+        td = document.document_name
+        td = document.project_id
+        td = document.user_id
+        td = document.is_valid
+        td = link_to 'Show', document
+        td = link_to 'Edit', edit_document_path(document)
+        td = link_to 'Destroy', document, data: { confirm: 'Are you sure?' }, method: :delete
+
+br
+
+= link_to 'New Document', new_document_path
