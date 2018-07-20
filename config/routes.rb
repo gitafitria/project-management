@@ -9,5 +9,7 @@ Rails.application.routes.draw do
   resources :invoices
   resources :milestones
   resources :projects
+
+  get '/invoices/:id/pdf', to: 'invoices#pdf'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

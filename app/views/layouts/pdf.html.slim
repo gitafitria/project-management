@@ -1,0 +1,10 @@
+doctype html
+html
+  head
+    title
+      | ProjectManagement
+    = csrf_meta_tags
+    = csp_meta_tag
+    = wicked_pdf_stylesheet_link_tag "application"
+  body
+    = yield

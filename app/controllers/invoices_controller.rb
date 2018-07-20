@@ -1,5 +1,6 @@
 class InvoicesController < ApplicationController
-  before_action :set_invoice, only: [:show, :edit, :update, :destroy]
+  before_action :set_invoice, only: [:show, :edit, :update, :destroy, :pdf]
+  layout :set_layout
 
   # GET /invoices
   # GET /invoices.json
@@ -61,7 +62,12 @@ class InvoicesController < ApplicationController
     end
   end
 
+  def pdf
+    render_pdf
+  end
+
   private
+
     # Use callbacks to share common setup or constraints between actions.
     def set_invoice
       @invoice = Invoice.find(params[:id])

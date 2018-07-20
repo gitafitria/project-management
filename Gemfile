@@ -68,3 +68,6 @@ gem 'simple_form'
 gem 'prawn'
 
 gem 'carrierwave', '~> 1.0'
+
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
