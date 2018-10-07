@@ -1,4 +1,6 @@
 class ApplicationController < ActionController::Base
+  before_action :authenticate_user!
+  
   def render_pdf
     render pdf: "#{controller_name}/#{action_name}", 
            layout: "pdf",

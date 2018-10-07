@@ -25,7 +25,7 @@ gem 'jbuilder', '~> 2.5'
 # Use Redis adapter to run Action Cable in production
 # gem 'redis', '~> 4.0'
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.11', :require => 'bcrypt'
 
 # Use ActiveStorage variant
 # gem 'mini_magick', '~> 4.8'
@@ -65,9 +65,10 @@ gem 'jquery-rails'
 
 gem 'simple_form'
 
-gem 'prawn'
+gem 'prawn' # pdf generator
 
-gem 'carrierwave', '~> 1.0'
+gem 'carrierwave', '~> 1.0' # for upload file
 
-gem 'wicked_pdf'
-gem 'wkhtmltopdf-binary'
+gem 'wicked_pdf' # generate pdf from html
+gem 'wkhtmltopdf-binary' # generate pdf from html
+gem 'devise' # authentication
