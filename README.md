@@ -1,40 +1,46 @@
 # Todo:
 ## MIGRATION
 
-   - [ ] Create Migration Project
-   - [ ] Create Migration Milestone
-   - [ ] Create Migration Invoice
-   - [ ] Create Migration Invoice Item
-   - [ ] Create Migration Quotation
-   - [ ] Create Migration Document
-   - [ ] Create Migration User (Authentication)
+   - [x] Create Migration Project
+   
+   - [x] Create Migration Milestone
+   - [x] Create Migration Invoice
+   - [x] Create Migration Invoice Item
+   - [x] Create Migration Quotation
+   - [x] Create Migration Document
+   - [x] Create Migration User (Authentication)
 
 ## Project Module
-   - [ ] Create Project
-   - [ ] Edit Project
-   - [ ] Form Project
-   - [ ] Index Project
-   - [ ] Show Project
-       - [ ] List Milestone
-       - [ ] List Invoice
-       - [ ] List Quotation
-       - [ ] List Document
-       - [ ] List Detail Project
+
+   - [x] Create Project
+   
+   - [x] Edit Project
+   - [x] Form Project
+   - [x] Index Project
+   - [x] Show Project
+       - [x] List Milestone
+
+       - [x] List Invoice
+       - [x] List Quotation
+       - [x] List Document
+       - [x] List Detail Project
 
 ## Milestone Module
 
-   - [ ] Create Milestone on project form
+   - [x] Create Milestone on project form
+   
    - [ ] Create Milestone on project show
-   - [ ] Edit Milestone on project form
+   - [x] Edit Milestone on project form
    - [ ] Edit Milestone on project show
-   - [ ] Form Milestone
+   - [x] Form Milestone
 
 ## Invoice Module
 
-   - [ ] Create Invoice
-   - [ ] Edit Invoice
-   - [ ] Form Invoice
-   - [ ] Show Invoice
+   - [x] Create Invoice
+   
+   - [x] Edit Invoice
+   - [x] Form Invoice
+   - [x] Show Invoice
    - [ ] Generate Invoice to PDF
    - [ ] Download invoice (Export)
    - [ ] Send invoice (pdf) via email (Export)
@@ -42,25 +48,29 @@
 
 ## Quotation Module
 
-   - [ ] Create Quotation
-   - [ ] Edit Quotation
-   - [ ] Form Quotation
-   - [ ] Show Quotation
-   - [ ] WYSWYG form (word)
+   - [x] Create Quotation
+   
+   - [x] Edit Quotation
+   - [x] Form Quotation
+   - [x] Show Quotation
+   - [ ] WYSWYG form (word) 
    - [ ] Download Quotation (Export)
    - [ ] Send quotation (pdf) via email (Export)
    - [ ] Add scheduler to Send quotation (pdf) via email
 
 ## Document Module
-   - [ ] Upload document
-   - [ ] Edit document
-   - [ ] Form document
+
+   - [x] Upload document
+   
+   - [x] Edit document
+   - [x] Form document
    - [ ] Show document (preview document)
    - [ ] Preview Document before save
    - [ ] Download Document (Export)
    - [ ] Send invoice (pdf) via email (Export)
 
 ## User Module
+
    - [ ] Create User
    - [ ] Edit User
    - [ ] Form User
