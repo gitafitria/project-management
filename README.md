@@ -1,24 +1,69 @@
-# README
+# Todo:
+## MIGRATION
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+   - [ ] Create Migration Project
+   - [ ] Create Migration Milestone
+   - [ ] Create Migration Invoice
+   - [ ] Create Migration Invoice Item
+   - [ ] Create Migration Quotation
+   - [ ] Create Migration Document
+   - [ ] Create Migration User (Authentication)
 
-Things you may want to cover:
+## Project Module
+   - [ ] Create Project
+   - [ ] Edit Project
+   - [ ] Form Project
+   - [ ] Index Project
+   - [ ] Show Project
+       - [ ] List Milestone
+       - [ ] List Invoice
+       - [ ] List Quotation
+       - [ ] List Document
+       - [ ] List Detail Project
 
-* Ruby version
+## Milestone Module
 
-* System dependencies
+   - [ ] Create Milestone on project form
+   - [ ] Create Milestone on project show
+   - [ ] Edit Milestone on project form
+   - [ ] Edit Milestone on project show
+   - [ ] Form Milestone
 
-* Configuration
+## Invoice Module
 
-* Database creation
+   - [ ] Create Invoice
+   - [ ] Edit Invoice
+   - [ ] Form Invoice
+   - [ ] Show Invoice
+   - [ ] Generate Invoice to PDF
+   - [ ] Download invoice (Export)
+   - [ ] Send invoice (pdf) via email (Export)
+   - [ ] Add scheduler to Send invoice (pdf) via email
 
-* Database initialization
+## Quotation Module
 
-* How to run the test suite
+   - [ ] Create Quotation
+   - [ ] Edit Quotation
+   - [ ] Form Quotation
+   - [ ] Show Quotation
+   - [ ] WYSWYG form (word)
+   - [ ] Download Quotation (Export)
+   - [ ] Send quotation (pdf) via email (Export)
+   - [ ] Add scheduler to Send quotation (pdf) via email
 
-* Services (job queues, cache servers, search engines, etc.)
+## Document Module
+   - [ ] Upload document
+   - [ ] Edit document
+   - [ ] Form document
+   - [ ] Show document (preview document)
+   - [ ] Preview Document before save
+   - [ ] Download Document (Export)
+   - [ ] Send invoice (pdf) via email (Export)
 
-* Deployment instructions
+## User Module
+   - [ ] Create User
+   - [ ] Edit User
+   - [ ] Form User
+   - [ ] Show User
+   - [ ] Send invitation via email (for client)
 
-* ...
