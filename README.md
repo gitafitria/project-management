@@ -1,24 +1,79 @@
-# README
+# Todo:
+## MIGRATION
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+   - [x] Create Migration Project
+   
+   - [x] Create Migration Milestone
+   - [x] Create Migration Invoice
+   - [x] Create Migration Invoice Item
+   - [x] Create Migration Quotation
+   - [x] Create Migration Document
+   - [x] Create Migration User (Authentication)
 
-Things you may want to cover:
+## Project Module
 
-* Ruby version
+   - [x] Create Project
+   
+   - [x] Edit Project
+   - [x] Form Project
+   - [x] Index Project
+   - [x] Show Project
+       - [x] List Milestone
 
-* System dependencies
+       - [x] List Invoice
+       - [x] List Quotation
+       - [x] List Document
+       - [x] List Detail Project
 
-* Configuration
+## Milestone Module
 
-* Database creation
+   - [x] Create Milestone on project form
+   
+   - [ ] Create Milestone on project show
+   - [x] Edit Milestone on project form
+   - [ ] Edit Milestone on project show
+   - [x] Form Milestone
 
-* Database initialization
+## Invoice Module
 
-* How to run the test suite
+   - [x] Create Invoice
+   
+   - [x] Edit Invoice
+   - [x] Form Invoice
+   - [x] Show Invoice
+   - [ ] Generate Invoice to PDF
+   - [ ] Download invoice (Export)
+   - [ ] Send invoice (pdf) via email (Export)
+   - [ ] Add scheduler to Send invoice (pdf) via email
 
-* Services (job queues, cache servers, search engines, etc.)
+## Quotation Module
 
-* Deployment instructions
+   - [x] Create Quotation
+   
+   - [x] Edit Quotation
+   - [x] Form Quotation
+   - [x] Show Quotation
+   - [ ] WYSWYG form (word) 
+   - [ ] Download Quotation (Export)
+   - [ ] Send quotation (pdf) via email (Export)
+   - [ ] Add scheduler to Send quotation (pdf) via email
 
-* ...
+## Document Module
+
+   - [x] Upload document
+   
+   - [x] Edit document
+   - [x] Form document
+   - [ ] Show document (preview document)
+   - [ ] Preview Document before save
+   - [ ] Download Document (Export)
+   - [ ] Send invoice (pdf) via email (Export)
+
+## User Module
+
+   - [ ] Create User
+   - [ ] Edit User
+   - [ ] Form User
+   - [ ] Show User
+   - [ ] Send invitation via email (for client)
+
