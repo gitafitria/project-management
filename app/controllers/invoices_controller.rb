@@ -61,9 +61,20 @@ class InvoicesController < ApplicationController
       format.json { head :no_content }
     end
   end
-
+  
   def pdf
-    render_pdf
+    respond_to do |format|
+      format.html { render pdf: "invoices/pdf", layout: "pdf", page_size: "a4" }
+      format.pdf {
+        render pdf: "invoices/pdf", 
+              layout: "pdf",
+              page_size: "a4",
+              # save_to_file: 'C:\Users\Public\Downloads\invoice.pdf',
+              save_to_file: Rails.root.join("public/pdfs", "invoice.pdf"),
+              save_only: true
+      }
+    end
+    
   end
 
   private

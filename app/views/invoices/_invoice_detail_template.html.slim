@@ -74,7 +74,7 @@
               td colspan="2" class="heading-style"
                 = "Total"
               td.text-right
-                = total_payment(invoice.id)
+                = invoice.total_amount
 
   .invoice-payment-detail
     p Pembayaran agar dilakukan ke rekening berikut.
@@ -103,4 +103,5 @@
         | : CV. URREMOTE
 
     br
-    p Selambat-lambatnya X hari sejak tanggal invoice.
+    p 
+      = "Selambat-lambatnya #{(invoice.due_date - invoice.issue_date).to_i} hari sejak tanggal invoice."

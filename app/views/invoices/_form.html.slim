@@ -16,8 +16,8 @@ hr
       .row
         .col-md-4
           = f.label :invoice_number
-        .col-md-8
-          = f.input :invoice_number, label: false
+        .col-md-2
+          = f.input :invoice_number, input_html:{ disabled: true, value: invoice.new_invoice_number, class: "text-center" }, label: false
 
       .row
         .col-md-4
@@ -27,9 +27,9 @@ hr
 
       .row
         .col-md-4
-          = f.label :project_id
+          = f.label :project
         .col-md-8
-          = f.input :project_id, label: false
+          = f.association :project, label: false, label_method: :project_name, value_method: :id
 
       .row
         .col-md-4
