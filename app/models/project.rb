@@ -7,4 +7,9 @@ class Project < ApplicationRecord
 
   accepts_nested_attributes_for :milestones, allow_destroy: true
 
+  before_create :set_valid
+
+  def set_valid
+    self.is_valid = true
+  end
 end

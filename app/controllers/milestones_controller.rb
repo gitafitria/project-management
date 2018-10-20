@@ -1,5 +1,7 @@
 class MilestonesController < ApplicationController
   before_action :set_milestone, only: [:show, :edit, :update, :destroy]
+  
+  respond_to :js, :html, :json
 
   # GET /milestones
   # GET /milestones.json
@@ -19,6 +21,7 @@ class MilestonesController < ApplicationController
 
   # GET /milestones/1/edit
   def edit
+    respond_with(@milestone)
   end
 
   # POST /milestones
@@ -30,9 +33,11 @@ class MilestonesController < ApplicationController
       if @milestone.save
         format.html { redirect_to @milestone, notice: 'Milestone was successfully created.' }
         format.json { render :show, status: :created, location: @milestone }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @milestone.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -40,15 +45,8 @@ class MilestonesController < ApplicationController
   # PATCH/PUT /milestones/1
   # PATCH/PUT /milestones/1.json
   def update
-    respond_to do |format|
-      if @milestone.update(milestone_params)
-        format.html { redirect_to @milestone, notice: 'Milestone was successfully updated.' }
-        format.json { render :show, status: :ok, location: @milestone }
-      else
-        format.html { render :edit }
-        format.json { render json: @milestone.errors, status: :unprocessable_entity }
-      end
-    end
+    @milestone.update(milestone_params)
+    respond_with(@milestone)
   end
 
   # DELETE /milestones/1
@@ -69,6 +67,13 @@ class MilestonesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def milestone_params
-      params.fetch(:milestone, {})
+      params.require(:milestone).permit(
+        :label,
+        :goal,
+        :project_id,
+        :user_id,
+        :is_valid,
+        :_destroy
+      )
     end
 end

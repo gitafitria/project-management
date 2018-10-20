@@ -1,0 +1,5 @@
+| $("#edit_milestone_#{@milestone.id}").find('#edit_milestone').modal("hide");
+| $(".modal-backdrop").remove();
+| $("#edit_milestone_form").html("");
+
+| $("#project_milestone_list").find("#milestone_#{@milestone.id}").replaceWith("#{j render 'milestones/milestone', ms: @milestone}");

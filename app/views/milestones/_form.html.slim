@@ -1,52 +1,33 @@
-.panel.panel-info
-  .panel-heading
-    = milestone.new_record? ? "New" : "Edit"
-    = " Milestone"
-  .panel-body
-    = f.fields_for milestone, remote: true do |f|
-      - if milestone.errors.any?
-        #error_explanation
+= simple_form_for(milestone, remote: true) do |f|
+  .modal.modal-right.fade tabindex="-1" role="dialog" id="#{milestone.new_record? ? 'add_milestone' : 'edit_milestone'}"
+    .modal-dialog role="document" 
+      .modal-content 
+        .modal-header
+          button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+          h4 class="modal-title"
+            = milestone.new_record? ? "Add" : "Edit"
+            = " Milestone"
+        
+        .modal-body
+          = f.input :project_id, as: :hidden, input_html: {value: milestone.project_id}
+          .milestone-item
+          .row
+            .col-md-12
+              .form-group.string
+                label class="form-control-label string optional" Milestone name
+                = f.input :label, label: false
+          .row
+            .col-md-12
+              .form-group.string
+                label class="form-control-label string optional" Goal description
+                = f.input :goal, label: false, as: :text
+          .row
+            .col-md-12
+              .form-group.string
+                label class="form-control-label string optional" Created by
+                input class="form-control project_milestone_form" type="text" name="user_id" id="milestone_user_id"
 
-        h2
-          = pluralize(milestone.errors.count, "error")
-          |  prohibited this milestone from being saved:
-        ul
-          - milestone.errors.full_messages.each do |message|
-            li
-              = message
-
-      .row
-        .col-md-3
-          = f.label :label
-        .col-md-9
-          = f.input :label, label: false
-
-      .row
-        .col-md-3
-          = f.label :goal
-        .col-md-9
-          = f.input :goal, label: false
-
-      .row
-        .col-md-3
-          = f.label :project_id
-        .col-md-9
-          = f.input :project_id, label: false
-
-      .row
-        .col-md-3
-          = f.label :user_id
-        .col-md-9
-          = f.input :user_id, label: false
-
-      .row
-        .col-md-3
-          = f.label :is_valid
-        .col-md-9
-          = f.input :is_valid, label: false
-
-      .row
-        .col-md-offset-3.pull-right
-          = link_to 'Back', milestones_path, class: "btn btn-default"
-          = " "
-          = f.submit class: "btn btn-primary"
+        .modal-footer
+          button type="button" class="btn btn-default" data-dismiss="modal" Close
+          = f.submit "Add milestone", class: "btn btn-primary"

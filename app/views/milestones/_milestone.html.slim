@@ -1,0 +1,6 @@
+.form-group id="milestone_#{ms.id}"
+  label 
+    = ms.label
+  = link_to "Edit", edit_milestone_path(ms), remote: true, class: "btn btn-sm btn-link"
+  p = ms.goal
+  i: .text-right Created by Admin

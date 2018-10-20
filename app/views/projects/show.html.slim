@@ -9,31 +9,31 @@ p#notice
       .panel-body
         .row.form-group
           .col-md-3
-            = "project_name"
+            = "Project name"
           .col-md-5
             = @project.project_name
 
         .row.form-group
           .col-md-3
-            = "description"
+            = "Description"
           .col-md-5
             = @project.description
 
         .row.form-group
           .col-md-3
-            = "user_id"
+            = "Created by"
           .col-md-5
             = @project.user_id
 
         .row.form-group
           .col-md-3
-            = "is_valid"
+            = "Validity"
           .col-md-5
             = @project.is_valid
 
         .row.form-group
           .col-md-3
-            = "status"
+            = "Status"
           .col-md-5
             = @project.status
 
@@ -41,14 +41,20 @@ p#notice
     .panel.panel-brown
       .panel-heading
         | Milestone
-      .panel-body
+      .panel-body#project_milestone_list
         - if @project.milestones.any?
-          - @project.milestones.each do |ms|
-            .form-group
-              label = ms.label
-              p = ms.goal
+          - @project.milestones.order("id").each do |ms|
+            = render 'milestones/milestone', ms: ms
+            / .form-group
+            /   label = ms.label
+            /   p = ms.goal
         - else
           | -
+
+        / hr
+      .panel-footer
+        div.text-right
+          = link_to "Add milestone(s)", "#", data: {toggle: "modal", target: "#add_milestone"}
 
 .row
   .col-md-4
@@ -57,7 +63,7 @@ p#notice
         | Invoices
       .panel-body
         - if @project.invoices.any?
-          - @project.invoices.each do |ms|
+          - @project.invoices.order("id").each do |ms|
             .form-group
               label = "Issue date: #{ms.issue_date}"
               br
@@ -69,6 +75,9 @@ p#notice
               hr
         - else
           | -
+        div.text-right
+          = link_to 'Add invoice', new_invoice_path, data: {turbolinks: false}
+        
 
   .col-md-4
     .panel.panel-default
@@ -76,22 +85,16 @@ p#notice
         | Documents
       .panel-body
         - if @project.documents.any?
-          - @project.documents.each do |ms|
+          - @project.documents.order("id").each do |ms|
             = ms.document_name
             = " ( "
             = link_to "preview", ms
             = " )"
-            / .form-group
-            /   label = "Issue date: #{ms.issue_date}"
-            /   br
-            /   label
-            /     = "Subject: #{ms.subject}"
-            /     = " ( "
-            /     = link_to "preview", invoice_path(ms)
-            /     = " )"  
-            /   hr
         - else
           | -
+        
+        div.text-right
+          = link_to 'Add document', new_document_path, data: {turbolinks: false}
 
   .col-md-4
     .panel.panel-default
@@ -101,19 +104,22 @@ p#notice
         - if @project.quotations.any?
           - @project.quotations.each do |ms|
             = ms.inspect
-            / .form-group
-              label = "Issue date: #{ms.issue_date}"
-              br
-              label
-                = "Subject: #{ms.subject}"
-                = " ( "
-                = link_to "preview", invoice_path(ms)
-                = " )"  
             hr
         - else
           | -
-
+        
+        div.text-right
+          = link_to 'Add quotation', new_quotation_path
 
 = link_to 'Edit', edit_project_path(@project)
 |  | 
 = link_to 'Back', projects_path
+
+/ script type="text/html" id="add_milestone_template"
+/   = render 'projects/form/add_milestone_template'
+
+#new_milestone_form
+  = render 'milestones/form', milestone: @project.milestones.new
+  
+#edit_milestone_form
+

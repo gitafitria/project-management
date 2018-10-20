@@ -1,0 +1,8 @@
+| $("#add_project_milestone").modal('hide');
+| $(".modal-backdrop").remove();
+| var list_count = $("#project_milestone_list").find('.form-group').length;
+| if (list_count > 0) {
+|   $("#project_milestone_list").append("#{j render 'milestones/milestone', ms: @milestone}");
+| } else {
+|   $("#project_milestone_list").html("#{j render 'milestones/milestone', ms: @milestone}");
+| }

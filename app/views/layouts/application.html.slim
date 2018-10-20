@@ -10,9 +10,11 @@ html
   body
     = render 'navbar'
     .container
-      p class="notice"
-        = notice
-      p class="alert"
-        = alert
+      - if notice
+        p class="notice"
+          = notice
+      - if alert
+        p class="alert"
+          = alert
       = yield
 
