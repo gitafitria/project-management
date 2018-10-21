@@ -1,0 +1,40 @@
+h2 User Form
+hr
+
+.row.form-group#invoice_form
+  .col-md-10
+    = simple_form_for user do |f|
+
+      .row
+        .col-md-4
+          = f.label :first_name
+        .col-md-8
+          = f.input :first_name, label: false
+
+      .row
+        .col-md-4
+          = f.label :last_name
+        .col-md-8
+          = f.input :last_name, label: false
+
+      .row
+        .col-md-4
+          = f.label :email
+        .col-md-8
+          = f.input :email, label: false
+        
+        - password = user.set_new_password
+        = f.input :password, as: :hidden, input_html: {value: password}
+        = f.input :password_confirmation, as: :hidden, input_html: {value: password}
+
+      .row
+        .col-md-4
+          = f.label :role
+        .col-md-8
+          / = f.input :role, as: :radio_buttons, collection: User.user_roles.map{|k, v| [k, k.humanize.titleize]}, label_method: :second, value_method: :first
+          = f.collection_radio_buttons :role, User.roles.map{|k, v| [k.humanize.titleize, k]}, :second, :first, :label => false, wrapper_html: {class: "form-group"}
+
+      br
+      .form-group.text-right
+        = f.submit class: "btn btn-primary"
+      br

@@ -1,0 +1,1 @@
+USER_ROLES = {owner: 1, client: 2}
