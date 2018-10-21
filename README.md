@@ -16,6 +16,9 @@
    
    - [x] Edit Project
    - [x] Form Project
+    - [x] Add milestone
+    - [ ] Add client
+
    - [x] Index Project
    - [x] Show Project
        - [x] List Milestone
@@ -29,20 +32,20 @@
 
    - [x] Create Milestone on project form
    
-   - [ ] Create Milestone on project show
+   - [x] Create Milestone on project show
    - [x] Edit Milestone on project form
-   - [ ] Edit Milestone on project show
+   - [x] Edit Milestone on project show
    - [x] Form Milestone
 
 ## Invoice Module
 
    - [x] Create Invoice
-   
+    
    - [x] Edit Invoice
    - [x] Form Invoice
    - [x] Show Invoice
-   - [ ] Generate Invoice to PDF
-   - [ ] Download invoice (Export)
+   - [x] Generate Invoice to PDF
+   - [ ] Download invoice (Export) // dipikirkan lagi
    - [ ] Send invoice (pdf) via email (Export)
    - [ ] Add scheduler to Send invoice (pdf) via email
 
@@ -72,8 +75,10 @@
 ## User Module
 
    - [ ] Create User
+     - [x] save user
+     - [x] Send email after user created
+     - [ ] Send email with change password link (new user)
    - [ ] Edit User
    - [ ] Form User
    - [ ] Show User
-   - [ ] Send invitation via email (for client)
 
