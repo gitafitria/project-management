@@ -1,5 +1,5 @@
 class InvoicesController < ApplicationController
-  before_action :set_invoice, only: [:show, :edit, :update, :destroy, :pdf]
+  before_action :set_invoice, only: [:show, :edit, :update, :destroy, :pdf, :export_email]
   layout :set_layout
 
   # GET /invoices
@@ -64,18 +64,24 @@ class InvoicesController < ApplicationController
   
   def pdf
     respond_to do |format|
-      format.html { render pdf: "invoices/pdf", layout: "pdf", page_size: "a4" }
-      format.pdf {
+      # format.html { render pdf: "invoices/pdf", layout: "pdf", page_size: "a4" }
+      format.html {
         render pdf: "invoices/pdf", 
               layout: "pdf",
               page_size: "a4",
               # save_to_file: 'C:\Users\Public\Downloads\invoice.pdf',
-              save_to_file: Rails.root.join("public/pdfs", "invoice.pdf"),
+              save_to_file: Rails.root.join("public/pdfs", "invoice_#{@invoice.id}.pdf"),
               save_only: true
+        send_file Rails.root.join("public/pdfs", "invoice_#{@invoice.id}.pdf"), filename: "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
       }
     end
-    
   end
+
+  def export_email
+    InvoiceMailer.export_to_email(@invoice).deliver
+
+  end
+  
 
   private
 

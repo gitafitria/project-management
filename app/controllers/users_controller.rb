@@ -16,11 +16,9 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
-    # puts error
-    # @user.password = @user.set_new_password
-    # @user.password_confirmation = @user.set_new_password
     if @user.save
-      UserMailer.signup_confirmation(@user).deliver
+      # UserMailer.signup_confirmation(@user).deliver
+      @user.send_reset_password_instructions
       redirect_to user_path(@user)
     else
       render :new
@@ -29,6 +27,7 @@ class UsersController < ApplicationController
 
   def update
     @user.update(user_params)
+    respond_with @user
   end
 
   def edit

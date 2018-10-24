@@ -14,5 +14,6 @@ Rails.application.routes.draw do
   resources :projects
 
   get '/invoices/:id/pdf', to: 'invoices#pdf', as: "download_invoice_pdf"
+  get '/invoices/:id/email', to: 'invoices#export_email', as: "download_invoice_email"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

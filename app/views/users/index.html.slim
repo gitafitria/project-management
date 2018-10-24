@@ -1,1 +1,33 @@
-= @users.inspect
+p#notice
+  = notice
+.row
+  .col-md-2
+    h2
+      | Members List
+  .col-md-3
+    br
+    = link_to 'New Member', new_user_path, data: {turbolinks: false},  class: "btn btn-primary"
+
+br
+
+table.table
+  thead
+    tr
+      th Name
+      th Role
+      th Email
+      th Created at
+      th Option
+  tbody
+    - @users.each do |user|
+      tr
+        td = fullname(user)
+        td = user.role.titleize
+        td = user.email
+        td = user.created_at
+        td
+          = link_to 'Show', user
+          = " | "
+          = link_to 'Edit', edit_user_path(user), data: {turbolinks: false}
+          = " | "
+          = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
