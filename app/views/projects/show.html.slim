@@ -1,6 +1,3 @@
-p#notice
-  = notice
-
 .row
   .col-md-8
     .panel.panel-info
@@ -9,33 +6,33 @@ p#notice
       .panel-body
         .row.form-group
           .col-md-3
-            = "Project name"
+            label = "Project name"
           .col-md-5
             = @project.project_name
 
         .row.form-group
           .col-md-3
-            = "Description"
+            label = "Description"
           .col-md-5
             = @project.description
 
         .row.form-group
           .col-md-3
-            = "Created by"
+            label = "Created by"
           .col-md-5
-            = @project.user_id
+            = fullname(@project.user)
 
         .row.form-group
           .col-md-3
-            = "Validity"
+            label = "Validity"
           .col-md-5
-            = @project.is_valid
+            = @project.is_valid.to_s.titleize
 
         .row.form-group
           .col-md-3
-            = "Status"
+            label = "Status"
           .col-md-5
-            = @project.status
+            = @project.status.titleize
 
   .col-md-4
     .panel.panel-brown

@@ -1,27 +1,29 @@
-h1 Listing documents
+.row
+  .col-md-3
+    h2
+      | Documents List
 
-table.table
-  thead
-    tr
-      th Document name
-      th Project
-      th User
-      th Is valid
-      th
-      th
-      th
+    = link_to "Advanced filter", "#document_filter_slide_panel", data: {target: "#document_filter_slide_panel", toggle: "modal"}
 
-  tbody
-    - @documents.each do |document|
-      tr
-        td = document.document_name
-        td = document.project_id
-        td = document.user_id
-        td = document.is_valid
-        td = link_to 'Show', document
-        td = link_to 'Edit', edit_document_path(document)
-        td = link_to 'Destroy', document, data: { confirm: 'Are you sure?' }, method: :delete
+  .col-md-3
+    br
+    = link_to 'New Document', new_document_path, data: {turbolinks: false},  class: "btn btn-primary"
 
 br
 
-= link_to 'New Document', new_document_path
+table.table.document-table role="datatable" data-url="#{documents_path(format: :json)}"
+  thead
+    tr
+      th Created at
+      th Document name
+      th Project
+      th.col-options-column Option
+  tbody
+
+#document_export_modal_wrapper
+
+script type="text/html" id="document_export_modal_template"
+  = render 'documents/export_modal'
+
+.filter
+  = render "documents/filter"

@@ -1,0 +1,45 @@
+= form_tag projects_path(request: "Filtering"), method: "GET", remote: true, id: "form_filter_project_data" do
+  div class="modal modal-right project-modal fade" id="project_filter_slide_panel" tabindex="-1" role="dialog"
+    div class="modal-dialog modal-md" role="document"
+      div class="modal-content"
+        div class="modal-header"
+          button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+          h4 class="modal-title"
+            b Advanced Filter
+        div class="modal-body"
+          #filters
+            .form-group
+              label By Clients
+              / .row
+              /   .col-md-12
+              /     - clients = client_list.order("first_name").collect{ |u| [fullname(u), u.id]}
+              /     = select_tag "by_clients[]", options_for_select(clients, current_scopes[:by_clients]), include_blank: true, multiple: true, class: "chosen-select form-control"
+
+            .form-group
+              label By Creator
+              .row
+                .col-md-12
+                  - project_creators = Project.where(is_valid: true).map(&:user_id)
+                  - creators = User.where("id IN (?)", project_creators).order("first_name").collect{ |u| [fullname(u), u.id]}
+                  = select_tag "by_creators[]", options_for_select(creators, current_scopes[:by_creators]), include_blank: true, multiple: true, class: 'chosen-select form-control'
+
+            .form-group
+              label Status
+              - Project.statuses.each do |status, k|
+                .radio: label
+                  = radio_button_tag "by_status", status, current_scopes[:by_status] == status
+                  = status.titleize
+              / .radio: label
+              /   = radio_button_tag "by_status", false, current_scopes[:by_status] == "false"
+              /   =t :no_
+              .radio: label
+                = radio_button_tag "by_status", "", current_scopes[:by_status].blank?, class: "default-checked"
+                = "All"
+
+        div class="modal-footer"
+          .row
+            .col-md-12
+              = link_to "Apply filter", "#", class: "btn btn-primary", id: "submit_project_filter_btn"
+              = " "
+              = link_to "Clear", "#", class: "btn btn-default btn-clear-filter"

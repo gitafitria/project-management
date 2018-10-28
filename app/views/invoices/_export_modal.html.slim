@@ -1,0 +1,35 @@
+.modal.fade id="invoice_export_modal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" data-backdrop="static" data-keyboard="false"
+  .modal-dialog role="document"
+    .modal-content
+      .modal-header
+        button type="button" class="close cancel-isolate-group-modal" data-dismiss="modal" aria-label="close"
+          span aria-hidden="true"
+            = "x"
+        h4 = "Export Invoice"
+      .modal-body
+        .row
+          .col-md-3
+            label Invoice Number
+          .col-md-8
+            = "{{invoice_number}}"
+
+        = hidden_field_tag "pdf_url", "{{pdf_url}}"
+        = hidden_field_tag "email_url", "{{email_url}}"
+        .row
+          .col-md-3
+            label Export type
+          .col-md-8
+            .radio: label
+              = radio_button_tag "export_type", "pdf", true
+              = "Download (.pdf)"
+            .radio: label
+              = radio_button_tag "export_type", "email", false
+              = "Sent via email"
+        / .row
+        /   .col-md-8.col-md-offset-3
+        /     = select_tag "email_sent_to",
+
+      .modal-footer
+        a class="btn btn-link cancel-invoice-export-modal" data-dismiss="modal" aria-label="close" href="#"
+          = "Cancel"
+        = link_to "Export", "#", class: "btn btn-primary invoice-export-btn"

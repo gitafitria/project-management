@@ -1,10 +1,22 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
 
+  # has_scope :by_clients, type: :array
+  has_scope :by_creators, type: :array
+  has_scope :by_status
+
+  respond_to :js, :json, :html
   # GET /projects
   # GET /projects.json
   def index
-    @projects = Project.all
+    require 'will_paginate/array'
+    
+    @projects = apply_scopes(Project).valid.all
+    respond_with do |format|
+      format.html
+      format.json { render json: ProjectsDatatable.new(view_context, @projects) }
+      format.js
+    end
   end
 
   # GET /projects/1

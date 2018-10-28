@@ -5,11 +5,7 @@ class InvoiceMailer < ApplicationMailer
     @invoice = invoice
     filename = "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
     # attachments[filename] = File.read(Rails.root.join("public/pdfs", "invoice.pdf"), mode: 'rb')
-    attachments[filename] = File.open(Rails.root.join("public/pdfs", "invoice_##{@invoice.invoice_number}.pdf"), 'rb') {|f| f.read}
-    # attachments[filename] = File.open(Rails.root.join("public/pdfs", "invoice.pdf"), 'rb') {|f| f.read}
-    # attachments content_type: "application/pdf", 
-    #             body: File.read(Rails.root.join("public/pdfs", "invoice.pdf")), 
-    #             filename: filename
+    attachments[filename] = File.open(Rails.root.join("public/pdfs", filename), 'rb') {|f| f.read}
 
     mail to: User.first.email, 
         subject: "SIPM: Invoice ##{@invoice.invoice_number} #{@invoice.project.project_name}"

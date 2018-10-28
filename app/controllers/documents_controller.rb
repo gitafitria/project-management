@@ -1,10 +1,21 @@
 class DocumentsController < ApplicationController
-  before_action :set_document, only: [:show, :edit, :update, :destroy]
+  before_action :set_document, only: [:show, :edit, :update, :destroy, :pdf, :export_email]
+
+  has_scope :by_projects, type: :array
+  has_scope :by_creators, type: :array
+
+  respond_to :html, :js, :json
 
   # GET /documents
   # GET /documents.json
   def index
-    @documents = Document.all
+    @documents = apply_scopes(Document).all
+    respond_with do |format|
+      format.html
+      format.json { render json: DocumentsDatatable.new(view_context, @documents) }
+      format.js
+    end
+
   end
 
   # GET /documents/1
@@ -61,6 +72,28 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def pdf
+    filename = "#{@document.document_name}.#{@document.doc_file.file.extension.downcase}"
+
+    respond_to do |format|
+      # format.html { render pdf: "invoices/pdf", layout: "pdf", page_size: "a4" }
+      format.html {
+        send_file Rails.root.join("public/", @document.doc_file.path), filename: filename
+      }
+      format.js {
+        send_file Rails.root.join("public/", @document.doc_file.path), filename: filename
+      }
+    end
+  end
+
+  def export_email
+    deliver_email(@document)
+    respond_to do |format|
+      format.js
+    end
+  end
+
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_document
@@ -70,11 +103,15 @@ class DocumentsController < ApplicationController
     # Never trust parameters from the scary internet, only allow the white list through.
     def document_params
       params.require(:document).permit(
-        :document_name, 
-        :project_id, 
+        :document_name,
+        :project_id,
         :user_id,
         :doc_file,
         :is_valid
       )
+    end
+
+    def deliver_email(document)
+      DocumentMailer.export_to_email(document).deliver_later
     end
 end

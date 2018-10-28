@@ -32,6 +32,50 @@ window.renderMilestoneItem = (modal_wrapper_name, index, new_record) ->
   milestone_input.val("")
   modal_wrapper.modal('hide')
 
+window.projectDataTablesLoad = () ->
+  url = $(".project-table").data('url')
+  $(".project-table").DataTable
+    'destroy': true
+    'searching': true
+    'ajax':
+      'url': url
+      'data': filterFormSerializeJson($("#form_filter_project_data"))
+    'processing': true
+    'serverSide': true
+    'fnDrawCallback': ->
+      $(".project-modal").modal('hide')
+      return
+      #   # show data table to the top of page when switch pagination
+      #   $('html, body').animate { scrollTop: $('body').offset().top }, 'slow'
+      #   filterDataOption()
+      #   updateExportFilter()
+      #   showHideTableColumn()
+      #   isolateFilterLabel()
+      #   $('.new-slide-panel').css 'display', 'none'
+      #   checkIt()
+      #   tooltipAndPopoverShow()
+      #   # counterCheck()
+    'aoColumnDefs': [ {
+      'bSortable': false
+      'aTargets': [
+        'col-options-column'
+      ]
+    } ]
+    start: 0
+
+window.filterFormSerializeJson = ($wrapper) ->
+  arr = $wrapper.find("input, select").serializeArray()
+  search = {}
+  $.each arr, (idx, obj) ->
+    name = obj["name"]
+    value = obj["value"]
+    search[name] = value
+  return search
+
+window.projectDataTablesReset = () ->
+  table = projectDataTablesLoad()
+  table.ajax.reload()
+
 ready = ->
 
   $("body").on "click", "#add_project_milestone_btn", (e) ->
@@ -48,7 +92,7 @@ ready = ->
     current_milestone = form_wrapper.find("#heading_milestone_#{index}")
 
     new_record = $(this).data("new-record")
-    data = 
+    data =
       index: index
 
     console.log new_record
@@ -86,6 +130,17 @@ ready = ->
     new_record = edit_modal_wrapper.attr("data-new-record")
 
     renderMilestoneItem("#edit_project_milestone", index, new_record)
+
+  $("body").on "click", ".submit-filter-btn", (e)->
+    e.preventDefault()
+    form_wrapper = $(this).closest("form")
+    form_id = form_wrapper.attr("id")
+    if form_id == "form_filter_project_data"
+      projectDataTablesReset()
+    else if form_id == "form_filter_invoice_data"
+      invoiceDataTablesReset()
+    else if form_id == "form_filter_document_data"
+      documentDataTablesReset()
 
 $(document).ready(ready);
 $(document).on('page:change', ready);

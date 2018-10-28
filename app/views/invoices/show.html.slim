@@ -11,10 +11,10 @@
             = "Export file "
             span class="caret"
           ul.dropdown-menu
-            li: a href="#"
+            li
               = link_to "Download as PDF", download_invoice_pdf_path(@invoice), target: :blank
-            li: a href="#"
-              | Send via email
+            li
+              = link_to "Send via email", download_invoice_email_path(@invoice), remote: true
   .panel-body
     = render 'invoice_detail_template', invoice: @invoice
     

@@ -1,0 +1,50 @@
+= form_tag invoices_path(request: "Filtering"), method: "GET", remote: true, id: "form_filter_invoice_data" do
+  div class="modal modal-right invoice-modal fade" id="invoice_filter_slide_panel" tabindex="-1" role="dialog"
+    div class="modal-dialog modal-md" role="document"
+      div class="modal-content"
+        div class="modal-header"
+          button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+          h4 class="modal-title"
+            b Advanced Filter
+        div class="modal-body"
+          #filters
+            .form-group
+              label By Projects
+              .row
+                .col-md-12
+                  - projects = Invoice.projects_list.where(is_valid: true).collect{ |u| [u.project_name, u.id]}
+                  = select_tag "by_projects[]", options_for_select(projects, current_scopes[:by_projects]), include_blank: true, multiple: true, class: "chosen-select form-control"
+
+            .form-group
+              label By Creators
+              .row
+                .col-md-12
+                  - invoice_creators = Invoice.where(is_valid: true).map(&:user_id)
+                  - creators = User.where("id IN (?)", invoice_creators).order("first_name").collect{ |u| [fullname(u), u.id]}
+                  = select_tag "by_creators[]", options_for_select(creators, current_scopes[:by_creators]), include_blank: true, multiple: true, class: 'chosen-select form-control'
+
+            .form-group
+              label By Recipient
+              .row
+                .col-md-12
+                  - invoice_recipients = Invoice.where(is_valid: true).map(&:recipient)
+                  - recipients = User.where("id IN (?)", invoice_recipients).order("first_name").collect{ |u| [fullname(u), u.id]}
+                  = select_tag "by_recipients[]", options_for_select(recipients, current_scopes[:by_recipients]), include_blank: true, multiple: true, class: 'chosen-select form-control'
+
+            .form-group
+              label Status
+              - Invoice.statuses.each do |status, k|
+                .radio: label
+                  = radio_button_tag "by_status", status, current_scopes[:by_status] == status
+                  = status.titleize
+              .radio: label
+                = radio_button_tag "by_status", "", current_scopes[:by_status].blank?, class: "default-checked"
+                = "All"
+
+        div class="modal-footer"
+          .row
+            .col-md-12
+              = link_to "Apply filter", "#", class: "btn btn-primary submit-filter-btn", id: "submit_invoice_filter_btn"
+              = " "
+              = link_to "Clear", "#", class: "btn btn-default btn-clear-filter"

@@ -1,5 +1,13 @@
-p#notice = notice
-
+.btn-group
+  button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+    = "Export file "
+    span class="caret"
+  ul.dropdown-menu
+    li
+      = link_to "Download as PDF", download_document_pdf_path(@document), target: :blank
+    li
+      = link_to "Send via email", download_document_email_path(@document), remote: true
+hr
 .row.form-group
   .col-md-2
     | Document name

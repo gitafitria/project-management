@@ -1,11 +1,26 @@
 class InvoicesController < ApplicationController
-  before_action :set_invoice, only: [:show, :edit, :update, :destroy, :pdf, :export_email]
+  before_action :set_invoice, only: [:show, :edit, :update, :destroy, :pdf, :export_email, :download_pdf]
   layout :set_layout
+
+  has_scope :by_projects, type: :array
+  has_scope :by_creators, type: :array
+  has_scope :by_recipients, type: :array
+  has_scope :by_status
+
+  respond_to :html, :js, :json
 
   # GET /invoices
   # GET /invoices.json
   def index
-    @invoices = Invoice.all
+    require 'will_paginate/array'
+
+    @invoices = apply_scopes(Invoice).all
+    respond_with do |format|
+      format.html
+      format.json { render json: InvoicesDatatable.new(view_context, @invoices) }
+      format.js
+    end
+
   end
 
   # GET /invoices/1
@@ -29,6 +44,11 @@ class InvoicesController < ApplicationController
 
     respond_to do |format|
       if @invoice.save
+        if issue_date_is_today?(@invoice)
+          if deliver_email(@invoice)
+            @invoice.update(status: 'sent')
+          end
+        end
         format.html { redirect_to @invoice, notice: 'Invoice was successfully created.' }
         format.json { render :show, status: :created, location: @invoice }
       else
@@ -61,27 +81,44 @@ class InvoicesController < ApplicationController
       format.json { head :no_content }
     end
   end
-  
+
   def pdf
+    filename = "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
+    file_path = Rails.root.join("public/pdfs", filename)
+
     respond_to do |format|
       # format.html { render pdf: "invoices/pdf", layout: "pdf", page_size: "a4" }
       format.html {
-        render pdf: "invoices/pdf", 
-              layout: "pdf",
-              page_size: "a4",
-              # save_to_file: 'C:\Users\Public\Downloads\invoice.pdf',
-              save_to_file: Rails.root.join("public/pdfs", "invoice_#{@invoice.id}.pdf"),
-              save_only: true
-        send_file Rails.root.join("public/pdfs", "invoice_#{@invoice.id}.pdf"), filename: "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
+        unless File.exist?(file_path)
+          render pdf: "invoices/pdf",
+                layout: "pdf",
+                page_size: "a4",
+                # save_to_file: 'C:\Users\Public\Downloads\invoice.pdf',
+                save_to_file: file_path,
+                save_only: true
+        end
+        send_file file_path, filename: "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
+      }
+      format.js {
+        unless File.exist?(file_path)
+          render pdf: "invoices/pdf",
+                layout: "pdf",
+                page_size: "a4",
+                # save_to_file: 'C:\Users\Public\Downloads\invoice.pdf',
+                save_to_file: file_path,
+                save_only: true
+        end
+        send_file file_path, filename: "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
       }
     end
   end
 
   def export_email
-    InvoiceMailer.export_to_email(@invoice).deliver
-
+    deliver_email(@invoice)
+    respond_to do |format|
+      format.js
+    end
   end
-  
 
   private
 
@@ -105,14 +142,34 @@ class InvoicesController < ApplicationController
         :total_payment,
         :is_valid,
         invoice_items_attributes: [
-          :id, 
-          :description, 
-          :quantity, 
-          :unit_price, 
-          :invoice_id, 
+          :id,
+          :description,
+          :quantity,
+          :unit_price,
+          :invoice_id,
           :is_valid,
           :_destroy
         ]
       )
+    end
+
+    # email deliver
+    def deliver_email(invoice)
+      filename = "invoice_#{invoice.invoice_number}_#{invoice.project.project_name}.pdf"
+      file_path = Rails.root.join("public/pdfs", filename)
+
+      unless File.exist?(file_path)
+        pdf = WickedPdf.new.pdf_from_string(
+                                            render_to_string('layouts/invoice_pdf', layout: "pdf", page_size: "a4")
+                                          )
+        File.open(Rails.root.join("public/pdfs", filename), 'wb') do |file|
+          file << pdf
+        end
+      end
+      InvoiceMailer.export_to_email(invoice).deliver_later
+    end
+
+    def issue_date_is_today?(invoice)
+      invoice.issue_date.today?
     end
 end

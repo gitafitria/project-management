@@ -1,31 +1,30 @@
-p#notice
-  = notice
 .row
   .col-md-2
     h2
       | Invoices List
+
+    = link_to "Advanced filter", "#invoice_filter_slide_panel", data: {target: "#invoice_filter_slide_panel", toggle: "modal"}
+
   .col-md-3
     br
     = link_to 'New Invoice', new_invoice_path, data: {turbolinks: false},  class: "btn btn-primary"
 
 br
 
-table.table
+table.table.invoice-table role="datatable" data-url="#{invoices_path(format: :json)}"
   thead
     tr
       th Created at
       th Invoice no
+      th Project
       th Status
-      th Option
+      th.col-options-column Option
   tbody
-    - @invoices.each do |invoice|
-      tr
-        td = invoice.created_at
-        td = invoice.invoice_number
-        td = invoice.status
-        td
-          = link_to 'Show', invoice
-          = " | "
-          = link_to 'Edit', edit_invoice_path(invoice), data: {turbolinks: false}
-          = " | "
-          = link_to 'Destroy', invoice, method: :delete, data: { confirm: 'Are you sure?' }
+
+#invoice_export_modal_wrapper
+
+script type="text/html" id="invoice_export_modal_template"
+  = render 'invoices/export_modal'
+
+.filter
+  = render "invoices/filter"

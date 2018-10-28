@@ -4,34 +4,24 @@ p#notice
   .col-md-3.col-lg-2
     h2
       | Projects List
+
+    = link_to "Advanced filter", "#project_filter_slide_panel", data: {target: "#project_filter_slide_panel", toggle: "modal"}
+    / a href="#isolate_filter_slide_panel" data-toggle="modal" data-target="#isolate_filter_slide_panel" Show advanced filter
   .col-md-3.col-lg-5
     br
     = link_to 'New Project', new_project_path, class: "btn btn-primary", data: {turbolinks: false}
-
 br
 
 #project_list
-  table.table
+  table.table.project-table role="datatable" data-url="#{projects_path(format: :json)}"
     thead
       tr
         th Project name
         th Created at
         th Status
-        th Option
+        th.col-options-column Option
     tbody
-      - @projects.each do |project|
-        tr
-          td
-            = project.project_name
-          td
-            = project.created_at.strftime("%d %b %Y")
-          td
-            = project.status
-
-          td
-            = link_to 'Show', project
-            = " | "
-            = link_to 'Edit', edit_project_path(project), data: {turbolinks: false}
-            = " | "
-            = link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
   br
+
+.filter
+  = render "projects/filter"

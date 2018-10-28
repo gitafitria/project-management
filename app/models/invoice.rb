@@ -1,10 +1,23 @@
 class Invoice < ApplicationRecord
 	belongs_to :project
 	has_many :invoice_items
+	enum status: INVOICE_STATUS
 
 	accepts_nested_attributes_for :invoice_items, :reject_if => lambda { |c| c[:description].blank? }, allow_destroy: true
-	
+
 	scope :this_month, -> {where(created_at: Time.now.beginning_of_month..Time.now.end_of_month)}
+
+	# by_projects
+  scope :by_projects, -> by_projects { where("invoices.project_id in (?)", by_projects) }
+	# by_creators
+  scope :by_creators, -> by_creators { where("invoices.user_id in (?)", by_creators) }
+	# by_recipients
+  scope :by_recipients, -> by_recipients { where("invoices.recipient in (?)", by_recipients) }
+  # by_status
+  scope :by_status, -> by_status do
+    status_int = Invoice.statuses.select{|k, v| k.to_s == by_status}.values.first
+    where("invoices.status = ?", status_int)
+  end
 
 	def new_invoice_number
 		num = sprintf '%02d', (Invoice.this_month.count + 1)
@@ -18,5 +31,9 @@ class Invoice < ApplicationRecord
 			total = total + t
 		end
 		return total
+	end
+
+	def self.projects_list
+		Project.where("id IN (?)", Invoice.all.collect(&:project_id).uniq)
 	end
 end

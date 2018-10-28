@@ -3,7 +3,7 @@
     - logo_url = "logo1.png"
     - logo_alt = "UrRemote Logo"
     - logo_class = "invoice-logo"
-    - if action_name == "pdf"
+    - if action_name == "pdf" or action_name == "export_email"
       = wicked_pdf_image_tag logo_url, :alt => logo_alt, class: logo_class
     - else
       = image_tag logo_url, :alt => logo_alt, class: logo_class

@@ -72,3 +72,7 @@ gem 'carrierwave', '~> 1.0' # for upload file
 gem 'wicked_pdf' # generate pdf from html
 gem 'wkhtmltopdf-binary' # generate pdf from html
 gem 'devise' # authentication
+gem 'will_paginate'
+gem 'chosen-rails'
+gem 'has_scope'
+
