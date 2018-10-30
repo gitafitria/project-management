@@ -41,6 +41,7 @@ class InvoicesController < ApplicationController
   # POST /invoices.json
   def create
     @invoice = Invoice.new(invoice_params)
+    @invoice.status = 'waiting'
 
     respond_to do |format|
       if @invoice.save
@@ -49,11 +50,16 @@ class InvoicesController < ApplicationController
             @invoice.update(status: 'sent')
           end
         end
-        format.html { redirect_to @invoice, notice: 'Invoice was successfully created.' }
+        flash_label = 'Invoice was successfully created.'
+        flash.now[:notice] = flash_label
+
+        format.html { redirect_to @invoice, notice: flash_label }
         format.json { render :show, status: :created, location: @invoice }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -61,13 +67,20 @@ class InvoicesController < ApplicationController
   # PATCH/PUT /invoices/1
   # PATCH/PUT /invoices/1.json
   def update
+    @invoice.status = 'sent'
+
     respond_to do |format|
       if @invoice.update(invoice_params)
+        flash_label = 'Invoice was successfully updated.'
+        flash.now[:notice] = flash_label
+
         format.html { redirect_to @invoice, notice: 'Invoice was successfully updated.' }
         format.json { render :show, status: :ok, location: @invoice }
+        format.js
       else
         format.html { render :edit }
         format.json { render json: @invoice.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end

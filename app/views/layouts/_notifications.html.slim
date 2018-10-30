@@ -1,0 +1,26 @@
+#notifications
+  .container-fluid
+    - if notice
+      .row.notice.alert.alert-success.alert-dismissible.alert-with-shadow
+        .col-xs-12.col-sm-12.col-md-12.col-lg-12
+          .row
+            .col-md-6
+              b Success!
+            .col-md-6
+              button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                span aria-hidden="true" &times;
+          .row
+            .col-md-12
+              = notice
+    - unless alert.blank?
+      .row.alert.alert-danger.alert-dismissible.alert-with-shadow
+        .col-xs-12.col-sm-12.col-md-12.col-lg-12
+          .row
+            .col-md-6
+              b Error!
+            .col-md-6
+              button type="button" class="close" data-dismiss="alert" aria-label="Close"
+                span aria-hidden="true" &times;
+          .row
+            .col-md-12
+              = alert

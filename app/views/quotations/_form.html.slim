@@ -1,32 +1,27 @@
+= javascript_include_tag Ckeditor.cdn_url
+
 h2 Quotation Form
 hr
-.row
-  .col-md-10
-    = simple_form_for quotation do |f|
-      - if @quotation.errors.any?
-        #error_explanation
-          h2 = "#{pluralize(@quotation.errors.count, "error")} prohibited this quotation from being saved:"
-          ul
-            - @quotation.errors.full_messages.each do |message|
-              li = message
+.row#quotation_form
+  .col-md-12
+    = simple_form_for quotation, remote: true do |f|
+      .row
+        .col-md-2
+          = f.label :project
+        .col-md-6
+          = f.association :project, label: false
 
       .row
-        .col-md-4
-          = f.label :project_id
-        .col-md-8
-          = f.input :project_id, label: false
-
-      .row
-        .col-md-4
+        .col-md-2
           = f.label :content
-        .col-md-8
-          = f.input :content, label: false
+        .col-md-9.form-group
+          = f.cktext_area :content
 
       .row
-        .col-md-4
-          = f.label :user_id
-        .col-md-8
-          = f.input :user_id, label: false
+        .col-md-2
+          = f.label :user, label: "Created by"
+        .col-md-6
+          = f.association :user, label: false
 
       .pull-right
         = link_to "Cancel", quotations_path, class: "btn btn-default"

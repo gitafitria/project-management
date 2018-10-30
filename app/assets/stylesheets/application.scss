@@ -1,6 +1,7 @@
 @import "bootstrap-sprockets";
 @import "bootstrap-variables"; // self-defined bootstrap/variables overrides
 @import "bootstrap-datepicker";
+
 @import "bootstrap";
 
 @import "bootstrap-customized"; // main customized
@@ -9,3 +10,31 @@
 @import "invoices";
 @import "projects";
 @import "dataTables.bootstrap.min";
+
+.urremote-logo {
+  width: 150px;
+}
+
+.footer {
+  height: 45px;
+  // background-color: #c77663;
+  background-color: #9b4746;
+  bottom: 0;
+  width: 100%;
+  position: fixed;
+}
+
+#notifications{
+  margin: auto;
+  position: fixed;
+  width: 35%;
+  top: 20px;
+  right: 20px;
+  z-index: 1052;
+}
+
+.alert.alert-with-shadow{
+  -webkit-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.4);
+  -moz-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.4);
+  box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.4);
+}

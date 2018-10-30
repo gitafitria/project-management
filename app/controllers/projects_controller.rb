@@ -10,7 +10,7 @@ class ProjectsController < ApplicationController
   # GET /projects.json
   def index
     require 'will_paginate/array'
-    
+
     @projects = apply_scopes(Project).valid.all
     respond_with do |format|
       format.html
@@ -40,11 +40,16 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
-        format.html { redirect_to @project, notice: 'Project was successfully created.' }
+        flash_label = 'Project was successfully created.'
+        flash.now[:notice] = flash_label
+
+        format.html { redirect_to @project, notice: flash_label }
         format.json { render :show, status: :created, location: @project }
+        format.js
       else
         format.html { render :new }
         format.json { render json: @project.errors, status: :unprocessable_entity }
+        format.js
       end
     end
   end
@@ -54,7 +59,10 @@ class ProjectsController < ApplicationController
   def update
     respond_to do |format|
       if @project.update(project_params)
-        format.html { redirect_to @project, notice: 'Project was successfully updated.' }
+        flash_label = 'Project was successfully updated.'
+        flash.now[:notice] = flash_label
+
+        format.html { redirect_to @project, notice: flash_label }
         format.json { render :show, status: :ok, location: @project }
       else
         format.html { render :edit }
@@ -85,10 +93,10 @@ class ProjectsController < ApplicationController
       # params.fetch(:project, {})
 
       params.require(:project).permit(
-        :project_name, 
-        :description, 
-        :user_id, 
-        :is_valid, 
+        :project_name,
+        :description,
+        :user_id,
+        :is_valid,
         :status,
         milestones_attributes: [
           :id,

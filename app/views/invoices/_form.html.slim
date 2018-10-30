@@ -2,7 +2,7 @@ h2 Invoice Form
 hr
 .row.form-group#invoice_form
   .col-md-10
-    = simple_form_for invoice do |f|
+    = simple_form_for invoice, remote: true do |f|
       - if invoice.errors.any?
         #error_explanation
 
@@ -17,7 +17,7 @@ hr
         .col-md-4
           = f.label :invoice_number
         .col-md-2
-          = f.input :invoice_number, input_html:{ readonly: true, value: invoice.new_invoice_number, class: "text-center" }, label: false
+          = f.input :invoice_number, input_html:{ readonly: true, value: "#{invoice.new_record? ? invoice.new_invoice_number : invoice.new_invoice_number}", class: "text-center" }, label: false
 
       .row
         .col-md-4
@@ -64,7 +64,7 @@ hr
             span class="input-group-addon" %
 
       hr
-      .text-center 
+      .text-center
         h4 Invoice Details
       br
       #invoice_items_wrapper

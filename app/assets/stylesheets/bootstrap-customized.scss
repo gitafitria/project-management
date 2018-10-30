@@ -1,13 +1,35 @@
+$primary-color: #31334F; //#67A6C5
+$secondary-color: #CA553B;
+
 .navbar-default {
+  // background-color: #E8B03D;
+  background-color: #F9F9F8;
+  border-color: #ddd8cb;
+
+  .navbar-brand {
+    color: $secondary-color;
+    font-weight: bold;
+    font-size: x-large;
+
+    &:hover,
+    &:focus,
+    &:active {
+      color: $secondary-color;
+    }
+  }
+
   .navbar-nav {
     > li {
       > a {
-        color: #000;
+        color: $primary-color;
+        margin: 10px 5px;
+        padding-top: 3.5px;
+        padding-bottom: 3.5px;
 
         &:hover,
         &:focus,
         &:active {
-          color: #fff;
+          color: $secondary-color;
           background-color: transparent;
         }
       }
@@ -15,7 +37,9 @@
 
     > .active > a {
       color: #fff;
-      background-color: #7ab13b;
+      border-radius: 20px;
+      background-color: #E8B03D; // #7ab13b
+
       &:hover,
       &:focus,
       &:active {
@@ -25,25 +49,15 @@
 
     > .open > a {
       color: #fff;
-      background-color: #7ab13b;
+      background-color: #25a5e4;
+      border-radius: 20px;
+
       &:hover,
       &:focus,
       &:active {
         color: #fff;
       }
     }
-  }
-}
-
-.navbar-default .navbar-brand {
-  color: #fff;
-  font-weight: bold;
-  font-size: x-large;
-
-  &:hover,
-  &:focus,
-  &:active {
-    color: #fff;
   }
 }
 
@@ -180,5 +194,31 @@ $modal-panel-content-padding-offset: 55px !default;
         right: 0;
       }
     }
+  }
+}
+
+// .error-message + alert
+.error-message.alert{
+  padding: 2px 5px;
+  border-radius: 0;
+
+  &.alert-danger{
+    background-color: $state-danger-bg-lighter;
+    border-color: $state-danger-bg-lighter;
+  }
+
+  &.alert-success{
+    background-color: $state-success-bg-lighter;
+    border-color: $state-success-bg-lighter;
+  }
+
+  &.alert-warning{
+    background-color: $state-warning-bg-lighter;
+    border-color: $state-warning-bg-lighter;
+  }
+
+  &.alert-info{
+    background-color: $state-info-bg-lighter;
+    border-color: $state-info-bg-lighter;
   }
 }

@@ -2,7 +2,7 @@ h2 Project Form
 hr
 .row#project_form
   .col-md-10
-    = simple_form_for(project) do |f|
+    = simple_form_for(project, remote: true) do |f|
       - if project.errors.any?
         #error_explanation
 

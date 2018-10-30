@@ -21,6 +21,7 @@
 //= require jquery.dataTables.min
 //= require dataTables.bootstrap.min
 //= require chosen-jquery
+//= require ckeditor/init
 
 //= require_tree .
 
@@ -41,6 +42,8 @@ function dataTablesLoad() {
       invoiceDataTablesLoad();
     }else if($(this).hasClass("document-table")){
       documentDataTablesLoad();
+    }else if($(this).hasClass("quotation-table")){
+      quotationDataTablesLoad();
     }
     // $(".dataTables_filter").remove();
   });
@@ -71,7 +74,24 @@ ready = function() {
       autoclose: true
     });
   });
-}
+
+  $("body").on("click", ".submit-filter-btn", function(e) {
+    e.preventDefault();
+    var form_wrapper = $(this).closest("form");
+    var form_id = form_wrapper.attr("id");
+    if (form_id == "form_filter_project_data") {
+      projectDataTablesReset();
+    } else if (form_id == "form_filter_invoice_data") {
+      invoiceDataTablesReset();
+    } else if (form_id == "form_filter_document_data") {
+      documentDataTablesReset();
+    } else if (form_id == "form_filter_quotation_data") {
+      quotationDataTablesReset();
+    }
+
+  });
+
+} // end of ready
 
 $(document).ready(ready);
 // $(document).on('page:load', ready);

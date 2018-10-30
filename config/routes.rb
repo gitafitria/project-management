@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount Ckeditor::Engine => '/ckeditor'
   devise_for :users, :controllers => {:registrations => "users"}
   resources :users
 
@@ -17,5 +18,7 @@ Rails.application.routes.draw do
   get '/invoices/:id/email', to: 'invoices#export_email', as: "download_invoice_email"
   get '/documents/:id/pdf', to: 'documents#pdf', as: "download_document_pdf"
   get '/documents/:id/email', to: 'documents#export_email', as: "download_document_email"
+  get '/quotations/:id/pdf', to: 'quotations#pdf', as: "download_quotation_pdf"
+  get '/quotations/:id/email', to: 'quotations#export_email', as: "download_quotation_email"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

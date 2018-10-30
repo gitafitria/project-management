@@ -2,35 +2,42 @@
   .col-md-2
     h2
       | Quotation List
+
+    = link_to "Advanced filter", "#quotation_filter_slide_panel", data: {target: "#quotation_filter_slide_panel", toggle: "modal"}
+
   .col-md-3
     br
     = link_to 'New Quotation', new_quotation_path, class: "btn btn-primary"
 
 br
 
-table.table
+table.table.quotation-table role="datatable" data-url="#{quotations_path(format: :json)}"
   thead
     tr
+      th Created at
       th Content
-      th User
       th Project
-      th Is valid
+      th User
       th Option
 
   tbody
-    - @quotations.each do |quotation|
-      tr
-        td = quotation.content
-        td = quotation.user_id
-        td = quotation.project_id
-        td = quotation.is_valid
-        td 
-          = link_to 'Show', quotation
-          = " | "
-          = link_to 'Edit', edit_quotation_path(quotation)
-          = " | "
-          = link_to 'Destroy', quotation, data: { confirm: 'Are you sure?' }, method: :delete
+    / - @quotations.each do |quotation|
+    /   tr
+    /     td = quotation.content
+    /     td = quotation.user_id
+    /     td = quotation.project_id
+    /     td = quotation.is_valid
+    /     td
+    /       = link_to 'Show', quotation
+    /       = " | "
+    /       = link_to 'Edit', edit_quotation_path(quotation)
+    /       = " | "
+    /       = link_to 'Destroy', quotation, data: { confirm: 'Are you sure?' }, method: :delete
 
-br
+#quotation_export_modal_wrapper
 
-/ = link_to 'New Quotation', new_quotation_path
+/ script type="text/html" id="quotation_export_modal_template"
+  = render 'quotations/export_modal'
+
+.filter
+  = render "quotations/filter"

@@ -17,7 +17,7 @@ $gray-lighter:           #eee !default; // #eee
 
 $black:                  #000 !default; // #eee
 
-$brand-primary:         #8BC34A !default;
+$brand-primary:         #43b1e8 !default; // 67A6C5
 $brand-success:         #DCEDC8 !default;
 $brand-info:            #536DFE !default;
 $brand-warning:         #ebc95b !default;
@@ -503,22 +503,29 @@ $jumbotron-heading-font-size:    ceil(($font-size-base * 4.5)) !default;
 //
 //## Define colors for form feedback states and, by default, alerts.
 
+//== Form states and alerts
+//
+//## Define colors for form feedback states and, by default, alerts.
+
 $state-success-text:             #3c763d !default;
 $state-success-bg:               #77dda2 !default;
+$state-success-bg-lighter:       #b8f3d1 !default;
 $state-success-border:           $state-success-bg !default;
 
-$state-info-text:                $black !default;
+$state-info-text:                #31708f !default;
 $state-info-bg:                  #94d6e9 !default;
+$state-info-bg-lighter:          #bfe5f0 !default;
 $state-info-border:              $state-info-bg !default;
 
-$state-warning-text:             $black !default;
+$state-warning-text:             #8a6d3b !default;
 $state-warning-bg:               #f5d863 !default;
+$state-warning-bg-lighter:       #f0e4b5 !default;
 $state-warning-border:           $state-warning-bg !default;
 
 $state-danger-text:              #a94442 !default;
 $state-danger-bg:                #ef8a80 !default;
+$state-danger-bg-lighter:        #f8dddb !default;
 $state-danger-border:            $state-danger-bg !default;
-
 
 //== Tooltips
 //

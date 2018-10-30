@@ -1,0 +1,15 @@
+| $(".form-group").removeClass("has-error");
+| $(".error-message").remove();
+
+- if @project.errors.any?
+  | console.log("#{j @project.errors.full_messages.to_s}");
+  | var wrapper = $("#project_form");
+  - @project.errors.each do |field, msg|
+    | var errorMessage = "<div class='error-message alert alert-danger alert-small'>#{j msg}</div>";
+    | wrapper.find("#project_#{j field.to_s}").closest('.form-group').addClass('has-error');
+    | wrapper.find("#project_#{j field.to_s}").after(errorMessage);
+
+- else
+  | Turbolinks.visit("#{ project_path(@project) }");
+  | $("#notifications").replaceWith("#{j render 'layouts/notifications'}");
+  | animateNotification();

@@ -10,15 +10,17 @@ class Project < ApplicationRecord
 
   accepts_nested_attributes_for :milestones, allow_destroy: true
 
+  validates :project_name, :user_id, :milestones, :status, presence: true
+
   before_create :set_valid
   # by_clients
   # scope :by_clients, -> by_clients { where("projects.clients in (?)", by_clients) }
   # by_creator
   scope :by_creators, -> by_creators { where("projects.user_id in (?)", by_creators) }
   # by_status
-  scope :by_status, -> by_status do 
+  scope :by_status, -> by_status do
     status_int = Project.statuses.select{|k, v| k.to_s == by_status}.values.first
-    where("projects.status = ?", status_int) 
+    where("projects.status = ?", status_int)
   end
   scope :valid, -> * { where("projects.is_valid = ?", true) }
 

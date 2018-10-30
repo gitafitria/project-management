@@ -1,0 +1,15 @@
+| $(".form-group").removeClass("has-error");
+| $(".error-message").remove();
+
+- if @quotation.errors.any?
+  | console.log("#{j @quotation.errors.full_messages.to_s}");
+  | var wrapper = $("#quotation_form");
+  - @quotation.errors.each do |field, msg|
+    | var errorMessage = "<div class='error-message alert alert-danger alert-small'>#{j msg}</div>";
+    | wrapper.find("#quotation_#{j field.to_s}").closest('.form-group').addClass('has-error');
+    | wrapper.find("#quotation_#{j field.to_s}").after(errorMessage);
+
+- else
+  | Turbolinks.visit("#{ quotation_path(@quotation) }");
+  | $("#notifications").replaceWith("#{j render 'layouts/notifications'}");
+  | animateNotification();

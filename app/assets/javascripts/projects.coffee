@@ -131,16 +131,5 @@ ready = ->
 
     renderMilestoneItem("#edit_project_milestone", index, new_record)
 
-  $("body").on "click", ".submit-filter-btn", (e)->
-    e.preventDefault()
-    form_wrapper = $(this).closest("form")
-    form_id = form_wrapper.attr("id")
-    if form_id == "form_filter_project_data"
-      projectDataTablesReset()
-    else if form_id == "form_filter_invoice_data"
-      invoiceDataTablesReset()
-    else if form_id == "form_filter_document_data"
-      documentDataTablesReset()
-
 $(document).ready(ready);
 $(document).on('page:change', ready);
