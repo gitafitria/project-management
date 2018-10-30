@@ -49,9 +49,7 @@ nav class="navbar navbar-static-top navbar-default"
             li = link_to 'Member List', users_path
             li = link_to 'New member', new_user_path
 
-        li class="dropdown text-right"
-          a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-            | Logout
+        li = link_to 'Logout', destroy_user_session_path, method: :delete
 
         / li class="dropdown #{ active_controller(%w(users)) }"
         /   a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"

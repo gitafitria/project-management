@@ -10,12 +10,6 @@ html
 
   body
     .container
-      - if notice
-        p class="notice"
-          = notice
-      - if alert
-        p class="alert"
-          = alert
 
       - logo_url = "logo1.png"
       - logo_alt = "UrRemote Logo"
@@ -29,52 +23,31 @@ html
       br
 
       / navbar
-      nav class="navbar navbar-static-top navbar-default"
+      nav class="navbar navbar-static-top navbar-primary"
         .container-fluid
           .collapse.navbar-collapse#bs-example-navbar-collapse-1
             ul class="nav navbar-nav"
               li class="dropdown #{ active_controller(%w(projects)) }"
                 a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
                   | Projects
-                ul class="dropdown-menu" role="menu"
-                  li = link_to 'Project List', projects_path
-                  li = link_to 'New project', new_project_path, data: {turbolinks: false}
 
               li class="dropdown #{ active_controller(%w(invoices)) }"
                 a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
                   | Invoices
-                ul class="dropdown-menu" role="menu"
-                  li = link_to 'Invoice List', invoices_path, data: {turbolinks: false}
-                  li = link_to 'New invoice', new_invoice_path, data: {turbolinks: false}
 
               li class="dropdown #{ active_controller(%w(documents)) }"
                 a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
                   | Documents
-                ul class="dropdown-menu" role="menu"
-                  li = link_to 'Document List', documents_path
-                  li = link_to 'New document', new_document_path, data: {turbolinks: false}
 
               li class="dropdown #{ active_controller(%w(quotations)) }"
                 a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
                   | Quotations
-                ul class="dropdown-menu" role="menu"
-                  li = link_to 'Qotation List', quotations_path
-                  li = link_to 'New quotation', new_quotation_path
 
               li class="dropdown text-right"
                 a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
                   | My Profile
 
-              li class="dropdown text-right"
-                a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-                  | Member
-                ul class="dropdown-menu" role="menu"
-                  li = link_to 'Member List', users_path
-                  li = link_to 'New member', new_user_path
-
-              li class="dropdown text-right"
-                a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
-                  | Logout
+              li = link_to "Login", new_user_session_path, class: "btn btn-warning btn-small"
 
               / li class="dropdown #{ active_controller(%w(users)) }"
               /   a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"
@@ -85,31 +58,3 @@ html
               /       li = link_to 'Edit account', edit_user_registration_path
               /       li.divider
               /     li = link_to 'Sign out', destroy_user_session_path, method: :delete
-
-      .row
-        .col-md-6
-          .panel.panel-default
-            .panel-heading
-              | Recent Project
-            .panel-body
-              | test
-        .col-md-6
-          .panel.panel-default
-            .panel-heading
-              | Recent Uploaded Files
-            .panel-body
-              | test
-
-      .row
-        .col-md-6
-          .panel.panel-default
-            .panel-heading
-              | Project you in
-            .panel-body
-              | test
-        .col-md-6
-          .panel.panel-default
-            .panel-heading
-              | Other Contribution
-            .panel-body
-              | test

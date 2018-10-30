@@ -13,10 +13,18 @@ module ProjectsHelper
 
   def project_option_links(project)
     project_show_link(project) + project_edit_link(project) + project_delete_link(project)
-  # o 'Show', project
-  #     /       = " | "
-  #     /       = link_to 'Edit', edit_project_path(project), data: {turbolinks: false}
-  #     /       = " | "
-  #     /       = link_t
+  end
+
+  def project_created_by(project)
+    if project.new_record?
+      return current_user
+    else
+      return project.user
+    end
+  end
+
+  def project_user_name(project)
+    user = project_created_by(project)
+    fullname(user)
   end
 end

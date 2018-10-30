@@ -21,4 +21,6 @@ Rails.application.routes.draw do
   get '/quotations/:id/pdf', to: 'quotations#pdf', as: "download_quotation_pdf"
   get '/quotations/:id/email', to: 'quotations#export_email', as: "download_quotation_email"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+
+  get '/dashboard' => "dashboard#index", as: "dashboard"
 end
