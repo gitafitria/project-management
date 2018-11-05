@@ -24,7 +24,7 @@
               = "Download (.pdf)"
             .radio: label
               = radio_button_tag "export_type", "email", false
-              = "Sent via email"
+              = "Share via email"
         .row
           .col-md-8.col-md-offset-3#sent_email_to.hide
             = select_tag "email_sent_to[]", options_for_select(Client.all.map{|a| [a.email, a.email]}), include_blank: true, multiple: true, class: 'chosen-select form-control email-chosen-select'
