@@ -1,43 +1,51 @@
-.btn-group
-  button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-    = "Export file "
-    span class="caret"
-  ul.dropdown-menu
-    li
-      = link_to "Download as PDF", download_document_pdf_path(@document), target: :blank
-    li
-      = link_to "Send via email", download_document_email_path(@document), remote: true
-hr
-.row.form-group
-  .col-md-2
-    | Document name
-  .col-md-9
-    = @document.document_name
-.row.form-group
-  .col-md-2
-    | Project
-  .col-md-9
-    = @document.project.project_name
-.row.form-group
-  .col-md-2
-    | User
-  .col-md-9
-    = @document.user_id
-.row.form-group
-  .col-md-2
-    | Is valid
-  .col-md-9
-    = @document.is_valid
-.row.form-group
-  .col-md-2
-    | Preview document
-  .col-md-9
-    = @document.doc_file
-    hr
-    / iframe src="#{@document.doc_file}" frameborder='0'
-    object data="#{Rails.root.join(@document.doc_file.to_s  )}" type="application/pdf" width="100%" height="100%"
-    hr
-    / iframe src="https://view.officeapps.live.com/op/embed.aspx?src=localhost:3000/#{@document.doc_file}&embedded=true" frameborder='0'
+.panel.panel-warning
+  .panel-heading
+    .row
+      .col-md-8
+        = "Detail of Document ##{@document.id}"
+      .col-md-4.text-right
+        = link_to 'Edit', edit_document_path(@document), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
+        = " "
+        .btn-group
+          button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
+            = "Export file "
+            span class="caret"
+          ul.dropdown-menu
+            li
+              = link_to "Download as PDF", download_document_pdf_path(@document), target: :blank
+            li
+              = link_to "Send via email", download_document_email_path(@document), remote: true
+  .panel-body
+    .row.form-group
+      .col-md-2
+        label Document name
+      .col-md-9
+        = @document.document_name
+    .row.form-group
+      .col-md-2
+        label Project
+      .col-md-9
+        = link_to @document.project.project_name, @document.project
+    .row.form-group
+      .col-md-2
+        label Created by
+      .col-md-9
+        = fullname(@document.user)
+    .row.form-group
+      .col-md-2
+        label Description
+      .col-md-9
+        = @document.description
+    / .row.form-group
+    /   .col-md-2
+    /     | Preview document
+    /   .col-md-9
+    /     = @document.doc_file
+    /     hr
+    /     / iframe src="#{@document.doc_file}" frameborder='0'
+    /     object data="#{Rails.root.join(@document.doc_file.to_s  )}" type="application/pdf" width="100%" height="100%"
+    /     hr
+        / iframe src="https://view.officeapps.live.com/op/embed.aspx?src=localhost:3000/#{@document.doc_file}&embedded=true" frameborder='0'
 
 => link_to 'Edit', edit_document_path(@document)
 '|

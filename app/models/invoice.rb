@@ -26,7 +26,12 @@ class Invoice < ApplicationRecord
   validates :invoice_number, uniqueness: true
 
   def new_invoice_number
-    last_num = Invoice.this_month.last.invoice_number[9..10].to_i
+    invoices_this_month = Invoice.this_month
+    if invoices_this_month.size == 0
+      last_num = 0
+    else
+      last_num = Invoice.this_month.last.invoice_number[9..10].to_i
+    end
     num = sprintf '%02d', (last_num + 1)
     return "#{Time.zone.now.year}#{Time.zone.now.month}#{Time.zone.now.day}#{num}"
   end
