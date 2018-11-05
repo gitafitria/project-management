@@ -98,6 +98,8 @@ class InvoicesController < ApplicationController
   def pdf
     filename = "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
     file_path = Rails.root.join("public/pdfs", filename)
+    flash_label = 'PDF was successfully exported.'
+    flash.now[:notice] = flash_label
 
     respond_to do |format|
       # format.html { render pdf: "invoices/pdf", layout: "pdf", page_size: "a4" }
@@ -127,7 +129,11 @@ class InvoicesController < ApplicationController
   end
 
   def export_email
-    deliver_email(@invoice)
+    if deliver_email(@invoice, params[:email_sent_to])
+      flash_label = 'Emails was successfully sent.'
+      flash.now[:notice] = flash_label
+    end
+
     respond_to do |format|
       format.js
     end
@@ -167,7 +173,7 @@ class InvoicesController < ApplicationController
     end
 
     # email deliver
-    def deliver_email(invoice)
+    def deliver_email(invoice, receivers = nil)
       filename = "invoice_#{invoice.invoice_number}_#{invoice.project.project_name}.pdf"
       file_path = Rails.root.join("public/pdfs", filename)
 
@@ -179,7 +185,12 @@ class InvoicesController < ApplicationController
           file << pdf
         end
       end
-      InvoiceMailer.export_to_email(invoice).deliver_later
+      if receivers.nil?
+        receivers = invoice.project.clients.map{|c| c.email}
+      end
+      receivers.each do |r|
+        InvoiceMailer.export_to_email(invoice, r).deliver_later
+      end
     end
 
     def issue_date_is_today?(invoice)

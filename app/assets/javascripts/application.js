@@ -59,6 +59,15 @@ function chosen_jquery() {
   $(".default").css("width", "100%");
 }
 
+function export_email_chosen_jquery() {
+  $(".chosen-select").chosen({
+    allow_single_deselect: true,
+    no_results_text: 'Enter to add email',
+    width: '100%'
+  });
+  $(".default").css("width", "100%");
+}
+
 var ready;
 ready = function() {
   animateNotification();

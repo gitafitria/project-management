@@ -4,7 +4,7 @@ window.renderInvoiceItem = ($this, index) ->
   invoice_item_list_wrapper = $this.closest(".invoice-item-form")
   add_invoice_item_template = form_wrapper.find("#add_invoice_item_template").html()
 
-  data = 
+  data =
     idx: index
 
   options_wrapper = invoice_item_list_wrapper.find(".add-invoice-item-btn").closest(".row")
@@ -69,10 +69,10 @@ ready = ->
     if index == undefined
       current_invoice_item.remove()
     else
-      data = 
+      data =
         index: index
       current_invoice_item.replaceWith(Mustache.render(delete_template, data))
-    
+
   $("body").on "click", ".invoice-export-link", (e) ->
     e.preventDefault()
     template = $("#invoice_export_modal_template").html()
@@ -84,17 +84,17 @@ ready = ->
     wrapper = $("#invoice_export_modal_wrapper")
     wrapper.html(Mustache.render(template, data))
     $("#invoice_export_modal").modal("show")
+    export_email_chosen_jquery()
 
   $("body").on "click", ".invoice-export-btn", (e) ->
     e.preventDefault()
     wrapper = $(this).closest('#invoice_export_modal')
     export_type = wrapper.find("input[name='export_type']:checked").val()
-    console.log export_type
     if export_type == "pdf"
       url = wrapper.find("input[name='pdf_url']").val()
     else if export_type == "email"
       url = wrapper.find("input[name='email_url']").val()
-    
+
     if url.length == 0
       alert("Sorry, URL you search is not exist.")
       $("#invoice_export_modal").modal("hide")
@@ -111,10 +111,32 @@ ready = ->
         $.ajax
           url: url
           dataType: 'js'
+          data:
+            email_sent_to: $("#email_sent_to_").val()
           success: (data) ->
             # window.open(url,'newStuff');
-            $("#invoice_export_modal").modal("hide")
+            # $("#invoice_export_modal").modal("hide")
+            $("#invoice_export_modal").modal("hide");
+            $(".modal-backdrop").remove();
             return
+      $("#invoice_export_modal").modal("hide");
+      $(".modal-backdrop").remove();
+
+  $("body").on "keyup", ".chosen-container", (event) ->
+    chosen_wrapper = $(this).parent().find(".email-chosen-select")
+    if chosen_wrapper.length > 0
+      if (event.which == 13)
+        console.log "masuk pak eko!"
+        chosen_wrapper.first().append('<option value="' + $(event.target).val() + '" selected="selected">' + $(event.target).val() + '</option>');
+        chosen_wrapper.first().trigger('chosen:updated');
+
+  $("body").on "click", "input[name='export_type']", (e) ->
+    export_type = $(this).val()
+    if export_type == "pdf"
+      $("#sent_email_to").addClass("hide")
+    else if export_type == "email"
+      $("#sent_email_to").removeClass("hide")
+
 
 $(document).ready(ready);
 $(document).on('page:change', ready);

@@ -25,9 +25,9 @@
             .radio: label
               = radio_button_tag "export_type", "email", false
               = "Sent via email"
-        / .row
-        /   .col-md-8.col-md-offset-3
-        /     = select_tag "email_sent_to",
+        .row
+          .col-md-8.col-md-offset-3#sent_email_to.hide
+            = select_tag "email_sent_to[]", options_for_select(Client.all.map{|a| [a.email, a.email]}), include_blank: true, multiple: true, class: 'chosen-select form-control email-chosen-select'
 
       .modal-footer
         a class="btn btn-link cancel-document-export-modal" data-dismiss="modal" aria-label="close" href="#"

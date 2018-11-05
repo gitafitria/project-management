@@ -14,16 +14,6 @@ window.documentDataTablesLoad = () ->
     'fnDrawCallback': ->
       $(".document-modal").modal('hide')
       return
-      #   # show data table to the top of page when switch pagination
-      #   $('html, body').animate { scrollTop: $('body').offset().top }, 'slow'
-      #   filterDataOption()
-      #   updateExportFilter()
-      #   showHideTableColumn()
-      #   isolateFilterLabel()
-      #   $('.new-slide-panel').css 'display', 'none'
-      #   checkIt()
-      #   tooltipAndPopoverShow()
-      #   # counterCheck()
     'aoColumnDefs': [ {
       'bSortable': false
       'aTargets': [
@@ -48,6 +38,7 @@ ready = ->
     wrapper = $("#document_export_modal_wrapper")
     wrapper.html(Mustache.render(template, data))
     $("#document_export_modal").modal("show")
+    export_email_chosen_jquery()
 
   $("body").on "click", ".document-export-btn", (e) ->
     e.preventDefault()
@@ -75,6 +66,8 @@ ready = ->
         $.ajax
           url: url
           dataType: 'js'
+          data:
+            email_sent_to: $("#email_sent_to_").val()
           success: (data) ->
             # window.open(url,'newStuff');
             $("#document_export_modal").modal("hide")

@@ -97,7 +97,7 @@ class DocumentsController < ApplicationController
   end
 
   def export_email
-    deliver_email(@document)
+    deliver_email(@document, params[:email_sent_to])
     respond_to do |format|
       format.js
     end
@@ -121,7 +121,11 @@ class DocumentsController < ApplicationController
       )
     end
 
-    def deliver_email(document)
-      DocumentMailer.export_to_email(document).deliver_later
+    def deliver_email(document, receivers = nil)
+      unless receivers.nil?
+        receivers.each do |r|
+          DocumentMailer.export_to_email(document, r).deliver_later
+        end
+      end
     end
 end
