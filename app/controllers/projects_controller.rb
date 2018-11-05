@@ -1,7 +1,7 @@
 class ProjectsController < ApplicationController
   before_action :set_project, only: [:show, :edit, :update, :destroy]
 
-  # has_scope :by_clients, type: :array
+  has_scope :by_clients, type: :array
   has_scope :by_creators, type: :array
   has_scope :by_status
 
@@ -11,7 +11,7 @@ class ProjectsController < ApplicationController
   def index
     require 'will_paginate/array'
 
-    @projects = apply_scopes(Project).valid.all
+    @projects = apply_scopes(Project).valid.order("created_at DESC").all
     respond_with do |format|
       format.html
       format.json { render json: ProjectsDatatable.new(view_context, @projects) }
@@ -98,6 +98,7 @@ class ProjectsController < ApplicationController
         :user_id,
         :is_valid,
         :status,
+        client_ids: [],
         milestones_attributes: [
           :id,
           :label,

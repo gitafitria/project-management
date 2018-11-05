@@ -84,13 +84,31 @@ hr
           / - if project.clients.any?
           /   - project.clients.each do |milestone|
           /     p = milestone.label
-          = link_to "Add client(s)", "#", class: "btn", data: {toggle: "modal", target: "#add_project_client"}
+          = text_field_tag 'client_autocomplete', '', placeholder: 'Find client name', class: 'form-control client-autocomplete select-on-change', data: { source: clients_path }
+          .row.form-group
+            .col-md-12
+              #project_client_ids
+                - unless project.clients.blank?
+                  - project.clients.each do |client|
+                    .selected-client
+                      label
+                        = "#{client.first_name} #{client.last_name} "
+                      small.secondary-label
+                        = client.email
+                      input type='hidden' name='project[client_ids][]' value='#{client.id}'
+                    / new_client_template = "<div class='selected-client'><label>#{ui.item.first_name} #{ui.item.last_name}</label> <small class='secondary-label'>#{ui.item.email}</small></div>"
+                    / new_client_template = new_client_template + "<input type='hidden' name='project[client_ids][]' value='#{ui.item.id}'>"
+
+
+          / = link_to "Add client(s)", "#", class: "btn", data: {toggle: "modal", target: "#add_project_client"}
 
       .row.form-group
         .pull-right
           = link_to 'Cancel', projects_path, class: "btn btn-default"
           = " "
           = f.submit class: "btn btn-primary"
+br
+br
 
   script type="text/html" id="add_milestone_template"
     = render 'projects/form/add_milestone_template'

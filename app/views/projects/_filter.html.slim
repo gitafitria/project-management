@@ -11,10 +11,10 @@
           #filters
             .form-group
               label By Clients
-              / .row
-              /   .col-md-12
-              /     - clients = client_list.order("first_name").collect{ |u| [fullname(u), u.id]}
-              /     = select_tag "by_clients[]", options_for_select(clients, current_scopes[:by_clients]), include_blank: true, multiple: true, class: "chosen-select form-control"
+              .row
+                .col-md-12
+                  - clients = Client.order("first_name").collect{ |u| [fullname(u), u.id]}
+                  = select_tag "by_clients[]", options_for_select(clients, current_scopes[:by_clients]), include_blank: true, multiple: true, class: "chosen-select form-control"
 
             .form-group
               label By Creator

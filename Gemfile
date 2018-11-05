@@ -78,3 +78,4 @@ gem 'chosen-rails'
 gem 'has_scope'
 
 gem 'ckeditor', github: 'galetahub/ckeditor'
+gem 'jquery-ui-rails', '6.0.1'

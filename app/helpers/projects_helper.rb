@@ -8,7 +8,7 @@ module ProjectsHelper
   end
 
   def project_delete_link(project)
-    link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }
+    link_to 'Destroy', project, method: :delete, data: { confirm: 'Are you sure?' }, class: "btn btn-link"
   end
 
   def project_option_links(project)

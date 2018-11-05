@@ -1,5 +1,7 @@
 class Invoice < ApplicationRecord
   belongs_to :project
+  belongs_to :user
+  belongs_to :recipient, class_name: "Client"
   has_many :invoice_items
   enum status: INVOICE_STATUS
 

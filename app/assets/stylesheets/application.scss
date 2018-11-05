@@ -11,6 +11,10 @@
 @import "projects";
 @import "dataTables.bootstrap.min";
 
+@import "jquery-ui/core";
+@import "jquery-ui/menu";
+@import "jquery-ui/autocomplete";
+
 .urremote-logo {
   width: 150px;
 }
@@ -38,3 +42,62 @@
   -moz-box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.4);
   box-shadow: 0px 0px 10px 1px rgba(0,0,0,0.4);
 }
+
+.devise-body {
+    height: 100%;
+    width: 100%;
+    position: fixed;
+    background: linear-gradient(to bottom right, #44b1e7, #dba034);
+
+  .login-wrapper {
+    position: absolute;
+    top: 25%;
+    left: auto;
+    right: auto;
+    width: 100%;
+    // margin-top: -372*0.5px;
+
+    .login-link {
+      a, a:hover, a:visited, a:focus, a:link {
+        color: white;
+      }
+    }
+  }
+  .urremote-logo-login {
+    margin: 10px;
+    padding: 10px;
+    text-align: center;
+
+    img {
+      width: 200px;
+    }
+  }
+
+}
+
+.ui-autocomplete {
+  cursor: default;
+  position: absolute;
+  z-index: 1051 !important;
+  float: left;
+  min-width: 160px;
+  padding: 4px 0;
+  margin: 2px 0 0 0;
+  list-style: none;
+  background-color: #ffffff;
+  border-color: #ccc;
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 2px;
+  box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  background-clip: padding-box;
+}
+
+.secondary-label {
+  font-weight: 400;
+  padding-left: 10px;
+}
+
+// .ui-menu-item {
+//   padding-left: 5px;
+// }

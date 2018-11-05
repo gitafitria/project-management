@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
-  respond_to :js, :html
-  
+  has_scope :by_name
+
+  respond_to :js, :html, :json
+
   def index
     @users = User.all
   end
@@ -17,6 +19,7 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     if @user.save
+      # sign_out(@user)
       # UserMailer.signup_confirmation(@user).deliver
       @user.send_reset_password_instructions
       redirect_to user_path(@user)
@@ -36,22 +39,26 @@ class UsersController < ApplicationController
   def destroy
     @user.destroy
   end
-  
+
+  def clients
+    @clients = apply_scopes(Client).all
+  end
+
   private
     def set_user
       @user = User.find(params[:id])
     end
-    
+
     def user_params
       params.require(:user).permit(
         :first_name,
         :last_name,
         :role,
-        :email, 
-        :password, 
+        :email,
+        :password,
         :password_confirmation
       )
     end
-    
+
 
 end

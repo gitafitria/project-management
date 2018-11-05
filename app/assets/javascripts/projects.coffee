@@ -45,16 +45,6 @@ window.projectDataTablesLoad = () ->
     'fnDrawCallback': ->
       $(".project-modal").modal('hide')
       return
-      #   # show data table to the top of page when switch pagination
-      #   $('html, body').animate { scrollTop: $('body').offset().top }, 'slow'
-      #   filterDataOption()
-      #   updateExportFilter()
-      #   showHideTableColumn()
-      #   isolateFilterLabel()
-      #   $('.new-slide-panel').css 'display', 'none'
-      #   checkIt()
-      #   tooltipAndPopoverShow()
-      #   # counterCheck()
     'aoColumnDefs': [ {
       'bSortable': false
       'aTargets': [
@@ -72,11 +62,57 @@ window.filterFormSerializeJson = ($wrapper) ->
     search[name] = value
   return search
 
+window.clearFilterForm = ($wrapper) ->
+  form_input = $wrapper
+  form_input.find("input, select").val("")
+  form_input.find("input[value='']").prop('checked',true)
+  form_input.find(".chosen-select").val('').trigger("chosen:updated");
+
 window.projectDataTablesReset = () ->
   table = projectDataTablesLoad()
   table.ajax.reload()
 
+# Select client using autocomplete
+# This autocomplete return id of client (user)
+#
+window.clientAutocomplete = () ->
+  client = $(".client-autocomplete").autocomplete
+    minLength: 1
+    source: (request, response) ->
+      $.ajax
+        url: $(".client-autocomplete").data("source")
+        dataType: 'json'
+        data:
+          by_name: request.term
+        success: (data) ->
+          response data
+          console.log data
+          return
+      return
+    select: (event, ui) ->
+      new_client_template = "<div class='selected-client'><label>#{ui.item.first_name} #{ui.item.last_name}</label> <small class='secondary-label'>#{ui.item.email}</small></div>"
+      new_client_template = new_client_template + "<input type='hidden' name='project[client_ids][]' value='#{ui.item.id}'>"
+      $("#project_client_ids").append(new_client_template)
+      $(".client-autocomplete").val("")
+      false
+    response: (event, ui) ->
+      $("#client_not_found").remove()
+      if ui.content.length is 0
+        $(".client-autocomplete").after "<div id='client_not_found' class='help-block'>Client you looking for is not exist, Add new client.</span></div>"
+      else
+        $("#district_not_found").remove()
+      return
+
+  # district autocomplete menu formater
+  unless client.data("ui-autocomplete") is undefined
+    client.data("ui-autocomplete")._renderItem = (ul, item) ->
+      content = "<label>#{item.first_name} #{item.last_name}</label>"
+      content = content + " <small class='secondary-label'>#{item.email}</small>"
+      $("<li>").append("<div>" + content + "</div>").appendTo ul
+
 ready = ->
+
+  clientAutocomplete()
 
   $("body").on "click", "#add_project_milestone_btn", (e) ->
     e.preventDefault();
@@ -130,6 +166,10 @@ ready = ->
     new_record = edit_modal_wrapper.attr("data-new-record")
 
     renderMilestoneItem("#edit_project_milestone", index, new_record)
+
+  # $("body").on "keyup change", "#client_autocomplete", (e) ->
+  #   e.preventDefault()
+  #   clientAutocomplete()
 
 $(document).ready(ready);
 $(document).on('page:change', ready);

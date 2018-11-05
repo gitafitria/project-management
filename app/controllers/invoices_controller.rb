@@ -14,7 +14,7 @@ class InvoicesController < ApplicationController
   def index
     require 'will_paginate/array'
 
-    @invoices = apply_scopes(Invoice).all
+    @invoices = apply_scopes(Invoice)
     respond_with do |format|
       format.html
       format.json { render json: InvoicesDatatable.new(view_context, @invoices) }

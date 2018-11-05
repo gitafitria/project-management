@@ -14,6 +14,7 @@
 //= require activestorage
 //= require jquery
 //= require jquery_ujs
+//= require jquery-ui/widgets/autocomplete
 //= require bootstrap-sprockets
 //= require bootstrap-datepicker
 //= require mustache.min
@@ -79,6 +80,23 @@ ready = function() {
     e.preventDefault();
     var form_wrapper = $(this).closest("form");
     var form_id = form_wrapper.attr("id");
+    if (form_id == "form_filter_project_data") {
+      projectDataTablesReset();
+    } else if (form_id == "form_filter_invoice_data") {
+      invoiceDataTablesReset();
+    } else if (form_id == "form_filter_document_data") {
+      documentDataTablesReset();
+    } else if (form_id == "form_filter_quotation_data") {
+      quotationDataTablesReset();
+    }
+
+  });
+
+  $("body").on("click", ".btn-clear-filter", function(e) {
+    e.preventDefault();
+    var form_wrapper = $(this).closest("form");
+    var form_id = form_wrapper.attr("id");
+    clearFilterForm($("#"+ form_id));
     if (form_id == "form_filter_project_data") {
       projectDataTablesReset();
     } else if (form_id == "form_filter_invoice_data") {

@@ -23,7 +23,11 @@ hr
         .col-md-4
           = f.label :user_id, label: "Created by"
         .col-md-8
-          = f.input :user_id, label: false
+          = f.input :user_id, label: false, input_html: {value: project_created_by(invoice).id}, as: :hidden
+          .form-group
+            = f.text_field "invoice_user_name", value: project_user_name(invoice), class: "form-control string required", disabled: true
+
+          / = f.association :user, label: false, label_method: :first_name, value_method: :id, input_html: {readonly: true}
 
       .row
         .col-md-4
