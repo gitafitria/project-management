@@ -18,17 +18,31 @@ hr
           = f.label :user, label: "Created by"
         .col-md-7
           = f.association :user, value_method: :id, label_method: :first_name, class: "form-control", label: false
-      / .row.form-group
-      /   .col-md-3
-      /     = f.label :is_valid
-      /   .col-md-7
-      /     = f.check_box :is_valid
+
+      .row.form-group
+        .col-md-3
+          = f.label :description
+        .col-md-7
+          = f.input :description, label: false
 
       .row.form-group
         .col-md-3
           = f.label :doc_file
         .col-md-7
-          = f.file_field :doc_file
+          - unless @document.new_record?
+            .row.form-group
+              .col-md-12
+                = @document.doc_file.file.filename
+                = " ("
+                = link_to "show", @document.doc_file_url, target: "_blank"
+                = ")"
+          .row
+            - unless @document.new_record?
+              .col-md-2
+                label Change file
+
+            .col-md-5
+              = f.file_field :doc_file
 
       .row
         .col-md-7.col-md-offset-3.text-right

@@ -21,21 +21,33 @@
         label Document name
       .col-md-9
         = @document.document_name
+
     .row.form-group
       .col-md-2
         label Project
       .col-md-9
         = link_to @document.project.project_name, @document.project
+
     .row.form-group
       .col-md-2
         label Created by
       .col-md-9
         = fullname(@document.user)
+
     .row.form-group
       .col-md-2
         label Description
       .col-md-9
         = @document.description
+
+    .row.form-group
+      .col-md-2
+        label Doc File
+      .col-md-9
+        label = @document.doc_file.file.filename
+        = " ("
+        = link_to "show", @document.doc_file_url, target: "_blank"
+        = ")"
     / .row.form-group
     /   .col-md-2
     /     | Preview document
