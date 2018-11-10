@@ -6,10 +6,11 @@ class QuotationsDatatable < ApplicationDatatable
         # add id to each row using 'DT_RowId'
         {
           "0" => quotation.created_at.strftime("%d %b %Y"),
-          "1" => @view.quotation_content(quotation),
-          "2" => @view.quotation_project(quotation),
-          "3" => @view.quotation_user(quotation),
-          "4" => @view.quotation_option_links(quotation),
+          "1" => quotation.title,
+          "2" => @view.quotation_content(quotation),
+          "3" => @view.quotation_project(quotation),
+          "4" => @view.quotation_user(quotation),
+          "5" => @view.quotation_option_links(quotation),
           "DT_RowId" => "quotation_#{quotation.id}"
           #       td = quotation.content
           # /     td = quotation.user_id

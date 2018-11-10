@@ -97,7 +97,7 @@ class InvoicesController < ApplicationController
 
   def pdf
     filename = "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
-    file_path = Rails.root.join("public/pdfs", filename)
+    file_path = Rails.root.join("public/pdfs/invoices/", filename)
     flash_label = 'PDF was successfully exported.'
     flash.now[:notice] = flash_label
 
@@ -112,7 +112,7 @@ class InvoicesController < ApplicationController
                 save_to_file: file_path,
                 save_only: true
         end
-        send_file file_path, filename: "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
+        send_file file_path, filename: filename
       }
       format.js {
         unless File.exist?(file_path)
@@ -123,7 +123,7 @@ class InvoicesController < ApplicationController
                 save_to_file: file_path,
                 save_only: true
         end
-        send_file file_path, filename: "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
+        send_file file_path, filename: filename
       }
     end
   end
@@ -175,13 +175,16 @@ class InvoicesController < ApplicationController
     # email deliver
     def deliver_email(invoice, receivers = nil)
       filename = "invoice_#{invoice.invoice_number}_#{invoice.project.project_name}.pdf"
-      file_path = Rails.root.join("public/pdfs", filename)
+      file_path = Rails.root.join("public/pdfs/invoices/", filename)
 
       unless File.exist?(file_path)
         pdf = WickedPdf.new.pdf_from_string(
-                                            render_to_string('layouts/invoice_pdf', layout: "pdf", page_size: "a4")
-                                          )
-        File.open(Rails.root.join("public/pdfs", filename), 'wb') do |file|
+                render_to_string('layouts/invoice_pdf',
+                  layout: "pdf",
+                  page_size: "a4"
+                )
+              )
+        File.open(Rails.root.join("public/pdfs/invoices/", filename), 'wb') do |file|
           file << pdf
         end
       end

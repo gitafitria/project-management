@@ -1,4 +1,6 @@
 class QuotationsController < ApplicationController
+  before_action :authenticate_user!, except: [:new, :create]
+
   before_action :set_quotation, only: [:show, :edit, :update, :destroy, :pdf, :export_email]
 
   respond_to :html, :js, :json
@@ -83,41 +85,39 @@ class QuotationsController < ApplicationController
   end
 
   def pdf
-    # filename = "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
-    # file_path = Rails.root.join("public/pdfs", filename)
+    filename = "quotation_#{@quotation.title}.pdf"
+    file_path = Rails.root.join("public/pdfs/quotations/", filename)
 
-    # respond_to do |format|
-    #   # format.html { render pdf: "invoices/pdf", layout: "pdf", page_size: "a4" }
-    #   format.html {
-    #     unless File.exist?(file_path)
-    #       render pdf: "invoices/pdf",
-    #             layout: "pdf",
-    #             page_size: "a4",
-    #             # save_to_file: 'C:\Users\Public\Downloads\invoice.pdf',
-    #             save_to_file: file_path,
-    #             save_only: true
-    #     end
-    #     send_file file_path, filename: "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
-    #   }
-    #   format.js {
-    #     unless File.exist?(file_path)
-    #       render pdf: "invoices/pdf",
-    #             layout: "pdf",
-    #             page_size: "a4",
-    #             # save_to_file: 'C:\Users\Public\Downloads\invoice.pdf',
-    #             save_to_file: file_path,
-    #             save_only: true
-    #     end
-    #     send_file file_path, filename: "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
-    #   }
-    # end
+    respond_to do |format|
+      format.html {
+        render pdf: "quotations/pdf",
+              layout: "pdf",
+              page_size: "a4",
+              save_to_file: file_path,
+              save_only: true
+        send_file file_path, filename: filename
+      }
+      format.js {
+        render pdf: "quotations/pdf",
+              layout: "pdf",
+              page_size: "a4",
+              # save_to_file: 'C:\Users\Public\Downloads\invoice.pdf',
+              save_to_file: file_path,
+              save_only: true
+        send_file file_path, filename: filename
+      }
+    end
   end
 
   def export_email
-    # deliver_email(@invoice)
-    # respond_to do |format|
-    #   format.js
-    # end
+    if deliver_email(@quotation, params[:email_sent_to])
+      flash_label = 'Emails was successfully sent.'
+      flash.now[:notice] = flash_label
+    end
+
+    respond_to do |format|
+      format.js
+    end
   end
 
   private
@@ -128,23 +128,35 @@ class QuotationsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def quotation_params
-      params.require(:quotation).permit(:content, :user_id, :project_id, :is_valid)
+      params.require(:quotation).permit(
+        :content,
+        :user_id,
+        :project_id,
+        :email,
+        :title
+        # :is_valid
+      )
     end
 
     # email deliver
-    # def deliver_email(invoice)
-    #   filename = "invoice_#{invoice.invoice_number}_#{invoice.project.project_name}.pdf"
-    #   file_path = Rails.root.join("public/pdfs", filename)
+    def deliver_email(quotation, receivers = nil)
+      filename = "quotation_#{@quotation.title}.pdf"
+      file_path = Rails.root.join("public/pdfs/quotations/", filename)
 
-    #   unless File.exist?(file_path)
-    #     pdf = WickedPdf.new.pdf_from_string(
-    #                                         render_to_string('layouts/invoice_pdf', layout: "pdf", page_size: "a4")
-    #                                       )
-    #     File.open(Rails.root.join("public/pdfs", filename), 'wb') do |file|
-    #       file << pdf
-    #     end
-    #   end
-    #   InvoiceMailer.export_to_email(invoice).deliver_later
-    # end
+      unless File.exist?(file_path)
+        pdf = WickedPdf.new.pdf_from_string(
+                render_to_string('layouts/quotation_pdf',
+                  layout: "pdf",
+                  page_size: "a4"
+                )
+              )
+        File.open(Rails.root.join("public/pdfs/quotations/", filename), 'wb') do |file|
+          file << pdf
+        end
+      end
+      receivers.each do |r|
+        QuotationMailer.export_to_email(quotation, r).deliver_later
+      end
+    end
 
 end

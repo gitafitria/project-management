@@ -1,0 +1,57 @@
+#urremote_logo
+  - logo_url = "logo1.png"
+  - logo_alt = "UrRemote Logo"
+  - logo_class = "urremote-logo"
+  - if action_name == "pdf" or action_name == "export_email"
+    = wicked_pdf_image_tag logo_url, :alt => logo_alt, class: logo_class
+  - else
+    = image_tag logo_url, :alt => logo_alt, class: logo_class
+  .logo-tag
+    | Developing software from the island of God
+
+.title.text-right
+  = "quotation ".upcase
+  = "##{quotation.id}"
+
+br
+hr
+br
+.panel.panel-default
+  .panel-heading
+    label Detail
+
+  .panel-body
+    .row.form-group
+      .col-md-4.col-sm-2.col-xs-2
+        strong Title
+      .col-md-8.col-sm-4.col-xs-4
+        = quotation.title
+
+    - unless quotation.project_id.nil?
+      .row.form-group
+        .col-md-4.col-sm-2.col-xs-2
+          strong Project
+        .col-md-8.col-sm-4.col-xs-4
+          = quotation.project.project_name
+
+    .row.form-group
+      .col-md-4.col-sm-2.col-xs-2
+        strong Created by
+      .col-md-8.col-sm-4.col-xs-4
+        - if quotation.user.nil?
+          = quotation.email
+        - else
+          = fullname(quotation.user)
+
+    .row.form-group
+      .col-md-4.col-sm-2.col-xs-2
+        strong Created at
+      .col-md-8.col-sm-4.col-xs-4
+        = quotation.created_at.strftime("%d %b %Y")
+
+br
+.panel.panel-default
+  .panel-heading
+    = "Content"
+  .panel-body
+    = raw quotation.content

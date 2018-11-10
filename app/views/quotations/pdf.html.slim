@@ -1,0 +1,6 @@
+html
+  header
+    = wicked_pdf_stylesheet_link_tag "application"
+
+  body
+    = render 'quotation_detail_template', quotation: @quotation

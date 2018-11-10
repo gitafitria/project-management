@@ -1,27 +1,42 @@
-= javascript_include_tag Ckeditor.cdn_url
-
 h2 Quotation Form
 hr
 .row#quotation_form
   .col-md-12
     = simple_form_for quotation, remote: true do |f|
+
       .row
         .col-md-2
-          = f.label :project
+          = f.label :title
         .col-md-6
-          = f.association :project, label: false
+          = f.input :title, label: false
+
+      - if user_signed_in?
+        .row
+          .col-md-2
+            = f.label :project
+          .col-md-6
+            = f.association :project, value_method: :id, label_method: :project_name, label: false
 
       .row
         .col-md-2
           = f.label :content
         .col-md-9.form-group
-          = f.cktext_area :content
+          = f.input :content, as: :hidden
+          .form-group
+            trix-editor input="quotation_content"
 
-      .row
-        .col-md-2
-          = f.label :user, label: "Created by"
-        .col-md-6
-          = f.association :user, label: false
+      - if user_signed_in?
+        .row
+          .col-md-2
+            = f.label :user, label: "Created by"
+          .col-md-6
+            = f.association :user, label: false, value_method: :id, label_method: :first_name, input_html: {value: current_user.id}
+      - else
+        .row
+          .col-md-2
+            = f.label :email, label: "Created by (email)"
+          .col-md-6
+            = f.input :email, label: false
 
       .pull-right
         = link_to "Cancel", quotations_path, class: "btn btn-default"

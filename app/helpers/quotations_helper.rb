@@ -16,22 +16,22 @@ module QuotationsHelper
   end
 
   def quotation_project(quotation)
-    unless quotation.project.nil?
-      return quotation.project.project_name
+    if quotation.project.nil?
+      link_to "create as new project", "#"
+    else
+      quotation.project.project_name
     end
-    return nil
   end
 
   def quotation_user(quotation)
-    # @view.fullname(quotation.user) rescue nil
-    unless quotation.user.nil?
-      return fullname(quotation.user)
+    if quotation.user.nil?
+      quotation.email
+    else
+      fullname(quotation.user)
     end
-    return nil
   end
 
   def quotation_content(quotation)
-    return "#{h raw truncate(quotation.content, :length => 30)}"
-
+    raw quotation.content.truncate(30)
   end
 end

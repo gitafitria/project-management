@@ -130,13 +130,5 @@ ready = ->
         chosen_wrapper.first().append('<option value="' + $(event.target).val() + '" selected="selected">' + $(event.target).val() + '</option>');
         chosen_wrapper.first().trigger('chosen:updated');
 
-  $("body").on "click", "input[name='export_type']", (e) ->
-    export_type = $(this).val()
-    if export_type == "pdf"
-      $("#sent_email_to").addClass("hide")
-    else if export_type == "email"
-      $("#sent_email_to").removeClass("hide")
-
-
 $(document).ready(ready);
 $(document).on('page:change', ready);

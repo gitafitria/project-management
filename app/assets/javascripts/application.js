@@ -22,7 +22,7 @@
 //= require jquery.dataTables.min
 //= require dataTables.bootstrap.min
 //= require chosen-jquery
-//= require ckeditor/init
+//= require trix
 
 //= require_tree .
 
@@ -98,7 +98,6 @@ ready = function() {
     } else if (form_id == "form_filter_quotation_data") {
       quotationDataTablesReset();
     }
-
   });
 
   $("body").on("click", ".btn-clear-filter", function(e) {
@@ -115,7 +114,16 @@ ready = function() {
     } else if (form_id == "form_filter_quotation_data") {
       quotationDataTablesReset();
     }
+  });
 
+
+  $("body").on("click", "input[name='export_type']", function(e) {
+    var export_type = $(this).val();
+    if (export_type == "pdf"){
+      $("#sent_email_to").addClass("hide");
+    } else if (export_type == "email"){
+      $("#sent_email_to").removeClass("hide");
+    }
   });
 
 } // end of ready

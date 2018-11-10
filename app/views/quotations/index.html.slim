@@ -15,9 +15,10 @@ table.table.quotation-table role="datatable" data-url="#{quotations_path(format:
   thead
     tr
       th Created at
+      th Title
       th Content
       th Project
-      th User
+      th Created by
       th Option
 
   tbody
@@ -36,7 +37,7 @@ table.table.quotation-table role="datatable" data-url="#{quotations_path(format:
 
 #quotation_export_modal_wrapper
 
-/ script type="text/html" id="quotation_export_modal_template"
+script type="text/html" id="quotation_export_modal_template"
   = render 'quotations/export_modal'
 
 .filter

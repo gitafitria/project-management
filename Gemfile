@@ -68,7 +68,7 @@ gem 'simple_form'
 gem 'prawn' # pdf generator
 
 gem 'carrierwave', '~> 1.0' # for upload file
-gem 'mini_magick' # ActiveRecord + carrierwave for ckeditor
+# gem 'mini_magick' # ActiveRecord + carrierwave for ckeditor
 
 gem 'wicked_pdf' # generate pdf from html
 gem 'wkhtmltopdf-binary' # generate pdf from html
@@ -77,5 +77,7 @@ gem 'will_paginate'
 gem 'chosen-rails'
 gem 'has_scope'
 
-gem 'ckeditor', github: 'galetahub/ckeditor'
 gem 'jquery-ui-rails', '6.0.1'
+
+# Text editor WYSISYG
+gem 'trix'

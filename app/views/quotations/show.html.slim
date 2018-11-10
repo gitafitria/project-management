@@ -1,18 +1,44 @@
-p#notice = notice
+.row
+  .col-md-7
+    .panel.panel-default
+      .panel-heading
+        = "Quotation: "
+        label = @quotation.title rescue "No title"
+      .panel-body
+        = raw @quotation.content
+  .col-md-5
+    .panel.panel-info
+      .panel-heading
+        | Detail
 
-p
-  strong Content:
-  = @quotation.content
-p
-  strong User:
-  = @quotation.user_id
-p
-  strong Project:
-  = @quotation.project_id
-p
-  strong Is valid:
-  = @quotation.is_valid
+      .panel-body
 
-=> link_to 'Edit', edit_quotation_path(@quotation)
-'|
-=< link_to 'Back', quotations_path
+        .row.form-group
+          .col-md-4
+            strong Title
+          .col-md-8
+            = @quotation.title
+
+        .row.form-group
+          .col-md-4
+            strong Created by
+          .col-md-8
+            - if @quotation.user.nil?
+              = @quotation.email
+            - else
+              = fullname(@quotation.user)
+
+        .row.form-group
+          .col-md-4
+            strong Project
+          .col-md-8
+            - if @quotation.project_id.nil?
+              = link_to "create as new project", "#"
+            - else
+              = link_to @quotation.project.project_name, @quotation.project
+
+        .row
+          .col-md-12.text-right
+            = link_to 'Edit', edit_quotation_path(@quotation), class: "btn btn-link btn-sm"
+            / = " "
+            / = link_to 'Back', quotations_path, class: "btn btn-link btn-sm"
