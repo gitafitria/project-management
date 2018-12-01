@@ -6,15 +6,8 @@
       .col-md-4.text-right
         = link_to 'Edit', edit_document_path(@document), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
         = " "
-        .btn-group
-          button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-            = "Export file "
-            span class="caret"
-          ul.dropdown-menu
-            li
-              = link_to "Download as PDF", download_document_pdf_path(@document), target: :blank
-            li
-              = link_to "Send via email", download_document_email_path(@document), remote: true
+        = document_export_link(@document, "btn btn-xs btn-info")
+
   .panel-body
     .row.form-group
       .col-md-2
@@ -48,17 +41,13 @@
         = " ("
         = link_to "show", @document.doc_file_url, target: "_blank"
         = ")"
-    / .row.form-group
-    /   .col-md-2
-    /     | Preview document
-    /   .col-md-9
-    /     = @document.doc_file
-    /     hr
-    /     / iframe src="#{@document.doc_file}" frameborder='0'
-    /     object data="#{Rails.root.join(@document.doc_file.to_s  )}" type="application/pdf" width="100%" height="100%"
-    /     hr
-        / iframe src="https://view.officeapps.live.com/op/embed.aspx?src=localhost:3000/#{@document.doc_file}&embedded=true" frameborder='0'
 
 => link_to 'Edit', edit_document_path(@document)
 '|
 =< link_to 'Back', documents_path
+
+#document_export_modal_wrapper
+
+script type="text/html" id="document_export_modal_template"
+  = render 'documents/export_modal'
+

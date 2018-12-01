@@ -7,9 +7,15 @@
       .panel-body
         = raw @quotation.content
   .col-md-5
-    .panel.panel-info
+    .panel.panel-warning
       .panel-heading
-        | Detail
+        .row
+          .col-md-8
+            | Detail
+          .col-md-4.text-right
+            = link_to 'Edit', edit_quotation_path(@quotation), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
+            = " "
+            = quotation_export_link(@quotation, "btn btn-xs btn-info")
 
       .panel-body
 
@@ -37,8 +43,7 @@
             - else
               = link_to @quotation.project.project_name, @quotation.project
 
-        .row
-          .col-md-12.text-right
-            = link_to 'Edit', edit_quotation_path(@quotation), class: "btn btn-link btn-sm"
-            / = " "
-            / = link_to 'Back', quotations_path, class: "btn btn-link btn-sm"
+#quotation_export_modal_wrapper
+
+script type="text/html" id="quotation_export_modal_template"
+  = render 'quotations/export_modal'

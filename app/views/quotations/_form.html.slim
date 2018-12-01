@@ -30,7 +30,12 @@ hr
           .col-md-2
             = f.label :user, label: "Created by"
           .col-md-6
-            = f.association :user, label: false, value_method: :id, label_method: :first_name, input_html: {value: current_user.id}
+            / = f.input :user, label: false, value_method: :id, label_method: :first_name, input_html: {value: current_user.id}
+
+            = f.input :user_id, label: false, input_html: {value: project_created_by(quotation).id}, as: :hidden
+            .form-group
+              = f.text_field "quotation_user_name", value: project_user_name(quotation), class: "form-control string required", disabled: true
+
       - else
         .row
           .col-md-2

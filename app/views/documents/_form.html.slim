@@ -17,7 +17,10 @@ hr
         .col-md-3
           = f.label :user, label: "Created by"
         .col-md-7
-          = f.association :user, value_method: :id, label_method: :first_name, class: "form-control", label: false
+          / = f.association :user, value_method: :id, label_method: :first_name, class: "form-control", label: false
+          = f.input :user_id, label: false, input_html: {value: project_created_by(@document).id}, as: :hidden
+          .form-group
+            = f.text_field "document_user_name", value: project_user_name(@document), class: "form-control string required", disabled: true
 
       .row.form-group
         .col-md-3

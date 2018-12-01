@@ -1,14 +1,16 @@
 module QuotationsHelper
   def quotation_show_link(quotation)
-    link_to "Show", quotation, class: "btn btn-link"
+    link_to "Show", quotation, data: {turbolinks: false}, class: "btn btn-link"
   end
 
   def quotation_edit_link(quotation)
     link_to 'Edit', edit_quotation_path(quotation), data: {turbolinks: false}, class: "btn btn-link"
   end
 
-  def quotation_export_link(quotation)
-    link_to 'Export', "#", class: "quotation-export-link btn btn-link", data: {quotation: quotation, pdf_url: download_quotation_pdf_path(quotation), email_url: download_quotation_email_path(quotation)}
+  def quotation_export_link(quotation, class_optional = "")
+    class_optional = "btn btn-link" if class_optional.blank?
+
+    link_to 'Export', "#", class: "quotation-export-link #{class_optional}", data: {quotation: quotation, pdf_url: download_quotation_pdf_path(quotation), email_url: download_quotation_email_path(quotation)}
   end
 
   def quotation_option_links(quotation)

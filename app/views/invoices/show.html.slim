@@ -6,15 +6,13 @@
       .col-md-4.text-right
         = link_to 'Edit', edit_invoice_path(@invoice), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
         = " "
-        .btn-group
-          button type="button" class="btn btn-xs btn-info dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"
-            = "Export file "
-            span class="caret"
-          ul.dropdown-menu
-            li
-              = link_to "Download as PDF", download_invoice_pdf_path(@invoice), target: :blank
-            li
-              = link_to "Send via email", download_invoice_email_path(@invoice), remote: true
+        = invoice_export_link(@invoice, "btn btn-xs btn-info")
+
   .panel-body
     = render 'invoice_detail_template', invoice: @invoice
-    
+
+#invoice_export_modal_wrapper
+
+script type="text/html" id="invoice_export_modal_template"
+  = render 'invoices/export_modal'
+
