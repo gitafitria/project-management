@@ -32,7 +32,7 @@
             - if @quotation.user.nil?
               = @quotation.email
             - else
-              = fullname(@quotation.user)
+              = @quotation.user.full_name
 
         .row.form-group
           .col-md-4

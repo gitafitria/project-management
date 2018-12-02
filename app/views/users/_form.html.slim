@@ -1,9 +1,6 @@
-h2 User Form
-hr
-
 .row.form-group#invoice_form
   .col-md-10
-    = simple_form_for user do |f|
+    = simple_form_for user, html: { remote: true , class: "user-form"} do |f|
 
       .row
         .col-md-4

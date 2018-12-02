@@ -1,0 +1,31 @@
+| $(".form-group").removeClass("has-error");
+| $(".error-message").remove();
+
+- if @user.errors.any?
+  | console.log("#{j @user.errors.full_messages.to_s}");
+  | var wrapper = $(".user-form");
+  - @user.errors.each do |field, msg|
+    | var errorMessage = "<div class='error-message alert alert-danger alert-small'>#{j msg}</div>";
+    | wrapper.find("#user_#{j field.to_s}").closest('.form-group').addClass('has-error');
+    | wrapper.find("#user_#{j field.to_s}").after(errorMessage);
+
+- else
+  - if @from_project.present?
+    - id = @user.id
+    - client_name = "#{@user.first_name} #{@user.last_name}"
+    - email = @user.email
+
+    | $("#add_client_modal").modal('hide');
+    | renderClientOnProjectForm("#{j id.to_s }", "#{j client_name}", "#{email}");
+    | $("#new_client_project_wrapper").html("#{j render 'users/new_client_form' }");
+    | $("#client_not_found").remove();
+    | $(".client-autocomplete").val("");
+    | $(".modal-backdrop").remove();
+    | $("body").removeClass("modal-open");
+    | $("body").removeAttr("style");
+
+  - else
+    | Turbolinks.visit("#{ user_path(@user) }");
+    
+  | $("#notifications").replaceWith("#{j render 'layouts/notifications'}");
+  | animateNotification();

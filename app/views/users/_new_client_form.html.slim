@@ -1,0 +1,40 @@
+- user = User.new(role: 'client')
+= simple_form_for user, html: { remote: true, class: "user-form" } do |f|
+  .modal.modal-right.fade tabindex="-1" role="dialog" id="add_client_modal"
+    .modal-dialog role="document" 
+      .modal-content 
+        .modal-header
+          button type="button" class="close" data-dismiss="modal" aria-label="Close"
+            span aria-hidden="true" &times;
+          h4 class="modal-title" Add new client
+        
+        .modal-body 
+          .row
+            .col-md-4
+              = f.label :first_name
+            .col-md-8
+              = f.input :first_name, label: false
+
+          .row
+            .col-md-4
+              = f.label :last_name
+            .col-md-8
+              = f.input :last_name, label: false
+
+          .row
+            .col-md-4
+              = f.label :email
+            .col-md-8
+              = f.input :email, label: false
+            
+            - password = user.set_new_password
+            = f.input :password, as: :hidden, input_html: {value: password}
+            = f.input :password_confirmation, as: :hidden, input_html: {value: password}
+
+          = f.input :role, as: :hidden
+          = hidden_field_tag 'from_project', true
+
+        .modal-footer
+          button type="button" class="btn btn-default" data-dismiss="modal" Close
+          / button type="button" class="btn btn-primary" id="add_client_btn" Add milestone
+          = f.submit class: "btn btn-primary"

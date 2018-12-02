@@ -90,17 +90,23 @@ window.clientAutocomplete = () ->
           return
       return
     select: (event, ui) ->
-      new_client_template = "<div class='selected-client'><label>#{ui.item.first_name} #{ui.item.last_name}</label> <small class='secondary-label'>#{ui.item.email}</small></div>"
-      new_client_template = new_client_template + "<input type='hidden' name='project[client_ids][]' value='#{ui.item.id}'>"
-      $("#project_client_ids").append(new_client_template)
+      id = ui.item.id
+      client_name = "#{ui.item.first_name} #{ui.item.last_name}"
+      email = ui.item.email
+      renderClientOnProjectForm(id, client_name, email)
+      # new_client_template = "<div class='selected-client'><label>#{ui.item.first_name} #{ui.item.last_name}</label> <small class='secondary-label'>#{ui.item.email}</small></div>"
+      # new_client_template = new_client_template + "<input type='hidden' name='project[client_ids][]' value='#{ui.item.id}'>"
+      # $("#project_client_ids").append(new_client_template)
       $(".client-autocomplete").val("")
       false
     response: (event, ui) ->
+      new_user_path = $('.client-autocomplete').attr('data-new-client-source')
+      console.log new_user_path
       $("#client_not_found").remove()
       if ui.content.length is 0
-        $(".client-autocomplete").after "<div id='client_not_found' class='help-block'>Client you looking for is not exist, Add new client.</span></div>"
+        $(".client-autocomplete").after "<div id='client_not_found' class='help-block'>Client you were looking for doesn't exist, <a href='#' class='add-new-client-project-btn'>Add new client.</a></span></div>"
       else
-        $("#district_not_found").remove()
+        $("#client_not_found").remove()
       return
 
   # district autocomplete menu formater
@@ -109,6 +115,11 @@ window.clientAutocomplete = () ->
       content = "<label>#{item.first_name} #{item.last_name}</label>"
       content = content + " <small class='secondary-label'>#{item.email}</small>"
       $("<li>").append("<div>" + content + "</div>").appendTo ul
+
+window.renderClientOnProjectForm = (id, client_name, email) ->
+  new_client_template = "<div class='selected-client'><label>#{client_name}</label> <small class='secondary-label'>#{email}</small></div>"
+  new_client_template = new_client_template + "<input type='hidden' name='project[client_ids][]' value='#{id}'>"
+  $("#project_client_ids").append(new_client_template)
 
 ready = ->
 
@@ -167,7 +178,9 @@ ready = ->
 
     renderMilestoneItem("#edit_project_milestone", index, new_record)
 
-  # $("body").on "keyup change", "#client_autocomplete", (e) ->
+  $("body").on "click", ".add-new-client-project-btn", (e) ->
+    e.preventDefault()
+    $("#add_client_modal").modal('show')
   #   e.preventDefault()
   #   clientAutocomplete()
 

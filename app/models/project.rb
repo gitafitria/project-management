@@ -7,10 +7,8 @@ class Project < ApplicationRecord
   has_many :quotations
   has_many :documents
   belongs_to :user
-  has_many :project_clients
 
   accepts_nested_attributes_for :milestones, allow_destroy: true
-  accepts_nested_attributes_for :project_clients, allow_destroy: true
 
   validates :project_name, :user_id, :milestones, :status, presence: true
 

@@ -1,6 +1,6 @@
 module DocumentsHelper
   def document_show_link(document)
-    link_to "Show", document, class: "btn btn-link"
+    link_to "Show", document, class: "btn btn-link", data: {turbolinks: false}
   end
 
   def document_edit_link(document)

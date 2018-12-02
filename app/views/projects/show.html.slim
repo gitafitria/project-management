@@ -1,8 +1,16 @@
-.row
+.row.form-group
   .col-md-8
+    h4 Project Detail
+  .col-md-4.text-right
+    = link_to 'Edit', edit_project_path(@project), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
+    / |  | 
+    / = link_to 'Back', projects_path
+
+.row.form-group
+  .col-md-5
     .panel.panel-info
       .panel-heading
-        | Project detail
+        | Project data
       .panel-body
         .row.form-group
           .col-md-3
@@ -35,6 +43,18 @@
             = @project.status.titleize
 
   .col-md-4
+    .panel.panel-success
+      .panel-heading
+        | Clients
+      .panel-body
+        - @project.clients.each do |client|
+          div
+            strong = client.full_name
+            br
+            = client.email
+          hr
+
+  .col-md-3
     .panel.panel-brown
       .panel-heading
         | Milestone
@@ -53,7 +73,7 @@
         div.text-right
           = link_to "Add milestone(s)", "#", data: {toggle: "modal", target: "#add_milestone"}
 
-.row
+.row.form-group
   .col-md-4
     .panel.panel-warning
       .panel-heading
@@ -107,10 +127,6 @@
         
         div.text-right
           = link_to 'Add quotation', new_quotation_path
-
-= link_to 'Edit', edit_project_path(@project)
-|  | 
-= link_to 'Back', projects_path
 
 / script type="text/html" id="add_milestone_template"
 /   = render 'projects/form/add_milestone_template'

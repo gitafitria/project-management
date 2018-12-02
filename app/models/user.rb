@@ -6,6 +6,8 @@ class User < ApplicationRecord
 
   enum role: USER_ROLES
 
+  validates :first_name, :last_name, presence: true
+
   scope :by_name, -> key do
     where("lower(users.first_name) like lower('%#{key}%') or lower(users.last_name) like lower('%#{key}%')")
   end
@@ -15,4 +17,8 @@ class User < ApplicationRecord
     p SecureRandom.hex(10)
   end
 
+  def full_name
+    "#{self.first_name} #{self.last_name}"
+  end
+  
 end

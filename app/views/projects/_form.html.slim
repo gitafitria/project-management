@@ -43,8 +43,8 @@ hr
         .col-md-3
           = f.label :status
         .col-md-9
-          = f.input :status, collection: Project.statuses.map{|k, v| [k.titleize, k]}, input_html: {class: 'form-group'}, as: :radio_buttons
-          / = f.collection_radio_buttons :status, [[true, 'Approve'] ,[false, 'Wait']], :first, :last, input_html: {class: 'form-group'}
+          - project_status = Project.statuses.map{|k, v| [k, " #{k.titleize}"]}
+          = f.collection_radio_buttons :status, project_status, :first, :last,item_wrapper_tag: :div    
 
       hr
       .row.form-group
@@ -110,8 +110,11 @@ hr
 br
 br
 
-  script type="text/html" id="add_milestone_template"
-    = render 'projects/form/add_milestone_template'
+#new_client_project_wrapper
+  = render 'users/new_client_form'
 
-  script type="text/html" id="delete_milestone_template"
-    = render 'projects/form/delete_milestone_template'
+script type="text/html" id="add_milestone_template"
+  = render 'projects/form/add_milestone_template'
+
+script type="text/html" id="delete_milestone_template"
+  = render 'projects/form/delete_milestone_template'

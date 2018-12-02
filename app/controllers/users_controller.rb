@@ -18,13 +18,24 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @from_project = params[:from_project]
     if @user.save
       # sign_out(@user)
       # UserMailer.signup_confirmation(@user).deliver
       @user.send_reset_password_instructions
-      redirect_to user_path(@user)
+      if @from_project.present?
+        respond_to do |format|
+          format.js
+        end
+      else
+        redirect_to user_path(@user)
+      end
     else
-      render :new
+      respond_to do |format|
+        format.html { render :new }
+        format.js
+      end
+
     end
   end
 
