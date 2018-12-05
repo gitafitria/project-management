@@ -6,9 +6,12 @@
   | var wrapper = $("#invoice_form");
   - @invoice.errors.each do |field, msg|
     | var errorMessage = "<div class='error-message alert alert-danger alert-small'>#{j msg}</div>";
-    | wrapper.find("#invoice_#{j field.to_s}").closest('.form-group').addClass('has-error');
-    | wrapper.find("#invoice_#{j field.to_s}").after(errorMessage);
-
+    - if field.to_s == "recipient_ids"
+      | wrapper.find("#invoice_recipients").addClass('has-error');
+      | wrapper.find("#recipient_autocomplete").after(errorMessage);
+    - else
+      | wrapper.find("#invoice_#{j field.to_s}").closest('.form-group').addClass('has-error');
+      | wrapper.find("#invoice_#{j field.to_s}").after(errorMessage);
 - else
   | Turbolinks.visit("#{ invoice_path(@invoice) }");
   | $("#notifications").replaceWith("#{j render 'layouts/notifications'}");

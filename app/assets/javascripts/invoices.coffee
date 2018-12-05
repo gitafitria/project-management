@@ -27,16 +27,6 @@ window.invoiceDataTablesLoad = () ->
     'fnDrawCallback': ->
       $(".invoice-modal").modal('hide')
       return
-      #   # show data table to the top of page when switch pagination
-      #   $('html, body').animate { scrollTop: $('body').offset().top }, 'slow'
-      #   filterDataOption()
-      #   updateExportFilter()
-      #   showHideTableColumn()
-      #   isolateFilterLabel()
-      #   $('.new-slide-panel').css 'display', 'none'
-      #   checkIt()
-      #   tooltipAndPopoverShow()
-      #   # counterCheck()
     'aoColumnDefs': [ {
       'bSortable': false
       'aTargets': [
