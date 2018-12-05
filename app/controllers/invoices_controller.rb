@@ -155,11 +155,12 @@ class InvoicesController < ApplicationController
         :issue_date,
         :due_date,
         :subject,
-        :recipient,
         :status,
         :tax,
         :total_payment,
         :is_valid,
+        :is_tax_included,
+        recipient_ids: [],
         invoice_items_attributes: [
           :id,
           :description,

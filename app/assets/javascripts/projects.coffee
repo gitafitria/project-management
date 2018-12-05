@@ -93,10 +93,9 @@ window.clientAutocomplete = () ->
       id = ui.item.id
       client_name = "#{ui.item.first_name} #{ui.item.last_name}"
       email = ui.item.email
-      renderClientOnProjectForm(id, client_name, email)
-      # new_client_template = "<div class='selected-client'><label>#{ui.item.first_name} #{ui.item.last_name}</label> <small class='secondary-label'>#{ui.item.email}</small></div>"
-      # new_client_template = new_client_template + "<input type='hidden' name='project[client_ids][]' value='#{ui.item.id}'>"
-      # $("#project_client_ids").append(new_client_template)
+      unless $("#selected_client_#{id}").length > 0
+        renderClientOnProjectForm(id, client_name, email)
+
       $(".client-autocomplete").val("")
       false
     response: (event, ui) ->
@@ -117,9 +116,12 @@ window.clientAutocomplete = () ->
       $("<li>").append("<div>" + content + "</div>").appendTo ul
 
 window.renderClientOnProjectForm = (id, client_name, email) ->
-  new_client_template = "<div class='selected-client'><label>#{client_name}</label> <small class='secondary-label'>#{email}</small></div>"
+  new_client_template = "<label>#{client_name}</label> <small class='secondary-label'>#{email}</small>"
   new_client_template = new_client_template + "<input type='hidden' name='project[client_ids][]' value='#{id}'>"
-  $("#project_client_ids").append(new_client_template)
+  new_client_template = new_client_template + " <a class='btn btn-link remove-client-btn'>Remove</a>"
+
+  template = "<div class='selected-client' id='selected_client_#{id}'>" + new_client_template + "</div>"
+  $("#project_client_ids").append(template)
 
 ready = ->
 
@@ -183,6 +185,10 @@ ready = ->
     $("#add_client_modal").modal('show')
   #   e.preventDefault()
   #   clientAutocomplete()
+
+  $("body").on "click", ".remove-client-btn", (e) ->
+    e.preventDefault()
+    $(this).closest(".selected-client").remove()
 
 $(document).ready(ready);
 $(document).on('page:change', ready);

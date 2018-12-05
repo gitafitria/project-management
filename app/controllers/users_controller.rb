@@ -2,6 +2,7 @@ class UsersController < ApplicationController
   before_action :set_user, only: [:show, :edit, :update, :destroy]
 
   has_scope :by_name
+  has_scope :by_project
 
   respond_to :js, :html, :json
 

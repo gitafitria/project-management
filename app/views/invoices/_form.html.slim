@@ -53,19 +53,37 @@ hr
         .col-md-8
           = f.input :subject, label: false
 
-      .row
+      .row#invoice_recipients class="#{'hide' if invoice.new_record?}"
         .col-md-4
-          = f.label :recipient
+          = f.label :recipient_ids, label: "Recipient"
         .col-md-8
-          = f.input :recipient, label: false
+          .row.form-group
+            .col-md-12
+              = text_field_tag 'recipient_autocomplete', '', placeholder: 'Find recipient name', class: 'form-control recipient-autocomplete select-on-change', data: { source: clients_path }
+          .row.form-group
+            .col-md-12
+              #invoice_client_ids
+                - unless invoice.recipient.blank?
+                  - invoice.recipient.each do |recipient|
+                    .selected-recipient
+                      label
+                        = "#{recipient.full_name} "
+                      small.secondary-label
+                        = recipient.email
+                      input type='hidden' name='invoice[recipient_ids][]' value='#{recipient.id}'
 
       .row
         .col-md-4
           = f.label :tax
-        .col-md-2
-          .input-group
-            = f.input :tax, label: false
-            span class="input-group-addon" %
+        .col-md-8
+          .row
+            .col-md-4
+              .input-group
+                = f.input :tax, label: false
+                span class="input-group-addon" %
+            .col-md-6
+              = f.input :is_tax_included, label: " tax included"
+
 
       hr
       .text-center
@@ -89,7 +107,10 @@ hr
 
         #invoice_items_new
           - if invoice.invoice_items.any?
+            - invoice_item_count = @invoice.invoice_items.count
+            - i = 0
             = f.fields_for :invoice_items, @invoice.invoice_items do |z|
+              - i = i + 1
               .row.invoice-item-form data-id="#{z.object.id}"
                 .col-md-7
                   = z.input :id, label: false, as: :hidden
@@ -97,29 +118,56 @@ hr
                 .col-md-2
                   = z.input :quantity, label: false
                 .col-md-2
-                  = z.input :unit_price, label: false
+                  = z.input :unit_price, label: false, input_html: {class: "invoice-unit-price"}
                 .col-md-1
                   .row
-                    .col-md-12
+                    .col-md-6
+                      = link_to "#", class: "btn btn-primary add-invoice-item-btn" do
+                        | +
+                    .col-md-6 class="#{'hidden' if invoice_item_count == i}"
                       = link_to "#", class: "btn btn-danger remove-invoice-item-btn" do
                         | -
 
-          = f.fields_for :invoice_items, @invoice.invoice_items.build do |ff|
-            .row.invoice-item-form
-              .col-md-7
-                = ff.input :description, label: false
-              .col-md-2
-                = ff.input :quantity, label: false
-              .col-md-2
-                = ff.input :unit_price, label: false
-              .col-md-1
-                .row
-                  .col-md-6
-                    = link_to "#", class: "btn btn-primary add-invoice-item-btn" do
-                      | +
-                  .col-md-6.hidden
-                    = link_to "#", class: "btn btn-danger remove-invoice-item-btn" do
-                      | -
+          - else
+            = f.fields_for :invoice_items, @invoice.invoice_items.build do |ff|
+              .row.invoice-item-form
+                .col-md-7
+                  = ff.input :description, label: false
+                .col-md-2
+                  = ff.input :quantity, label: false
+                .col-md-2
+                  = ff.input :unit_price, label: false, input_html: {class: "invoice-unit-price"}
+                .col-md-1
+                  .row
+                    .col-md-6
+                      = link_to "#", class: "btn btn-primary add-invoice-item-btn" do
+                        | +
+                    .col-md-6.hidden
+                      = link_to "#", class: "btn btn-danger remove-invoice-item-btn" do
+                        | -
+
+        #invoice_tax_payment_wrapper class="#{'hide' if invoice.is_tax_included}"
+          .row
+            .col-md-9.text-right
+              h4: strong Tax
+            .col-md-2.text-right
+              h4.text-bold#invoice_tax_payment
+                - if invoice.new_record?
+                  = "0"
+                - else
+                  = invoice.tax_payment
+
+        #invoice_total_payment_wrapper
+          .row
+            .col-md-9.text-right
+              h4: strong Total
+            .col-md-2.text-right
+              h4.text-bold#invoice_total_payment
+                - if invoice.new_record?
+                  = "0"
+                - else
+                  = invoice.grand_total_payment
+
       br
       .form-group.text-right
         = f.submit class: "btn btn-primary"

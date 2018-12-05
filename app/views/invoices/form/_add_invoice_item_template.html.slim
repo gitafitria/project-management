@@ -7,12 +7,12 @@
       input class="form-control numeric integer optional" type="number" step="1" name="invoice[invoice_items_attributes][{{idx}}][quantity]"
   .col-md-2
     .form-group.integer.optional
-      input class="form-control numeric integer optional" type="number" step="1" name="invoice[invoice_items_attributes][{{idx}}][unit_price]"
+      input class="form-control numeric integer optional invoice-unit-price" type="number" step="1" name="invoice[invoice_items_attributes][{{idx}}][unit_price]"
   .col-md-1
     .row
       .col-md-6
         a class="btn btn-primary add-invoice-item-btn" href="#"
           | +
-      .col-md-6.hidden
+      .col-md-6
         a class="btn btn-danger remove-invoice-item-btn" href="#"
           | -

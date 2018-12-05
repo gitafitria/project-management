@@ -8,8 +8,9 @@ window.renderInvoiceItem = ($this, index) ->
     idx: index
 
   options_wrapper = invoice_item_list_wrapper.find(".add-invoice-item-btn").closest(".row")
-  options_wrapper.find(".hidden").removeClass("hidden")
-  invoice_item_list_wrapper.find(".add-invoice-item-btn").closest(".col-md-6").remove()
+  unless $(".invoice-item-form").length == 1
+    options_wrapper.find(".hidden").removeClass("hidden")
+    # invoice_item_list_wrapper.find(".add-invoice-item-btn").closest(".col-md-6").remove()
 
   invoice_item_list_wrapper.after(Mustache.render(add_invoice_item_template, data))
 
@@ -48,7 +49,86 @@ window.invoiceDataTablesReset = () ->
   table = invoiceDataTablesLoad()
   table.ajax.reload()
 
+# Select client using autocomplete
+# This autocomplete return id of client (user)
+#
+window.recipientAutocomplete = () ->
+  recipient = $(".recipient-autocomplete").autocomplete
+    minLength: 1
+    source: (request, response) ->
+      $.ajax
+        url: $(".recipient-autocomplete").data("source")
+        dataType: 'json'
+        data:
+          by_name: request.term
+          by_project: $("#invoice_project_id").val()
+        success: (data) ->
+          response data
+          console.log data
+          return
+      return
+    select: (event, ui) ->
+      id = ui.item.id
+      recipient_name = "#{ui.item.first_name} #{ui.item.last_name}"
+      email = ui.item.email
+      unless $("#selected_recipient_#{id}").length > 0
+        renderRecipientOnInvoiceForm(id, recipient_name, email)
+      $(".recipient-autocomplete").val("")
+      false
+    response: (event, ui) ->
+      new_user_path = $('.recipient-autocomplete').attr('data-new-recipient-source')
+      console.log new_user_path
+      $("#recipient_not_found").remove()
+      if ui.content.length is 0
+        $(".recipient-autocomplete").after "<div id='recipient_not_found' class='help-block'>recipient you were looking for doesn't exist</div>"
+      else
+        $("#recipient_not_found").remove()
+      return
+
+  # district autocomplete menu formater
+  unless recipient.data("ui-autocomplete") is undefined
+    recipient.data("ui-autocomplete")._renderItem = (ul, item) ->
+      content = "<label>#{item.first_name} #{item.last_name}</label>"
+      content = content + " <small class='secondary-label'>#{item.email}</small>"
+      $("<li>").append("<div>" + content + "</div>").appendTo ul
+
+window.renderRecipientOnInvoiceForm = (id, client_name, email) ->
+  new_client_template = "<label>#{client_name}</label> <small class='secondary-label'>#{email}</small>"
+  new_client_template = new_client_template + "<input type='hidden' name='project[client_ids][]' value='#{id}'>"
+  new_client_template = new_client_template + " <a class='btn btn-link remove-recipient-btn'>Remove</a>"
+  template = "<div class='selected-recipient' id='selected_recipient_#{id}'>" + new_client_template + "</div>"
+  $("#invoice_client_ids").append(template)
+
+window.updateInvoiceTotalPayment = () ->
+  total_payment = 0
+
+  # Count total payment
+  $(".invoice-unit-price").each () ->
+    unit_price = $(this).val()
+
+    if unit_price == ""
+      unit_price = 0
+
+    total_payment = total_payment + parseInt(unit_price)
+
+  # Calculate tax
+  if ($("#invoice_is_tax_included").prop("checked") == false)
+    tax = parseInt($("#invoice_tax").val())
+    total_tax = total_payment * tax / 100
+
+    total_payment = total_payment + total_tax
+    $("#invoice_tax_payment").html(total_tax)
+
+    $("#invoice_tax_payment_wrapper").removeClass("hide")
+  else
+    $("#invoice_tax_payment_wrapper").addClass("hide")
+
+  # Submit Grand total payment
+  $("#invoice_total_payment").html(total_payment)
+
 ready = ->
+
+  recipientAutocomplete()
 
   $("body").on "click", ".add-invoice-item-btn", (e) ->
     e.preventDefault();
@@ -72,6 +152,8 @@ ready = ->
       data =
         index: index
       current_invoice_item.replaceWith(Mustache.render(delete_template, data))
+
+    updateInvoiceTotalPayment()
 
   $("body").on "click", ".invoice-export-link", (e) ->
     e.preventDefault()
@@ -129,6 +211,34 @@ ready = ->
         console.log "masuk pak eko!"
         chosen_wrapper.first().append('<option value="' + $(event.target).val() + '" selected="selected">' + $(event.target).val() + '</option>');
         chosen_wrapper.first().trigger('chosen:updated');
+
+  $("body").on "change", "#invoice_project_id", (e) ->
+    e.preventDefault()
+    project_id = $(this).val()
+    $("#invoice_recipients").find("#invoice_client_ids").html("")
+    $("#recipient_autocomplete").val("")
+    $("#recipient_not_found").remove()
+
+    if project_id == ''
+      $("#invoice_recipients").addClass "hide"
+    else
+      $("#invoice_recipients").removeClass "hide"
+
+  $("body").on "click", ".remove-recipient-btn", (e) ->
+    e.preventDefault()
+    $(this).closest(".selected-recipient").remove()
+
+  $("body").on "keyup change", ".invoice-unit-price", (e) ->
+    e.preventDefault()
+    updateInvoiceTotalPayment()
+
+  $("body").on "keyup change", "#invoice_tax", (e) ->
+    e.preventDefault()
+    updateInvoiceTotalPayment()
+
+  $("body").on "change", "#invoice_is_tax_included", (e) ->
+    e.preventDefault()
+    updateInvoiceTotalPayment()
 
 $(document).ready(ready);
 $(document).on('page:change', ready);

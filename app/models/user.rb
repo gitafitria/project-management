@@ -12,6 +12,13 @@ class User < ApplicationRecord
     where("lower(users.first_name) like lower('%#{key}%') or lower(users.last_name) like lower('%#{key}%')")
   end
 
+  scope :by_project, -> project_id do
+    project = Project.find(project_id)
+    client_ids = project.client_ids
+
+    where("users.id in (?)", client_ids)
+  end
+
   def set_new_password
     # (0...8).map { (65 + rand(26)).chr }.join
     p SecureRandom.hex(10)
@@ -20,5 +27,5 @@ class User < ApplicationRecord
   def full_name
     "#{self.first_name} #{self.last_name}"
   end
-  
+
 end
