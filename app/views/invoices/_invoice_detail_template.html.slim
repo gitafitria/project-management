@@ -10,7 +10,7 @@
     .logo-tag
       | Developing software from the island of God
 
-  .title.text-right 
+  .title.text-right
     = "Invoice".upcase
 
   .invoice-meta
@@ -36,14 +36,16 @@
             .heading
               = "date ".upcase
             = invoice.issue_date.strftime("%b %d, %Y")
-  
+
   .invoice-address
     .row
       .col-md-8
         .heading
           = "to".upcase
         br
-        = invoice.recipient
+        - invoice.recipients.each do |r|
+          = r.full_name
+          br
 
       .col-md-4
         .text-right
@@ -65,11 +67,11 @@
             - invoice.invoice_items.each do |item|
               tr
                 td
-                  = item.description 
+                  = item.description
                 td.text-center
-                  = item.quantity 
+                  = item.quantity
                 td.text-right
-                  = item.unit_price 
+                  = item.unit_price
             tr
               td colspan="2" class="heading-style"
                 = "Total"
@@ -103,5 +105,5 @@
         | : CV. URREMOTE
 
     br
-    p 
+    p
       = "Selambat-lambatnya #{(invoice.due_date - invoice.issue_date).to_i} hari sejak tanggal invoice."

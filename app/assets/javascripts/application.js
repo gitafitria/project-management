@@ -23,6 +23,8 @@
 //= require dataTables.bootstrap.min
 //= require chosen-jquery
 //= require trix
+//= require raphael
+//= require morris
 
 //= require_tree .
 

@@ -15,4 +15,23 @@ module InvoicesHelper
   def invoice_option_links(invoice)
     invoice_show_link(invoice) + invoice_edit_link(invoice) + invoice_export_link(invoice)
   end
+
+  def invoice_orders_chart_data_per_project_this_year
+    orders_per_project = Invoice.invoice_orders_chart_data_per_project_this_year
+    project_ids = orders_per_project.keys
+
+    project = Project.where("id IN (?)", project_ids)
+    projects_data = {}
+    project.each { |p| projects_data[p.id] = p.project_name}
+
+    data = []
+    orders_per_project.each do |project_id, total|
+
+      invoice_data = { project: projects_data[project_id], total: total}
+
+      data.push(invoice_data)
+
+    end
+    data.to_json
+  end
 end

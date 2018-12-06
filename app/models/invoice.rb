@@ -27,6 +27,12 @@ class Invoice < ApplicationRecord
   validates :project_id, :user_id, :recipient_ids, :status, :invoice_number, :subject, :due_date, :issue_date, presence: true
   validates :invoice_number, uniqueness: true
 
+  before_create :set_valid
+
+  def set_valid
+    self.is_valid = true
+  end
+
   def new_invoice_number
     invoices_this_month = Invoice.this_month
     if invoices_this_month.size == 0
@@ -71,4 +77,23 @@ class Invoice < ApplicationRecord
   def grand_total_payment
     total = tax_payment + total_payment
   end
+
+  def recipients
+    users = User.where("id IN (?)", self.recipient_ids)
+    users
+  end
+
+  def self.invoice_orders_chart_data_per_project_this_year
+    today = Date.today
+    orders = where(created_at: today.beginning_of_year..today).where(is_valid: true)
+    orders = orders.group("project_id")
+    orders = orders.select("project_id, count(*) as total_invoice")
+    orders.group_by{|o| o.project_id}
+
+    data = {}
+    orders.each { |e| data[e.project_id.to_i] = e.total_invoice }
+
+    data
+  end
+
 end

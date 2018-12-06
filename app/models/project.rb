@@ -34,4 +34,23 @@ class Project < ApplicationRecord
   def clients
     Client.where("id IN (?)", self.client_ids)
   end
+
+  def self.total_grouped_by_month_this_year
+    today = Date.today
+    orders = where(created_at: today.beginning_of_year..today).where(is_valid: true)
+    orders = orders.group("extract(month from created_at)")
+    orders = orders.select("extract(month from created_at) as month_project, count(*) as total_project")
+    orders.group_by{|o| o.month_project}
+
+    data = {}
+    orders.each { |e| data[e.month_project.to_i] = e.total_project }
+
+    record = {}
+    (1..12).each do |e|
+      count = data[e].nil? ? 0 : data[e]
+      record["#{e}"] = count
+    end
+
+    record
+  end
 end

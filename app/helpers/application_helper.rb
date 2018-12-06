@@ -15,4 +15,25 @@ module ApplicationHelper
     end
   end
 
+  def months
+    months = {}
+    months["1"] = {short: "Jan", long: "Januari"}
+    months["2"] = {short: "Feb", long: "Februari"}
+    months["3"] = {short: "Mar", long: "March"}
+    months["4"] = {short: "Apr", long: "April"}
+    months["5"] = {short: "May", long: "May"}
+    months["6"] = {short: "Jun", long: "June"}
+    months["7"] = {short: "Jul", long: "July"}
+    months["8"] = {short: "Aug", long: "August"}
+    months["9"] = {short: "Sep", long: "September"}
+    months["10"] = {short: "Oct", long: "October"}
+    months["11"] = {short: "Nov", long: "November"}
+    months["12"] = {short: "Dec", long: "December"}
+
+    months
+  end
+
+  def get_month_by_int(num = 1, option = 'short')
+    months[num.to_s][option.to_sym]
+  end
 end

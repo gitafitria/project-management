@@ -63,8 +63,8 @@ hr
           .row.form-group
             .col-md-12
               #invoice_client_ids
-                - unless invoice.recipient.blank?
-                  - invoice.recipient.each do |recipient|
+                - unless invoice.recipient_ids.blank?
+                  - invoice.recipients.each do |recipient|
                     .selected-recipient
                       label
                         = "#{recipient.full_name} "

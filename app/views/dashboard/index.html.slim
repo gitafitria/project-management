@@ -1,1 +1,37 @@
-h4 Halo
+- today = Date.today
+
+div class="jumbotron"
+  h2 = "Good day, #{current_user.full_name}!"
+  p
+    = "Welcome back to "
+    strong = "PMIS "
+    i = "(Project Management Information System)"
+
+  .text-right: p = "#{today.strftime('%A, %d %B %Y')}"
+
+.row.form-group
+  .col-md-12
+    h3
+      = "Summary this year".titleize
+      small = " (#{today.year})"
+
+- if current_user.owner?
+  .row.form-group
+    h3.text-center Projects
+    .col-md-2
+      .panel.panel-default
+        .panel-body
+          h4.text-center = "Total projects"
+          h3.text-center.text-bold = @projects.count
+    .col-md-10
+      = content_tag :div, "", id: "project_chart", data: {project: "#{project_orders_chart_data_this_year}"}
+
+  .row.form-group
+    h3.text-center Invoices
+    .col-md-2
+      .panel.panel-default
+        .panel-body
+          h4.text-center = "Total invoices"
+          h3.text-center.text-bold = @invoices.count
+    .col-md-10
+      = content_tag :div, "", id: "invoice_chart", data: {invoice: "#{invoice_orders_chart_data_per_project_this_year}"}
