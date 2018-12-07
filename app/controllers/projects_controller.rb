@@ -40,6 +40,10 @@ class ProjectsController < ApplicationController
 
     respond_to do |format|
       if @project.save
+        if @project.quotation_id.present?
+          quotation = Quotation.find(@project.quotation_id)
+          quotation.update_attribute(:project_id, @project.id)
+        end
         flash_label = 'Project was successfully created.'
         flash.now[:notice] = flash_label
 
@@ -98,6 +102,7 @@ class ProjectsController < ApplicationController
         :user_id,
         :is_valid,
         :status,
+        :quotation_id,
         client_ids: [],
         milestones_attributes: [
           :id,

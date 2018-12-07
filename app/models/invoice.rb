@@ -83,9 +83,19 @@ class Invoice < ApplicationRecord
     users
   end
 
-  def self.invoice_orders_chart_data_per_project_this_year
+  def self.invoice_orders_chart_data_per_project_this_year(user_id)
     today = Date.today
     orders = where(created_at: today.beginning_of_year..today).where(is_valid: true)
+
+    unless user_id.nil?
+      user = User.find(user_id)
+      if user.client?
+        project_ids = Project.by_clients([user_id]).ids
+
+        orders = orders.where("project_id IN (?)", project_ids)
+      end
+    end
+
     orders = orders.group("project_id")
     orders = orders.select("project_id, count(*) as total_invoice")
     orders.group_by{|o| o.project_id}

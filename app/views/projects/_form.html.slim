@@ -19,6 +19,9 @@ hr
         = render 'projects/form/edit_milestone'
         = render 'projects/form/add_client'
 
+      - if project.quotation_id
+        = f.input :quotation_id, as: :hidden
+
       .row.form-group
         .col-md-3
           = f.label :project_name
@@ -44,7 +47,7 @@ hr
           = f.label :status
         .col-md-9
           - project_status = Project.statuses.map{|k, v| [k, " #{k.titleize}"]}
-          = f.collection_radio_buttons :status, project_status, :first, :last,item_wrapper_tag: :div    
+          = f.collection_radio_buttons :status, project_status, :first, :last,item_wrapper_tag: :div
 
       hr
       .row.form-group
@@ -90,14 +93,32 @@ hr
               #project_client_ids
                 - unless project.clients.blank?
                   - project.clients.each do |client|
-                    .selected-client
+                    .selected-client id='selected_client_#{client.id}'
                       label
                         = "#{client.first_name} #{client.last_name} "
                       small.secondary-label
                         = client.email
                       input type='hidden' name='project[client_ids][]' value='#{client.id}'
-                    / new_client_template = "<div class='selected-client'><label>#{ui.item.first_name} #{ui.item.last_name}</label> <small class='secondary-label'>#{ui.item.email}</small></div>"
-                    / new_client_template = new_client_template + "<input type='hidden' name='project[client_ids][]' value='#{ui.item.id}'>"
+                      a class='btn btn-link remove-client-btn' Remove
+
+                - if project.client_email.present?
+                  - client = User.where("email = ?", project.client_email)
+                  - if client.count == 1
+                    - client = client.first
+                    .selected-client id='selected_client_#{client.id}'
+                      label
+                        = "#{client.first_name} #{client.last_name} "
+                      small.secondary-label
+                        = client.email
+                      input type='hidden' name='project[client_ids][]' value='#{client.id}'
+                      a class='btn btn-link remove-client-btn' Remove
+
+                  - else
+                    .client-email-quotation
+                      label
+                        = project.client_email
+                      = " "
+                      = link_to "Add this client", "#", class: "add-new-client-project-btn", data: {client_email: project.client_email, quotation_id: project.quotation_id}
 
 
           / = link_to "Add client(s)", "#", class: "btn", data: {toggle: "modal", target: "#add_project_client"}

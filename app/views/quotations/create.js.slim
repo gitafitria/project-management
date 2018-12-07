@@ -10,6 +10,9 @@
     | wrapper.find("#quotation_#{j field.to_s}").after(errorMessage);
 
 - else
-  | Turbolinks.visit("#{ quotation_path(@quotation) }");
+  - if @quotation.user_id.present?
+    | Turbolinks.visit("#{ quotation_path(@quotation) }");
+  - else
+    | Turbolinks.visit("#{ root_url }");
   | $("#notifications").replaceWith("#{j render 'layouts/notifications'}");
   | animateNotification();

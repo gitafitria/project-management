@@ -1,1 +1,59 @@
-= @user.inspect
+h2 User detail
+hr
+
+.row
+  .col-md-3
+    .panel.panel-info
+      .panel-heading
+        .row
+          .col-md-7
+            .text-bold PROFILE
+          .col-md-5.text-right
+            = link_to 'Edit', edit_user_path(@user), data: {turbolinks: false}, class: "btn btn-xs btn-default"
+
+      .panel-body
+        .form-group
+          div Name
+          div.text-bold = @user.full_name
+
+        .form-group
+          div Role
+          div.text-bold = @user.role.titleize
+
+        .form-group
+          div Email
+          div.text-bold = @user.email
+
+        .form-group
+          div Created at
+          div.text-bold = @user.created_at.strftime('%A, %d %B %Y')
+
+
+  .col-md-9
+    .panel.panel-default
+      .panel-body
+        .form-group
+          h4
+            strong Your Contributions this year
+            small = " (#{Date.today.year})"
+
+        .row.form-group
+          h4.text-center.text-bold Projects
+          .col-md-2
+            .panel.panel-default
+              .panel-body
+                h4.text-center = "Total projects"
+                h3.text-center.text-bold = @projects.count
+          .col-md-10
+            = content_tag :div, "", id: "project_chart", data: {project: "#{project_orders_chart_data_this_year_by_user(@user.id)}"}
+
+        .row.form-group
+          h4.text-center.text-bold Invoices
+          .col-md-2
+            .panel.panel-default
+              .panel-body
+                h4.text-center = "Total invoices"
+                h3.text-center.text-bold = @invoices.count
+          .col-md-10
+            / = invoice_orders_chart_data_per_project_this_year(@user.id)
+            = content_tag :div, "", id: "invoice_chart", data: {invoice: "#{invoice_orders_chart_data_per_project_this_year(@user.id)}"}

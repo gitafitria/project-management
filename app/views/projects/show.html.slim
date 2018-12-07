@@ -3,7 +3,7 @@
     h4 Project Detail
   .col-md-4.text-right
     = link_to 'Edit', edit_project_path(@project), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
-    / |  | 
+    / |  |
     / = link_to 'Back', projects_path
 
 .row.form-group
@@ -88,13 +88,13 @@
                 = "Subject: #{ms.subject}"
                 = " ( "
                 = link_to "preview", invoice_path(ms)
-                = " )"  
+                = " )"
               hr
         - else
           | -
         div.text-right
           = link_to 'Add invoice', new_invoice_path, data: {turbolinks: false}
-        
+
 
   .col-md-4
     .panel.panel-default
@@ -103,13 +103,18 @@
       .panel-body
         - if @project.documents.any?
           - @project.documents.order("id").each do |ms|
-            = ms.document_name
-            = " ( "
-            = link_to "preview", ms
-            = " )"
+            div
+              strong = ms.document_name
+              = " ( "
+              = link_to "preview", ms
+              = " )"
+            p = "Created at #{ms.created_at.strftime('%A, %d %B %Y')}"
+            p.text-right: i = "Created by #{ms.user.full_name}"
+
+            hr
         - else
           | -
-        
+
         div.text-right
           = link_to 'Add document', new_document_path, data: {turbolinks: false}
 
@@ -120,11 +125,16 @@
       .panel-body
         - if @project.quotations.any?
           - @project.quotations.each do |ms|
-            = ms.inspect
+            strong = ms.title
+            = " ( "
+            = link_to "preview", ms
+            = " )"
+            p = "Created at #{ms.created_at.strftime('%A, %d %B %Y')}"
+            p.text-right: i = "Created by #{ms.user.full_name}"
             hr
         - else
           | -
-        
+
         div.text-right
           = link_to 'Add quotation', new_quotation_path
 
@@ -133,6 +143,6 @@
 
 #new_milestone_form
   = render 'milestones/form', milestone: @project.milestones.new
-  
+
 #edit_milestone_form
 

@@ -1,0 +1,29 @@
+doctype html
+html
+  head
+    title
+      | ProjectManagement
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_include_tag 'application', 'data-turbolinks-track': 'reload'
+
+  body
+    #welcome
+      #welcome_heading
+        .row
+          .col-md-5
+            - logo_url = "logo1.png"
+            - logo_alt = "UrRemote Logo"
+            - logo_class = "urremote-logo"
+
+            br
+            div.form-group
+              = image_tag logo_url, :alt => logo_alt, class: logo_class
+            h5: i Developing software from the island of God
+
+          .col-md-7
+            = render 'navbar_visitor'
+
+    .container
+      == render 'quotations/form', quotation: @quotation

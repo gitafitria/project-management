@@ -8,7 +8,9 @@ class Quotation < ApplicationRecord
   scope :by_creators, -> by_creators { where("quotations.user_id in (?)", by_creators) }
 
   # VALIDATIONS
-  validates :content, :project_id, :user_id, presence: true
+  validates :content, :title, presence: true
+  validates :project_id, presence: true, if: Proc.new{|e| e.user_id.present? }
+  validates :email, presence: true, if: Proc.new{|e| e.user_id.nil? }
 
   def self.projects_list
     Project.where("id IN (?)", Invoice.all.collect(&:project_id).uniq)

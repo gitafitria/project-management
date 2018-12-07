@@ -1,7 +1,7 @@
 class QuotationsController < ApplicationController
   before_action :authenticate_user!, except: [:new, :create]
 
-  before_action :set_quotation, only: [:show, :edit, :update, :destroy, :pdf, :export_email]
+  before_action :set_quotation, only: [:show, :edit, :update, :destroy, :pdf, :export_email, :create_project]
 
   respond_to :html, :js, :json
   has_scope :by_projects, type: :array
@@ -118,6 +118,10 @@ class QuotationsController < ApplicationController
     respond_to do |format|
       format.js
     end
+  end
+
+  def create_project
+    @project = Project.new(project_name: @quotation.title, quotation_id: @quotation.id, client_email: @quotation.email)
   end
 
   private

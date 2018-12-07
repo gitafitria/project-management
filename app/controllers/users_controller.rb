@@ -11,6 +11,14 @@ class UsersController < ApplicationController
   end
 
   def show
+    today = Date.today
+    @projects = Project.where(is_valid: true).where(created_at: today.beginning_of_year..today)
+    @invoices = Invoice.where(is_valid: true)
+
+    if @user.client?
+      @projects = @projects.where("projects.client_ids @> ARRAY[?]", @user.id)
+      @invoices = @invoices.where("project_id IN (?)", @projects.ids)
+    end
   end
 
   def new
@@ -20,9 +28,15 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
     @from_project = params[:from_project]
+    @quotation_id = params[:quotation_id]
+
     if @user.save
       # sign_out(@user)
       # UserMailer.signup_confirmation(@user).deliver
+      if quotation_id.present?
+        quotation = Quotation.find(quotation_id)
+        quotation.update_attribute(:user_id, @user.id)
+      end
       @user.send_reset_password_instructions
       if @from_project.present?
         respond_to do |format|
@@ -41,7 +55,18 @@ class UsersController < ApplicationController
   end
 
   def update
-    @user.update(user_params)
+    reject_field = ["password", "password_confirmation"]
+
+    new_params = user_params
+
+    if new_params[:password].blank?
+      reject_field.each do |rf|
+        new_params = new_params.except(rf.to_sym)
+      end
+    end
+
+    @user.update(new_params)
+
     respond_with @user
   end
 

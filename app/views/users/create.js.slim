@@ -21,11 +21,13 @@
     | $("#client_not_found").remove();
     | $(".client-autocomplete").val("");
     | $(".modal-backdrop").remove();
+
+    | $(".client-email-quotation").remove();
     | $("body").removeClass("modal-open");
     | $("body").removeAttr("style");
 
   - else
     | Turbolinks.visit("#{ user_path(@user) }");
-    
+
   | $("#notifications").replaceWith("#{j render 'layouts/notifications'}");
   | animateNotification();

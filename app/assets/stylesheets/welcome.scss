@@ -1,3 +1,54 @@
-// Place all the styles related to the Welcome controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+#welcome {
+
+  #welcome_heading {
+    padding: 20px 30px;
+    background: #fff;
+    width: 100%;
+    top: 0;
+  }
+
+  #welcome_body {
+    // border-top: #43b1e8d1 2px solid;
+    .content {
+      font-size: large;
+    }
+
+    .section-head {
+      text-align: center;
+      margin: auto;
+      width: 500px;
+    }
+
+    #our_job {
+      color: #fff;
+      padding: 60px 0;
+      background: linear-gradient(45deg, #6daad6 0%, #5b84d2 50%, #5b84d2 50%, #6daad6 100%);
+    }
+
+    #about_us {
+      color: #fff;
+      padding: 60px 0;
+      background: linear-gradient(45deg, #74BB91 0%, #74BB91 50%, #6EB189 50%, #6EB189 100%);
+    }
+
+    #work_with_us {
+      padding: 60px 0;
+      color: #737477;
+    }
+
+    .text-grey {
+      color: #737477;
+    }
+  }
+}
+
+#navbar_visitor {
+
+  margin-top: 30px;
+
+  li {
+    text-align: center;
+    display: inline-block;
+    list-style-type: none;
+  }
+}

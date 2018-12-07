@@ -16,21 +16,37 @@ module InvoicesHelper
     invoice_show_link(invoice) + invoice_edit_link(invoice) + invoice_export_link(invoice)
   end
 
-  def invoice_orders_chart_data_per_project_this_year
-    orders_per_project = Invoice.invoice_orders_chart_data_per_project_this_year
+  def invoice_orders_chart_data_per_project_this_year(user_id = nil)
+    orders_per_project = Invoice.invoice_orders_chart_data_per_project_this_year(user_id)
     project_ids = orders_per_project.keys
 
-    project = Project.where("id IN (?)", project_ids)
+    project = Project.all
+
+    query = ""
+    if project_ids.nil?
+      query = "id IN (#{project_ids})"
+    end
+
+    unless user_id.nil?
+      user = User.find(user_id)
+
+      if user.client?
+        unless query.blank?
+          query = query + " OR "
+        end
+        query = query + "projects.client_ids @> ARRAY[#{user.id}]"
+      end
+    end
+
+    project = project.where(query)
+
     projects_data = {}
-    project.each { |p| projects_data[p.id] = p.project_name}
 
     data = []
-    orders_per_project.each do |project_id, total|
-
-      invoice_data = { project: projects_data[project_id], total: total}
-
+    project.each do |project|
+      invoice_data = { project: project.project_name }
+      invoice_data[:total] = orders_per_project[project.id] || 0
       data.push(invoice_data)
-
     end
     data.to_json
   end

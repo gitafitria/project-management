@@ -10,7 +10,8 @@ class Project < ApplicationRecord
 
   accepts_nested_attributes_for :milestones, allow_destroy: true
 
-  validates :project_name, :user_id, :milestones, :status, presence: true
+  attr_accessor :quotation_id, :client_email
+  validates :project_name, :user_id, :status, presence: true
 
   before_create :set_valid
   # by_clients
@@ -35,9 +36,17 @@ class Project < ApplicationRecord
     Client.where("id IN (?)", self.client_ids)
   end
 
-  def self.total_grouped_by_month_this_year
+  def self.total_grouped_by_month_this_year(user_id = nil)
     today = Date.today
     orders = where(created_at: today.beginning_of_year..today).where(is_valid: true)
+
+    unless user_id.nil?
+      user = User.find(user_id)
+      if user.client?
+        orders = orders.by_clients([user_id])
+      end
+    end
+
     orders = orders.group("extract(month from created_at)")
     orders = orders.select("extract(month from created_at) as month_project, count(*) as total_project")
     orders.group_by{|o| o.month_project}

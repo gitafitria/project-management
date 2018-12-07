@@ -19,7 +19,7 @@ module QuotationsHelper
 
   def quotation_project(quotation)
     if quotation.project.nil?
-      link_to "create as new project", "#"
+      link_to "create as new project", create_project_quotation_path(quotation), data: {turbolinks: false}
     else
       quotation.project.project_name
     end

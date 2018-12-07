@@ -19,8 +19,12 @@ Rails.application.routes.draw do
   get '/documents/:id/email', to: 'documents#export_email', as: "download_document_email"
   get '/quotations/:id/pdf', to: 'quotations#pdf', as: "download_quotation_pdf"
   get '/quotations/:id/email', to: 'quotations#export_email', as: "download_quotation_email"
+
+  get '/quotations/:id/create_project', to: 'quotations#create_project', as: "create_project_quotation"
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 
   get '/dashboard' => "dashboard#index", as: "dashboard"
   get '/clients' => "users#clients", as: "clients"
+
+  get '/new_quotation' => "welcome#new_quotation", as: "new_quotation_welcome"
 end

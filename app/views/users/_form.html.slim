@@ -19,19 +19,39 @@
           = f.label :email
         .col-md-8
           = f.input :email, label: false
-        
-        - password = user.set_new_password
-        = f.input :password, as: :hidden, input_html: {value: password}
-        = f.input :password_confirmation, as: :hidden, input_html: {value: password}
 
       .row
         .col-md-4
           = f.label :role
-        .col-md-8
+        .col-md-8.form-group
           / = f.input :role, as: :radio_buttons, collection: User.user_roles.map{|k, v| [k, k.humanize.titleize]}, label_method: :second, value_method: :first
           = f.collection_radio_buttons :role, User.roles.map{|k, v| [k.humanize.titleize, k]}, :second, :first, :label => false, wrapper_html: {class: "form-group"}
 
+      - if user.new_record?
+        - password = user.set_new_password
+        = f.input :password, as: :hidden, input_html: {value: password}
+        = f.input :password_confirmation, as: :hidden, input_html: {value: password}
+      - else
+        - if user.id == current_user.id
+          .row
+            .col-md-4
+              = f.label :password
+            .col-md-8
+              = f.input :password, label: false
+
+          .row
+            .col-md-4
+              = f.label :password_confirmation
+            .col-md-8
+              = f.input :password_confirmation, label: false
+
+        - else
+          = f.input :password, as: :hidden
+          = f.input :password_confirmation, as: :hidden
+
       br
       .form-group.text-right
+        = link_to 'Cancel', :back, class: "btn btn-default", data: {turbolinks: false}
+        = " "
         = f.submit class: "btn btn-primary"
       br

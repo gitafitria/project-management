@@ -39,7 +39,7 @@
             strong Project
           .col-md-8
             - if @quotation.project_id.nil?
-              = link_to "create as new project", "#"
+              = link_to "create as new project", create_project_quotation_path(@quotation), data: {turbolinks: false}
             - else
               = link_to @quotation.project.project_name, @quotation.project
 

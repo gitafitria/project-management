@@ -182,9 +182,14 @@ ready = ->
 
   $("body").on "click", ".add-new-client-project-btn", (e) ->
     e.preventDefault()
-    $("#add_client_modal").modal('show')
-  #   e.preventDefault()
-  #   clientAutocomplete()
+    client_email = $(this).attr("data-client-email")
+    unless client_email == undefined
+      quotation_id = $(this).attr("data-quotation-id")
+      # console.log
+      $("#add_client_modal").find("#user_email").val(client_email)
+      $("#add_client_modal").find("#quotation_id").val(quotation_id)
+      $("#add_client_modal").modal('show')
+
 
   $("body").on "click", ".remove-client-btn", (e) ->
     e.preventDefault()
