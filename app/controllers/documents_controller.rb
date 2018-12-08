@@ -9,7 +9,7 @@ class DocumentsController < ApplicationController
   # GET /documents
   # GET /documents.json
   def index
-    @documents = apply_scopes(Document).all
+    @documents = apply_scopes(Document).valid.all
     respond_with do |format|
       format.html
       format.json { render json: DocumentsDatatable.new(view_context, @documents) }
@@ -75,7 +75,8 @@ class DocumentsController < ApplicationController
   # DELETE /documents/1
   # DELETE /documents/1.json
   def destroy
-    @document.destroy
+    @document.is_valid = false
+    @document.save
     respond_to do |format|
       format.html { redirect_to documents_url, notice: 'Document was successfully destroyed.' }
       format.json { head :no_content }

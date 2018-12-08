@@ -12,6 +12,14 @@ class Quotation < ApplicationRecord
   validates :project_id, presence: true, if: Proc.new{|e| e.user_id.present? }
   validates :email, presence: true, if: Proc.new{|e| e.user_id.nil? }
 
+  scope :valid, -> * { where("quotations.is_valid = ?", true) }
+
+  before_create :set_valid
+
+  def set_valid
+    self.is_valid = true
+  end
+
   def self.projects_list
     Project.where("id IN (?)", Invoice.all.collect(&:project_id).uniq)
   end

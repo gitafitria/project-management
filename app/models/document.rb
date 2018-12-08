@@ -10,6 +10,14 @@ class Document < ApplicationRecord
 
   validates :document_name, :project_id, :user_id, :doc_file, presence: true
 
+  scope :valid, -> * { where("documents.is_valid = ?", true) }
+
+  before_create :set_valid
+
+  def set_valid
+    self.is_valid = true
+  end
+
   def self.projects_list
     Project.where("id IN (?)", Invoice.all.collect(&:project_id).uniq)
   end

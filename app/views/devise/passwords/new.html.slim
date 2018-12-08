@@ -1,0 +1,53 @@
+.white-bg
+  .row
+    .col-md-6
+      - logo_url = "logo1.png"
+      - logo_alt = "UrRemote Logo"
+      - logo_class = "urremote-logo"
+
+      br
+      div.form-group
+        = image_tag logo_url, :alt => logo_alt, class: logo_class
+      h5: i Developing software from the island of God
+    .col-md-6.text-right
+      br
+      h2 Reset password
+
+
+.container
+  br
+  br
+  br
+  .row.text-center
+    .col-md-3
+    .col-md-6
+      h2 Forgot your password?
+      h4
+        | PMIS will send password reset instructions to the email address you enter bellow.
+      br
+      = simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :post }) do |f|
+        = f.error_notification
+
+        .form-group
+          .col-md-4
+            = f.label :email
+          .col-md-8
+            = f.input :email,
+                        required: true,
+                        autofocus: true,
+                        input_html: { autocomplete: "email" },
+                        label: false
+
+
+        .form-group
+          .col-md-8.col-md-offset-4.text-right
+            = link_to "Cancel", root_url, class: "btn btn-default"
+            = " "
+            = f.button :submit, "Send", class: "btn btn-info"
+
+      / .row
+      /   .col-md-12.text-left
+      /     br
+      /     br
+      /     = link_to "tes", new_session_path(resource_name), class: "btn btn-success"
+    .col-md-3

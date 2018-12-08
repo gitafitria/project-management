@@ -24,12 +24,15 @@
                   - creators = User.where("id IN (?)", invoice_creators).order("first_name").collect{ |u| [fullname(u), u.id]}
                   = select_tag "by_creators[]", options_for_select(creators, current_scopes[:by_creators]), include_blank: true, multiple: true, class: 'chosen-select form-control'
 
+            - invoice_recipients = Invoice.where(is_valid: true).map(&:recipient_ids)
             .form-group
               label By Recipient
               .row
                 .col-md-12
-                  - invoice_recipients = Invoice.where(is_valid: true).map(&:recipient)
-                  - recipients = User.where("id IN (?)", invoice_recipients).order("first_name").collect{ |u| [fullname(u), u.id]}
+                  - recipient_ids = []
+                  - invoice_recipients.each do |k|
+                    - recipient_ids = recipient_ids + k
+                  - recipients = User.where("id IN (?)", recipient_ids.uniq).order("first_name").collect{ |u| [fullname(u), u.id]}
                   = select_tag "by_recipients[]", options_for_select(recipients, current_scopes[:by_recipients]), include_blank: true, multiple: true, class: 'chosen-select form-control'
 
             .form-group

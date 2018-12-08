@@ -3,6 +3,7 @@
 
 - if @invoice.errors.any?
   | var wrapper = $("#invoice_form");
+  | console.log("#{j @invoice.errors.full_messages.to_s}");
   - @invoice.errors.each do |field, msg|
     | var errorMessage = "<div class='error-message alert alert-danger alert-small'>#{j msg}</div>";
     - if field.to_s == "recipient_ids"

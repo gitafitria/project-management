@@ -20,7 +20,7 @@ module InvoicesHelper
     orders_per_project = Invoice.invoice_orders_chart_data_per_project_this_year(user_id)
     project_ids = orders_per_project.keys
 
-    project = Project.all
+    project = Project.valid.all
 
     query = ""
     if project_ids.nil?

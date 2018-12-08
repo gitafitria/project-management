@@ -38,7 +38,9 @@ class Project < ApplicationRecord
 
   def self.total_grouped_by_month_this_year(user_id = nil)
     today = Date.today
-    orders = where(created_at: today.beginning_of_year..today).where(is_valid: true)
+    end_of_today = today.end_of_day
+
+    orders = where(created_at: today.beginning_of_year..end_of_today).where(is_valid: true)
 
     unless user_id.nil?
       user = User.find(user_id)

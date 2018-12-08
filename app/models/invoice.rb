@@ -22,6 +22,7 @@ class Invoice < ApplicationRecord
     status_int = Invoice.statuses.select{|k, v| k.to_s == by_status}.values.first
     where("invoices.status = ?", status_int)
   end
+  scope :valid, -> * { where("invoices.is_valid = ?", true) }
 
   # VALIDATIONS
   validates :project_id, :user_id, :recipient_ids, :status, :invoice_number, :subject, :due_date, :issue_date, presence: true
@@ -85,7 +86,9 @@ class Invoice < ApplicationRecord
 
   def self.invoice_orders_chart_data_per_project_this_year(user_id)
     today = Date.today
-    orders = where(created_at: today.beginning_of_year..today).where(is_valid: true)
+    end_of_today = today.end_of_day
+
+    orders = where(created_at: today.beginning_of_year..end_of_today).where(is_valid: true)
 
     unless user_id.nil?
       user = User.find(user_id)

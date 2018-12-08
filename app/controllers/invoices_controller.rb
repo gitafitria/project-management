@@ -14,7 +14,7 @@ class InvoicesController < ApplicationController
   def index
     require 'will_paginate/array'
 
-    @invoices = apply_scopes(Invoice)
+    @invoices = apply_scopes(Invoice).valid.all
     respond_with do |format|
       format.html
       format.json { render json: InvoicesDatatable.new(view_context, @invoices) }
@@ -88,7 +88,8 @@ class InvoicesController < ApplicationController
   # DELETE /invoices/1
   # DELETE /invoices/1.json
   def destroy
-    @invoice.destroy
+    @invoice.is_valid = false
+    @invoice.save
     respond_to do |format|
       format.html { redirect_to invoices_url, notice: 'Invoice was successfully destroyed.' }
       format.json { head :no_content }

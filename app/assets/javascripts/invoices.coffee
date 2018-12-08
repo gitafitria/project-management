@@ -84,7 +84,7 @@ window.recipientAutocomplete = () ->
 
 window.renderRecipientOnInvoiceForm = (id, client_name, email) ->
   new_client_template = "<label>#{client_name}</label> <small class='secondary-label'>#{email}</small>"
-  new_client_template = new_client_template + "<input type='hidden' name='project[client_ids][]' value='#{id}'>"
+  new_client_template = new_client_template + "<input type='hidden' name='invoice[recipient_ids][]' value='#{id}'>"
   new_client_template = new_client_template + " <a class='btn btn-link remove-recipient-btn'>Remove</a>"
   template = "<div class='selected-recipient' id='selected_recipient_#{id}'>" + new_client_template + "</div>"
   $("#invoice_client_ids").append(template)

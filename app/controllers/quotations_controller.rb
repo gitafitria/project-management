@@ -12,7 +12,7 @@ class QuotationsController < ApplicationController
   def index
     require 'will_paginate/array'
 
-    @quotations = apply_scopes(Quotation).all
+    @quotations = apply_scopes(Quotation).valid.all
     respond_with do |format|
       format.html
       format.json { render json: QuotationsDatatable.new(view_context, @quotations) }
@@ -77,7 +77,8 @@ class QuotationsController < ApplicationController
   # DELETE /quotations/1
   # DELETE /quotations/1.json
   def destroy
-    @quotation.destroy
+    @quotation.is_valid = false
+    @quotation.save
     respond_to do |format|
       format.html { redirect_to quotations_url, notice: 'Quotation was successfully destroyed.' }
       format.json { head :no_content }

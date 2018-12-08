@@ -1,8 +1,9 @@
 class DashboardController < ApplicationController
   def index
     today = Date.today
-    @projects = Project.where(is_valid: true).where(created_at: today.beginning_of_year..today)
-    @invoices = Invoice.where(is_valid: true)
+    end_of_today = today.end_of_day
+    @projects = Project.valid.where(created_at: today.beginning_of_year..end_of_today)
+    @invoices = Invoice.valid.where(created_at: today.beginning_of_year..end_of_today)
   end
 
 end
