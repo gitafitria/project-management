@@ -61,7 +61,10 @@
             tr
               th Description
               th.text-center Quantity
-              th.text-right Amount (include tax)
+              th.text-right
+                = "Amount"
+                - if invoice.is_tax_included
+                  = " (include #{invoice.tax}% tax)"
 
           tbody
             - invoice.invoice_items.each do |item|
@@ -72,11 +75,20 @@
                   = item.quantity
                 td.text-right
                   = item.unit_price
+
+            - unless invoice.is_tax_included
+              tr
+                td colspan="2" class="heading-style"
+                  = "Tax"
+                  = " (#{invoice.tax}%)"
+                td.text-right
+                  = invoice.tax_payment
+
             tr
               td colspan="2" class="heading-style"
-                = "Total"
+                h4 = "Total"
               td.text-right
-                = invoice.total_amount
+                h4 = invoice.total_payment
 
   .invoice-payment-detail
     p Pembayaran agar dilakukan ke rekening berikut.

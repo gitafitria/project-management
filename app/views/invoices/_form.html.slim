@@ -116,7 +116,7 @@ hr
                   = z.input :id, label: false, as: :hidden
                   = z.input :description, label: false
                 .col-md-2
-                  = z.input :quantity, label: false
+                  = z.input :quantity, label: false, input_html: {class: "invoice-quantity"}
                 .col-md-2
                   = z.input :unit_price, label: false, input_html: {class: "invoice-unit-price"}
                 .col-md-1

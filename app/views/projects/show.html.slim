@@ -2,9 +2,8 @@
   .col-md-8
     h4 Project Detail
   .col-md-4.text-right
-    = link_to 'Edit', edit_project_path(@project), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
-    / |  |
-    / = link_to 'Back', projects_path
+    - if policy(@project).edit?
+      = link_to 'Edit', edit_project_path(@project), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
 
 .row.form-group
   .col-md-5
@@ -70,8 +69,9 @@
 
         / hr
       .panel-footer
-        div.text-right
-          = link_to "Add milestone(s)", "#", data: {toggle: "modal", target: "#add_milestone"}
+        - if policy(@project).edit?
+          div.text-right
+            = link_to "Add milestone(s)", "#", data: {toggle: "modal", target: "#add_milestone"}
 
 .row.form-group
   .col-md-4
@@ -92,8 +92,10 @@
               hr
         - else
           | -
-        div.text-right
-          = link_to 'Add invoice', new_invoice_path, data: {turbolinks: false}
+
+        - if policy(@project.invoices.new).new?
+          div.text-right
+            = link_to 'Add invoice', new_invoice_path, data: {turbolinks: false}
 
 
   .col-md-4
@@ -115,8 +117,9 @@
         - else
           | -
 
-        div.text-right
-          = link_to 'Add document', new_document_path, data: {turbolinks: false}
+        - if policy(@project.documents.new).new?
+          div.text-right
+            = link_to 'Add document', new_document_path, data: {turbolinks: false}
 
   .col-md-4
     .panel.panel-default
@@ -135,8 +138,9 @@
         - else
           | -
 
-        div.text-right
-          = link_to 'Add quotation', new_quotation_path
+        - if policy(@project.quotations.new).new?
+          div.text-right
+            = link_to 'Add quotation', new_quotation_path
 
 / script type="text/html" id="add_milestone_template"
 /   = render 'projects/form/add_milestone_template'

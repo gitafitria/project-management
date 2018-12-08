@@ -12,7 +12,14 @@ class QuotationsController < ApplicationController
   def index
     require 'will_paginate/array'
 
+    authorize Quotation
+
     @quotations = apply_scopes(Quotation).valid.all
+
+    if current_user.client?
+      @quotations = @quotations.by_belongings([current_user.id])
+    end
+
     respond_with do |format|
       format.html
       format.json { render json: QuotationsDatatable.new(view_context, @quotations) }
@@ -23,15 +30,19 @@ class QuotationsController < ApplicationController
   # GET /quotations/1
   # GET /quotations/1.json
   def show
+    authorize @quotation
   end
 
   # GET /quotations/new
   def new
     @quotation = Quotation.new
+
+    authorize @quotation
   end
 
   # GET /quotations/1/edit
   def edit
+    authorize @quotation
   end
 
   # POST /quotations
@@ -58,6 +69,8 @@ class QuotationsController < ApplicationController
   # PATCH/PUT /quotations/1
   # PATCH/PUT /quotations/1.json
   def update
+    authorize @quotation
+
     respond_to do |format|
       if @quotation.update(quotation_params)
         flash_label = 'Quotation was successfully updated.'
@@ -77,6 +90,8 @@ class QuotationsController < ApplicationController
   # DELETE /quotations/1
   # DELETE /quotations/1.json
   def destroy
+    authorize @quotation
+
     @quotation.is_valid = false
     @quotation.save
     respond_to do |format|
@@ -86,6 +101,8 @@ class QuotationsController < ApplicationController
   end
 
   def pdf
+    authorize @quotation
+
     filename = "quotation_#{@quotation.title}.pdf"
     file_path = Rails.root.join("public/pdfs/quotations/", filename)
 
@@ -111,6 +128,8 @@ class QuotationsController < ApplicationController
   end
 
   def export_email
+    authorize @quotation
+
     if deliver_email(@quotation, params[:email_sent_to])
       flash_label = 'Emails was successfully sent.'
       flash.now[:notice] = flash_label

@@ -13,6 +13,20 @@ module DocumentsHelper
   end
 
   def document_option_links(document)
-    document_show_link(document) + document_edit_link(document) + document_export_link(document)
+    links = ""
+    if policy(document).show?
+      links = links + document_show_link(document)
+    end
+
+    if policy(document).edit?
+      links = links + document_edit_link(document)
+    end
+
+    if policy(document).export?
+      links = links + document_export_link(document)
+    end
+
+    links
+    # document_show_link(document) + document_edit_link(document) + document_export_link(document)
   end
 end

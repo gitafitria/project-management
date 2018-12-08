@@ -4,9 +4,11 @@
       .col-md-8
         = "Detail of Document ##{@document.id}"
       .col-md-4.text-right
-        = link_to 'Edit', edit_document_path(@document), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
-        = " "
-        = document_export_link(@document, "btn btn-xs btn-info")
+        - if policy(@document).edit?
+          = link_to 'Edit', edit_document_path(@document), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
+          = " "
+        - if policy(@document).export?
+          = document_export_link(@document, "btn btn-xs btn-info")
 
   .panel-body
     .row.form-group
@@ -19,7 +21,10 @@
       .col-md-2
         label Project
       .col-md-9
-        = link_to @document.project.project_name, @document.project
+        - if policy(@document.project).show?
+          = link_to @document.project.project_name, @document.project
+        - else
+          = @document.project.project_name
 
     .row.form-group
       .col-md-2
@@ -38,13 +43,15 @@
         label Doc File
       .col-md-9
         label = @document.doc_file.file.filename
-        = " ("
-        = link_to "show", @document.doc_file_url, target: "_blank"
-        = ")"
 
-=> link_to 'Edit', edit_document_path(@document)
-'|
-=< link_to 'Back', documents_path
+        - if policy(@document).show?
+          = " ("
+          = link_to "show", @document.doc_file_url, target: "_blank"
+          = ")"
+
+/ => link_to 'Edit', edit_document_path(@document)
+/ '|
+/ =< link_to 'Back', documents_path
 
 #document_export_modal_wrapper
 

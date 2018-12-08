@@ -6,8 +6,9 @@
     = link_to "Advanced filter", "#invoice_filter_slide_panel", data: {target: "#invoice_filter_slide_panel", toggle: "modal"}
 
   .col-md-3
-    br
-    = link_to 'New Invoice', new_invoice_path, data: {turbolinks: false},  class: "btn btn-primary"
+    - if policy(@invoices).new?
+      br
+      = link_to 'New Invoice', new_invoice_path, data: {turbolinks: false},  class: "btn btn-primary"
 
 br
 

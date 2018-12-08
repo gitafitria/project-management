@@ -4,9 +4,11 @@
       .col-md-8
         | Invoice Detail
       .col-md-4.text-right
-        = link_to 'Edit', edit_invoice_path(@invoice), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
-        = " "
-        = invoice_export_link(@invoice, "btn btn-xs btn-info")
+        - if policy(@invoice).edit?
+          = link_to 'Edit', edit_invoice_path(@invoice), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
+          = " "
+        - if policy(@invoice).export?
+          = invoice_export_link(@invoice, "btn btn-xs btn-info")
 
   .panel-body
     = render 'invoice_detail_template', invoice: @invoice

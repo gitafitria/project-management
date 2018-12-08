@@ -8,8 +8,9 @@ p#notice
     = link_to "Advanced filter", "#project_filter_slide_panel", data: {target: "#project_filter_slide_panel", toggle: "modal"}
     / a href="#isolate_filter_slide_panel" data-toggle="modal" data-target="#isolate_filter_slide_panel" Show advanced filter
   .col-md-3.col-lg-5
-    br
-    = link_to 'New Project', new_project_path, class: "btn btn-primary", data: {turbolinks: false}
+    - if policy(@projects).index?
+      br
+      = link_to 'New Project', new_project_path, class: "btn btn-primary", data: {turbolinks: false}
 br
 
 #project_list

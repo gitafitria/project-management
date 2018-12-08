@@ -7,10 +7,14 @@ class UsersController < ApplicationController
   respond_to :js, :html, :json
 
   def index
+    authorize User
+
     @users = User.all
   end
 
   def show
+    authorize @user
+
     today = Date.today
     @projects = Project.where(is_valid: true).where(created_at: today.beginning_of_year..today)
     @invoices = Invoice.where(is_valid: true)
@@ -23,10 +27,15 @@ class UsersController < ApplicationController
 
   def new
     @user = User.new
+
+    authorize @user
   end
 
   def create
     @user = User.new(user_params)
+
+    authorize @user
+
     @from_project = params[:from_project]
     @quotation_id = params[:quotation_id]
 
@@ -55,6 +64,8 @@ class UsersController < ApplicationController
   end
 
   def update
+    authorize @user
+
     reject_field = ["password", "password_confirmation"]
 
     new_params = user_params
@@ -71,9 +82,11 @@ class UsersController < ApplicationController
   end
 
   def edit
+    authorize @user
   end
 
   def destroy
+    authorize @user
     @user.destroy
   end
 

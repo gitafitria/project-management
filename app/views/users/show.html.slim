@@ -9,7 +9,8 @@ hr
           .col-md-7
             .text-bold PROFILE
           .col-md-5.text-right
-            = link_to 'Edit', edit_user_path(@user), data: {turbolinks: false}, class: "btn btn-xs btn-default"
+            - if policy(@user).edit?
+              = link_to 'Edit', edit_user_path(@user), data: {turbolinks: false}, class: "btn btn-xs btn-default"
 
       .panel-body
         .form-group

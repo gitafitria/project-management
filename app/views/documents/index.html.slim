@@ -6,8 +6,9 @@
     = link_to "Advanced filter", "#document_filter_slide_panel", data: {target: "#document_filter_slide_panel", toggle: "modal"}
 
   .col-md-3
-    br
-    = link_to 'New Document', new_document_path, data: {turbolinks: false},  class: "btn btn-primary"
+    - if policy(@documents).new?
+      br
+      = link_to 'New Document', new_document_path, data: {turbolinks: false},  class: "btn btn-primary"
 
 br
 

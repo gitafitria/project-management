@@ -13,9 +13,11 @@
           .col-md-8
             | Detail
           .col-md-4.text-right
-            = link_to 'Edit', edit_quotation_path(@quotation), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
-            = " "
-            = quotation_export_link(@quotation, "btn btn-xs btn-info")
+            - if policy(@quotation).edit?
+              = link_to 'Edit', edit_quotation_path(@quotation), data: {turbolinks: false}, class: "btn btn-xs btn-primary"
+              = " "
+            - if policy(@quotation).export?
+              = quotation_export_link(@quotation, "btn btn-xs btn-info")
 
       .panel-body
 
@@ -39,7 +41,10 @@
             strong Project
           .col-md-8
             - if @quotation.project_id.nil?
-              = link_to "create as new project", create_project_quotation_path(@quotation), data: {turbolinks: false}
+              - if policy(Project.new).new?
+                = link_to "create as new project", create_project_quotation_path(@quotation), data: {turbolinks: false}
+              - else
+                = "unsaved project"
             - else
               = link_to @quotation.project.project_name, @quotation.project
 

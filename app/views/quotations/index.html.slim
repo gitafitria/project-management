@@ -6,8 +6,9 @@
     = link_to "Advanced filter", "#quotation_filter_slide_panel", data: {target: "#quotation_filter_slide_panel", toggle: "modal"}
 
   .col-md-3
-    br
-    = link_to 'New Quotation', new_quotation_path, class: "btn btn-primary"
+    - if policy(@quotations).new?
+      br
+      = link_to 'New Quotation', new_quotation_path, class: "btn btn-primary"
 
 br
 

@@ -12,7 +12,18 @@ module ProjectsHelper
   end
 
   def project_option_links(project)
-    project_show_link(project) + project_edit_link(project) + project_delete_link(project)
+    links = ""
+    if policy(project).show?
+        links = links + project_show_link(project)
+    end
+    if policy(project).edit?
+        links = links + project_edit_link(project)
+    end
+    if policy(project).destroy?
+        links = links + project_delete_link(project)
+    end
+    links
+    # project_show_link(project) + project_edit_link(project) + project_delete_link(project)
   end
 
   def project_created_by(project)

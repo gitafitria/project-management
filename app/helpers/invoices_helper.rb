@@ -13,7 +13,19 @@ module InvoicesHelper
   end
 
   def invoice_option_links(invoice)
-    invoice_show_link(invoice) + invoice_edit_link(invoice) + invoice_export_link(invoice)
+    links = ""
+    if policy(invoice).show?
+        links = links + invoice_show_link(invoice)
+    end
+    if policy(invoice).edit?
+        links = links + invoice_edit_link(invoice)
+    end
+    if policy(invoice).export?
+        links = links + invoice_export_link(invoice)
+    end
+    links
+
+    # invoice_show_link(invoice) + invoice_edit_link(invoice) + invoice_export_link(invoice)
   end
 
   def invoice_orders_chart_data_per_project_this_year(user_id = nil)

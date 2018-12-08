@@ -94,12 +94,18 @@ window.updateInvoiceTotalPayment = () ->
 
   # Count total payment
   $(".invoice-unit-price").each () ->
+    wrapper = $(this).closest(".invoice-item-form")
+    quantity = wrapper.find(".invoice-quantity").val()
+
     unit_price = $(this).val()
 
     if unit_price == ""
       unit_price = 0
 
-    total_payment = total_payment + parseInt(unit_price)
+    if quantity == ""
+      quantity = 0
+
+    total_payment = total_payment + (parseInt(unit_price) * parseInt(quantity))
 
   # Calculate tax
   if ($("#invoice_is_tax_included").prop("checked") == false)
@@ -219,6 +225,10 @@ ready = ->
     $(this).closest(".selected-recipient").remove()
 
   $("body").on "keyup change", ".invoice-unit-price", (e) ->
+    e.preventDefault()
+    updateInvoiceTotalPayment()
+
+  $("body").on "keyup change", ".invoice-quantity", (e) ->
     e.preventDefault()
     updateInvoiceTotalPayment()
 

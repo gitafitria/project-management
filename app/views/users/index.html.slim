@@ -5,8 +5,9 @@ p#notice
     h2
       | Members List
   .col-md-3
-    br
-    = link_to 'New Member', new_user_path, data: {turbolinks: false},  class: "btn btn-primary"
+    - if policy(@users).new?
+      br
+      = link_to 'New Member', new_user_path, data: {turbolinks: false},  class: "btn btn-primary"
 
 br
 
@@ -26,8 +27,11 @@ table.table
         td = user.email
         td = user.created_at
         td
-          = link_to 'Show', user
-          = " | "
-          = link_to 'Edit', edit_user_path(user), data: {turbolinks: false}
-          = " | "
-          = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }
+          - if policy(user).show?
+            = link_to 'Show', user, data: {turbolinks: false}
+            = " | "
+          - if policy(user).edit?
+            = link_to 'Edit', edit_user_path(user), data: {turbolinks: false}
+            = " | "
+          - if policy(user).destroy?
+            = link_to 'Destroy', user, method: :delete, data: { confirm: 'Are you sure?' }

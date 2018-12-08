@@ -5,6 +5,7 @@ class InvoicesController < ApplicationController
   has_scope :by_projects, type: :array
   has_scope :by_creators, type: :array
   has_scope :by_recipients, type: :array
+  has_scope :by_belongings, type: :array
   has_scope :by_status
 
   respond_to :html, :js, :json
@@ -14,7 +15,14 @@ class InvoicesController < ApplicationController
   def index
     require 'will_paginate/array'
 
+    authorize Invoice
+
     @invoices = apply_scopes(Invoice).valid.all
+
+    if current_user.client?
+      @invoices = @invoices.by_belongings([current_user.id])
+    end
+
     respond_with do |format|
       format.html
       format.json { render json: InvoicesDatatable.new(view_context, @invoices) }
@@ -26,21 +34,28 @@ class InvoicesController < ApplicationController
   # GET /invoices/1
   # GET /invoices/1.json
   def show
+    authorize @invoice
   end
 
   # GET /invoices/new
   def new
     @invoice = Invoice.new
+
+    authorize @user
   end
 
   # GET /invoices/1/edit
   def edit
+    authorize @invoice
   end
 
   # POST /invoices
   # POST /invoices.json
   def create
     @invoice = Invoice.new(invoice_params)
+
+    authorize @invoice
+
     @invoice.status = 'waiting'
 
     respond_to do |format|
@@ -67,6 +82,8 @@ class InvoicesController < ApplicationController
   # PATCH/PUT /invoices/1
   # PATCH/PUT /invoices/1.json
   def update
+    authorize @invoice
+
     @invoice.status = 'sent'
 
     respond_to do |format|
@@ -88,6 +105,8 @@ class InvoicesController < ApplicationController
   # DELETE /invoices/1
   # DELETE /invoices/1.json
   def destroy
+    authorize @invoice
+
     @invoice.is_valid = false
     @invoice.save
     respond_to do |format|
@@ -97,6 +116,8 @@ class InvoicesController < ApplicationController
   end
 
   def pdf
+    authorize @invoice
+
     filename = "invoice_#{@invoice.invoice_number}_#{@invoice.project.project_name}.pdf"
     file_path = Rails.root.join("public/pdfs/invoices/", filename)
     flash_label = 'PDF was successfully exported.'
@@ -130,6 +151,8 @@ class InvoicesController < ApplicationController
   end
 
   def export_email
+    authorize @invoice
+
     if deliver_email(@invoice, params[:email_sent_to])
       flash_label = 'Emails was successfully sent.'
       flash.now[:notice] = flash_label

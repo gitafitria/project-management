@@ -4,7 +4,7 @@
       input class="form-control string optional" type="text" name="invoice[invoice_items_attributes][{{idx}}][description]"
   .col-md-2
     .form-group.integer.optional
-      input class="form-control numeric integer optional" type="number" step="1" name="invoice[invoice_items_attributes][{{idx}}][quantity]"
+      input class="form-control numeric integer optional invoice-quantity" type="number" step="1" name="invoice[invoice_items_attributes][{{idx}}][quantity]"
   .col-md-2
     .form-group.integer.optional
       input class="form-control numeric integer optional invoice-unit-price" type="number" step="1" name="invoice[invoice_items_attributes][{{idx}}][unit_price]"

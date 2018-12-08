@@ -11,7 +11,13 @@ class ProjectsController < ApplicationController
   def index
     require 'will_paginate/array'
 
+    authorize Project
     @projects = apply_scopes(Project).valid.order("created_at DESC").all
+
+    if current_user.client?
+      @projects = @projects.by_clients([current_user.id])
+    end
+
     respond_with do |format|
       format.html
       format.json { render json: ProjectsDatatable.new(view_context, @projects) }
@@ -22,21 +28,25 @@ class ProjectsController < ApplicationController
   # GET /projects/1
   # GET /projects/1.json
   def show
+    authorize @project
   end
 
   # GET /projects/new
   def new
     @project = Project.new
+    authorize @project
   end
 
   # GET /projects/1/edit
   def edit
+    authorize @project
   end
 
   # POST /projects
   # POST /projects.json
   def create
     @project = Project.new(project_params)
+    authorize @project
 
     respond_to do |format|
       if @project.save
@@ -61,6 +71,7 @@ class ProjectsController < ApplicationController
   # PATCH/PUT /projects/1
   # PATCH/PUT /projects/1.json
   def update
+    authorize @project
     respond_to do |format|
       if @project.update(project_params)
         flash_label = 'Project was successfully updated.'
@@ -78,7 +89,9 @@ class ProjectsController < ApplicationController
   # DELETE /projects/1
   # DELETE /projects/1.json
   def destroy
-    @project.destroy
+    authorize @project
+    @project.is_valid = false
+    @project.save
     respond_to do |format|
       format.html { redirect_to projects_url, notice: 'Project was successfully destroyed.' }
       format.json { head :no_content }

@@ -14,12 +14,28 @@ module QuotationsHelper
   end
 
   def quotation_option_links(quotation)
-    quotation_show_link(quotation) + quotation_edit_link(quotation) + quotation_export_link(quotation)
+    links = ""
+    if policy(quotation).show?
+      links = links + quotation_show_link(quotation)
+    end
+    if policy(quotation).edit?
+      links = links + quotation_edit_link(quotation)
+    end
+    if policy(quotation).export?
+      links = links + quotation_export_link(quotation)
+    end
+
+    links
+    # quotation_show_link(quotation) + quotation_edit_link(quotation) + quotation_export_link(quotation)
   end
 
   def quotation_project(quotation)
     if quotation.project.nil?
-      link_to "create as new project", create_project_quotation_path(quotation), data: {turbolinks: false}
+      if policy(Project).new?
+        link_to "create as new project", create_project_quotation_path(quotation), data: {turbolinks: false}
+      else
+        "unsaved project"
+      end
     else
       quotation.project.project_name
     end

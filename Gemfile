@@ -81,3 +81,6 @@ gem 'jquery-ui-rails', '6.0.1'
 
 # Text editor WYSISYG
 gem 'trix'
+
+# Authorization
+gem "pundit"

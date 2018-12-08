@@ -22,6 +22,18 @@ class Invoice < ApplicationRecord
     status_int = Invoice.statuses.select{|k, v| k.to_s == by_status}.values.first
     where("invoices.status = ?", status_int)
   end
+  # by_belongings
+  scope :by_belongings, -> client_ids do
+    by_recipients = where("invoices.recipient_ids @> ARRAY[?]", client_ids.map{|c| c.to_i}).ids
+
+    project_ids = Project.by_clients(client_ids).ids
+    by_projects = where("project_id IN (?)", project_ids)
+
+    ids = by_recipients + by_projects
+
+    where("invoices.id IN (?)", ids)
+  end
+
   scope :valid, -> * { where("invoices.is_valid = ?", true) }
 
   # VALIDATIONS
@@ -70,7 +82,7 @@ class Invoice < ApplicationRecord
 
   def total_payment
     total = 0
-    self.invoice_items.map(&:unit_price).map { |e| total = total + e.to_i }
+    self.invoice_items.map { |e| total = total + (e.unit_price.to_i * e.quantity) }
 
     total
   end
